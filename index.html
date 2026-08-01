@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JC Galindo | Academic Profile | Universidad Panamericana</title>
+    <meta name="description" content="Perfil académico institucional de JC Galindo, con enfoque en investigación, docencia, econometría y métodos cuantitativos." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 3 58 13v16c0 18-11 29-26 32C17 58 6 47 6 29V13Z' fill='%230b1f3a' stroke='%23a6863f' stroke-width='2'/%3E%3Ctext x='32' y='38' font-family='Georgia,serif' font-size='22' fill='%23e7d9b8' text-anchor='middle'%3EUP%3C/text%3E%3C/svg%3E" />
+    <style>
+      :root {
+        --bg: #f6f7f9;
+        --panel: #ffffff;
+        --line: #dde2e8;
+        --navy: #0b1f3a;
+        --navy-2: #17385c;
+        --navy-tint: #eef2f7;
+        --gold: #a6863f;
+        --gold-soft: #cbb27d;
+        --text: #1c2530;
+        --muted: #5b6672;
+        --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Times New Roman", serif;
+        --sans: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+      body {
+        margin: 0;
+        font-family: var(--sans);
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+      }
+      a { text-decoration: none; }
+      img { max-width: 100%; display: block; }
+      ::selection { background: var(--gold-soft); color: var(--navy); }
+
+      a:focus-visible, button:focus-visible {
+        outline: 3px solid var(--gold);
+        outline-offset: 2px;
+      }
+
+      /* ---------- Utility bar ---------- */
+      .utilitybar {
+        background: var(--navy);
+        color: rgba(255,255,255,0.78);
+        font-size: 0.74rem;
+        letter-spacing: 0.06em;
+      }
+      .utilitybar-inner {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 7px 24px;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      /* ---------- Header / academic menu ---------- */
+      .header {
+        background: var(--panel);
+        border-bottom: 3px solid var(--gold);
+        box-shadow: 0 1px 0 rgba(11,31,58,0.05);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .header-inner {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 22px;
+        flex-wrap: wrap;
+      }
+
+      .brandmark { display: flex; align-items: center; gap: 14px; }
+      .crest { width: 44px; height: 44px; flex: none; }
+      .brand-text { display: flex; flex-direction: column; line-height: 1.25; }
+
+      .brand-text .inst {
+        font-family: var(--serif);
+        font-size: 1.02rem;
+        font-weight: 700;
+        color: var(--navy);
+      }
+
+      .brand-text .dept {
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      /* ---------- Tabs (replaces former anchor nav) ---------- */
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .tab-btn {
+        appearance: none;
+        background: none;
+        font-family: inherit;
+        cursor: pointer;
+        color: var(--navy-2);
+        padding: 9px 12px;
+        font-weight: 700;
+        font-size: inherit;
+        letter-spacing: inherit;
+        text-transform: inherit;
+        border: none;
+        border-bottom: 2px solid transparent;
+      }
+
+      .tab-btn:hover { color: var(--navy); border-bottom: 2px solid var(--gold-soft); }
+      .tab-btn[aria-selected="true"] { color: var(--navy); border-bottom: 2px solid var(--gold); }
+
+      /* ---------- Hero ---------- */
+      .hero { background: var(--navy-tint); border-bottom: 1px solid var(--line); }
+
+      .hero-inner {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 56px 24px 48px;
+        display: grid;
+        grid-template-columns: 1.5fr 0.85fr;
+        gap: 40px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 14px;
+        border: 1px solid var(--gold);
+        color: var(--navy-2);
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before { content: ""; width: 6px; height: 6px; background: var(--gold); display: inline-block; }
+
+      h1 {
+        margin: 20px 0 12px;
+        font-family: var(--serif);
+        font-size: clamp(2.3rem, 3.6vw, 3.6rem);
+        line-height: 1.12;
+        letter-spacing: -0.01em;
+        color: var(--navy);
+        font-weight: 700;
+      }
+
+      .subtitle { max-width: 620px; margin: 0; font-size: 1.04rem; line-height: 1.85; color: var(--muted); }
+
+      .meta {
+        margin-top: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 20px;
+        font-size: 0.9rem;
+        color: var(--navy-2);
+        font-weight: 600;
+        border-top: 1px solid var(--line);
+        padding-top: 14px;
+      }
+
+      .meta a { color: var(--navy-2); font-weight: 800; border-bottom: 1px solid var(--gold-soft); }
+
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 168px;
+        height: 46px;
+        padding: 0 20px;
+        border-radius: 3px;
+        font-weight: 700;
+        font-size: 0.86rem;
+        letter-spacing: 0.03em;
+        transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      }
+
+      .btn-primary { background: var(--navy); color: white; border: 1px solid var(--navy); }
+      .btn-primary:hover { background: var(--navy-2); }
+
+      .btn-secondary { background: transparent; color: var(--navy); border: 1px solid var(--navy); }
+      .btn-secondary:hover { background: rgba(11,31,58,0.06); }
+
+      .btn-accent { background: var(--gold); color: white; border: 1px solid var(--gold); }
+      .btn-accent:hover { background: #8f7236; border-color: #8f7236; }
+
+      .stat-row { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; margin-top: 24px; }
+      .stat-box { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--gold); padding: 14px 16px; }
+      .stat-box strong { display: block; color: var(--navy); font-family: var(--serif); font-size: 1.15rem; margin-bottom: 4px; }
+      .stat-box span { color: var(--muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
+
+      .photo-box { display: flex; justify-content: center; }
+      .photo-frame {
+        width: min(320px, 100%);
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border: 2px solid var(--gold);
+        box-shadow: 0 18px 34px rgba(11, 31, 58, 0.14);
+      }
+      .photo-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 15%;
+      }
+
+      /* ---------- Tab bar (secondary, sits under hero) ---------- */
+      .tabbar-wrap {
+        background: var(--panel);
+        border-bottom: 1px solid var(--line);
+        position: sticky;
+        top: 73px;
+        z-index: 9;
+      }
+      .tabbar {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 24px;
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+      }
+      .tabbar .tab-btn {
+        padding: 16px 16px;
+        white-space: nowrap;
+      }
+
+      /* ---------- Layout ---------- */
+      .container { max-width: 1180px; margin: 0 auto; padding: 52px 24px 64px; }
+
+      .tab-panel { display: none; }
+      .tab-panel.active { display: block; }
+      .tab-panel:focus { outline: none; }
+
+      .section-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 22px; }
+      .section-num { font-family: var(--serif); font-size: 0.9rem; color: var(--gold); font-weight: 700; }
+      .section-tag { color: var(--navy); font-family: var(--serif); font-size: 1.5rem; font-weight: 700; flex: 1; }
+      .section-rule { height: 1px; background: var(--line); margin: -8px 0 26px; }
+
+      .institutional-panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--gold);
+        padding: 28px 30px;
+        margin-bottom: 28px;
+      }
+
+      .institutional-panel--gallery { margin-top: 10px; }
+      .institutional-panel h3 { margin: 0 0 12px; color: var(--navy); font-family: var(--serif); font-size: 1.1rem; }
+      .institutional-panel > p { margin: 0 0 6px; line-height: 1.9; color: var(--muted); }
+
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-bottom: 26px; }
+      .grid--nested { margin-top: 18px; margin-bottom: 0; }
+
+      .card { background: var(--panel); border: 1px solid var(--line); padding: 24px 24px 20px; }
+      .mt-lg { margin-top: 20px; }
+
+      .card h2 {
+        margin: 0 0 14px;
+        color: var(--navy);
+        font-family: var(--serif);
+        font-size: 1.08rem;
+        font-weight: 700;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .h2-links { display: flex; gap: 12px; flex-wrap: wrap; }
+      .h2-link {
+        font-family: var(--sans);
+        font-size: 0.66rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--gold);
+        border-bottom: 1px solid var(--gold-soft);
+        white-space: nowrap;
+      }
+      .h2-link:hover { color: var(--navy-2); border-color: var(--navy-2); }
+      .research-band .h2-link { color: var(--gold-soft); }
+      .research-band .h2-link:hover { color: white; border-color: white; }
+
+      .li-link {
+        display: inline-block;
+        margin-left: 9px;
+        font-family: var(--sans);
+        font-size: 0.62rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--navy);
+        background: var(--navy-tint);
+        border: 1px solid var(--gold);
+        border-radius: 3px;
+        padding: 1px 7px;
+        vertical-align: 1px;
+      }
+      .li-link:hover { background: var(--gold); color: white; }
+      .research-band .li-link { background: rgba(255,255,255,0.08); color: white; border-color: var(--gold-soft); }
+      .research-band .li-link:hover { background: var(--gold-soft); color: var(--navy); }
+
+      .card ul { margin: 0; padding-left: 18px; line-height: 2; color: var(--text); font-size: 0.95rem; }
+      .card li a { color: var(--navy-2); font-weight: 700; }
+      .card > p.card-intro { margin: 0 0 14px; color: var(--muted); line-height: 1.85; font-size: 0.92rem; }
+      .research-band .card > p.card-intro { color: rgba(255,255,255,0.78); }
+
+      /* ---------- Research band ---------- */
+      .research-band {
+        background: var(--navy);
+        color: rgba(255,255,255,0.92);
+        border-top: 1px solid rgba(255,255,255,0.08);
+        border-bottom: 3px solid var(--gold);
+      }
+
+      .research-band .container { padding-top: 52px; padding-bottom: 8px; }
+      .research-band .section-tag { color: white; }
+      .research-band .section-num { color: var(--gold-soft); }
+      .research-band .section-rule { background: rgba(255,255,255,0.14); }
+      .research-band .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.14); }
+      .research-band .card h2 { color: white; border-bottom: 1px solid rgba(255,255,255,0.16); }
+      .research-band .card ul { color: rgba(255,255,255,0.85); }
+      .research-band .card li a { color: var(--gold-soft); }
+
+      .research-followup { background: var(--panel); padding-top: 40px; }
+      .research-followup .institutional-panel:last-of-type { margin-bottom: 0; }
+
+      /* ---------- Gallery ---------- */
+      .math-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+
+      .formula {
+        background: var(--navy-tint);
+        border: 1px solid var(--line);
+        min-height: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-align: center;
+        padding: 16px;
+      }
+
+      .gallery-item img { max-height: 96px; width: auto; }
+      .gallery-item strong { color: var(--navy-2); font-family: var(--serif); font-size: 0.94rem; font-weight: 700; }
+      .gallery-item .credit { font-size: 0.68rem; color: var(--muted); font-weight: 500; }
+
+      .banner {
+        margin-top: 14px;
+        background: var(--navy-tint);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--gold);
+        color: var(--navy);
+        padding: 20px 26px;
+        font-family: var(--serif);
+        font-size: 1.05rem;
+        line-height: 1.8;
+      }
+
+      .credential-card { background: var(--navy-tint); border: 1px solid var(--line); padding: 20px 24px; margin-top: 18px; }
+      .credential-card p { margin: 0; color: var(--muted); line-height: 1.8; }
+
+      /* ---------- CV section ---------- */
+      #cv {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        flex-wrap: wrap;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--gold);
+        padding: 30px 30px;
+      }
+
+      #cv h2 { margin: 0 0 8px; color: var(--navy); font-family: var(--serif); font-size: 1.3rem; }
+      #cv p { margin: 0; color: var(--muted); max-width: 520px; }
+      #cv .actions { margin-top: 0; }
+
+      /* ---------- Footer ---------- */
+      .footer {
+        background: var(--navy);
+        color: rgba(255,255,255,0.75);
+        border-top: 3px solid var(--gold);
+        padding: 30px 24px 34px;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+      .footer a { color: var(--gold-soft); font-weight: 700; }
+
+      @media (max-width: 980px) {
+        .math-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+
+      @media (max-width: 760px) {
+        .header-inner { flex-direction: column; align-items: flex-start; }
+        .hero-inner, .grid, .math-grid { grid-template-columns: 1fr; }
+        .actions { flex-direction: column; align-items: stretch; }
+        .btn { width: 100%; }
+        #cv { flex-direction: column; align-items: flex-start; }
+        .tabbar-wrap { top: 0; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        * { transition: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="utilitybar">
+      <div class="utilitybar-inner">
+        <span>Universidad Panamericana &middot; Campus Bosque Real</span>
+        <span>Facultad de Ciencias Econ&oacute;micas y Empresariales</span>
+      </div>
+    </div>
+
+    <header class="header">
+      <div class="header-inner">
+        <div class="brandmark">
+          <svg class="crest" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Universidad Panamericana crest">
+            <path d="M32 3 58 13v16c0 18-11 29-26 32C17 58 6 47 6 29V13Z" fill="#0b1f3a" stroke="#a6863f" stroke-width="2"/>
+            <text x="32" y="39" font-family="Georgia, serif" font-size="22" fill="#e7d9b8" text-anchor="middle">UP</text>
+          </svg>
+          <div class="brand-text">
+            <span class="inst">Universidad Panamericana</span>
+            <span class="dept">Faculty Academic Profile</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero" id="perfil">
+      <div class="hero-inner">
+        <div>
+          <span class="eyebrow">Profesor Investigador</span>
+          <h1>JC Galindo</h1>
+          <p class="subtitle">
+            Research Professor working across pure mathematics&mdash;algebraic geometry, stable and motivic homotopy theory, topos and model theory&mdash;and quantitative research in econometrics and mathematical finance, with a commitment to academic excellence and evidence-based learning.
+          </p>
+
+          <div class="meta">
+            <span>Email: <a href="mailto:jcgalindo@up.edu.mx">jcgalindo@up.edu.mx</a></span>
+            <span>Facultad de Ciencias Econ&oacute;micas y Empresariales</span>
+          </div>
+
+          <div class="actions">
+            <a class="btn btn-primary" href="https://github.com/IvliCaesar" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="btn btn-secondary" href="https://scholar.google.com/citations?user=hhlK1lAAAAAJ&amp;hl=en" target="_blank" rel="noreferrer">Google Scholar</a>
+            <a class="btn btn-secondary" href="mailto:jcgalindo@up.edu.mx">Contact</a>
+            <a class="btn btn-accent" href="Julio_Cesar_Galindo_CV.pdf" target="_blank" rel="noreferrer">Academic CV</a>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat-box"><strong>Quant.</strong><span>Analysis</span></div>
+            <div class="stat-box"><strong>Research</strong><span>Driven</span></div>
+            <div class="stat-box"><strong>Academic</strong><span>Excellence</span></div>
+          </div>
+        </div>
+
+        <div class="photo-box">
+          <div class="photo-frame">
+            <img src="Image.png" alt="Academic profile" width="1132" height="1390" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="tabbar-wrap">
+      <nav class="tabbar" role="tablist" aria-label="Navegación académica">
+        <button class="tab-btn" type="button" role="tab" data-tab="overview" aria-selected="true">Overview</button>
+        <button class="tab-btn" type="button" role="tab" data-tab="teaching" aria-selected="false">Teaching</button>
+        <button class="tab-btn" type="button" role="tab" data-tab="research" aria-selected="false">Research</button>
+        <button class="tab-btn" type="button" role="tab" data-tab="gallery" aria-selected="false">Gallery</button>
+        <button class="tab-btn" type="button" role="tab" data-tab="cv" aria-selected="false">CV</button>
+      </nav>
+    </div>
+
+    <main>
+      <div id="panel-overview" class="tab-panel active" role="tabpanel" tabindex="0">
+        <div class="container" style="padding-bottom: 8px;">
+          <div class="section-head">
+            <span class="section-num">01</span>
+            <span class="section-tag">Overview</span>
+          </div>
+          <div class="section-rule"></div>
+
+          <section class="institutional-panel" id="about">
+            <h3>Overview</h3>
+            <p>
+              The center of gravity of this profile is doctoral-level research in pure mathematics. The doctoral dissertation, <em>Sobre la convergencia de la sucesi&oacute;n espectral ortogonal</em> (UNAM, 2022), and the resulting joint paper with Pablo Pel&aacute;ez establish strong convergence of the orthogonal spectral sequence in Voevodsky&rsquo;s triangulated category of motives &mdash; work that has since been built on and cited by several papers in algebraic cycle theory. This sits inside a broader research program spanning algebraic geometry, stable and motivic homotopy theory, and topos&ndash;model theory (joint with Eduardo Du&ntilde;ez and Jos&eacute; Iovino), with earlier graduate work in the Langlands program (master&rsquo;s thesis on Drinfeld&rsquo;s reciprocity law) and in random matrix theory and <em>L</em>-functions (undergraduate thesis).
+            </p>
+            <div class="credential-card">
+              <p>
+                Alongside this research core, the profile includes applied quantitative work in econometrics and mathematical finance, and a teaching practice in applied mathematics, statistics, and probability that supports the institutional mission of research-driven education.
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div id="panel-teaching" class="tab-panel" role="tabpanel" tabindex="0">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-num">02</span>
+            <span class="section-tag">Teaching</span>
+          </div>
+          <div class="section-rule"></div>
+
+          <section class="grid" id="teaching">
+            <article class="card">
+              <h2>Teaching Portfolio</h2>
+              <ul>
+                <li>Applied mathematics and quantitative reasoning</li>
+                <li>Statistics and empirical analysis</li>
+                <li>Probability and stochastic modeling</li>
+                <li>Econometrics and forecasting</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h2>Methodological Competencies</h2>
+              <ul>
+                <li>Regression analysis and model validation</li>
+                <li>Panel data and longitudinal methods</li>
+                <li>Time-series analysis and causal inference</li>
+                <li>Research design and quantitative interpretation</li>
+              </ul>
+            </article>
+
+            <article class="card mt-lg" style="grid-column: 1 / -1;">
+              <h2>Teaching Notes</h2>
+              <ul>
+                <li><a href="Notas_Algebra.pdf" target="_blank" rel="noreferrer">Notas de &Aacute;lgebra</a></li>
+                <li><a href="Notas_Algebra_Lineal_Empresariales.pdf" target="_blank" rel="noreferrer">Notas de &Aacute;lgebra Lineal para Negocios</a></li>
+                <li><a href="Notas_Cadenas_Markov.pdf" target="_blank" rel="noreferrer">Notas de Cadenas de Markov</a></li>
+                <li><a href="Notas_Geometria_Algebraica.pdf" target="_blank" rel="noreferrer">Notas de Geometr&iacute;a Algebraica</a></li>
+              </ul>
+            </article>
+          </section>
+        </div>
+      </div>
+
+      <div id="panel-research" class="tab-panel" role="tabpanel" tabindex="0">
+        <section class="research-band" id="research">
+          <div class="container">
+            <div class="section-head">
+              <span class="section-num">03</span>
+              <span class="section-tag">Research</span>
+            </div>
+            <div class="section-rule"></div>
+
+            <div class="grid">
+              <article class="card">
+                <h2>Research Agenda</h2>
+                <ul>
+                  <li>Applied econometrics and policy assessment</li>
+                  <li>Data analysis for institutional performance</li>
+                  <li>Mathematical modeling of complex systems</li>
+                  <li>Decision analysis and analytical strategy</li>
+                </ul>
+              </article>
+
+              <article class="card" id="publications">
+                <h2>Selected Focus Areas</h2>
+                <ul>
+                  <li>Quantitative methods for social and economic research</li>
+                  <li>Academic innovation in teaching and evaluation</li>
+                  <li>Analytical frameworks and applied statistics</li>
+                  <li>Evidence-based institutional development</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <div class="research-followup">
+          <div class="container" style="padding-top: 40px; padding-bottom: 8px;">
+            <section class="institutional-panel" id="pure-math">
+              <h3>Core Research Program</h3>
+              <p>
+                Principal research program in pure mathematics, at the interaction of algebraic geometry and stable homotopy theory.
+              </p>
+              <div class="grid grid--nested">
+                <article class="card">
+                  <h2>Algebraic Geometry <a class="h2-link" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">&#8599; Thesis</a></h2>
+                  <ul>
+                    <li>Higher Chow groups and motivic cohomology <a class="li-link" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
+                    <li>Bloch&ndash;Beilinson filtrations <a class="li-link" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
+                    <li>Abelian varieties and Chow correspondences <a class="li-link" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
+                  </ul>
+                  <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">Cited by</p>
+                  <ul>
+                    <li><a href="https://arxiv.org/abs/2501.19147" target="_blank" rel="noreferrer">Pel&aacute;ez &amp; Reyes, &ldquo;Incidence equivalence and the Bloch&ndash;Beilinson filtration&rdquo;</a> (arXiv:2501.19147)</li>
+                    <li><a href="https://arxiv.org/abs/2602.06185" target="_blank" rel="noreferrer">Pel&aacute;ez, &ldquo;Some remarks on Chow correspondences&rdquo;</a> (arXiv:2602.06185)</li>
+                    <li><a href="https://arxiv.org/abs/2509.15920" target="_blank" rel="noreferrer">Hern&aacute;ndez &amp; Pel&aacute;ez, &ldquo;Regular homomorphisms and mixed motives&rdquo;</a> (arXiv:2509.15920)</li>
+                  </ul>
+                </article>
+
+                <article class="card">
+                  <h2>Homotopy Theory
+                    <span class="h2-links">
+                      <a class="h2-link" href="Galindo_HHA_Uniform_Orthogonal_Filtration.pdf" target="_blank" rel="noreferrer">&#8599; HHA Paper</a>
+                      <a class="h2-link" href="https://arxiv.org/abs/2111.03508" target="_blank" rel="noreferrer">&#8599; arXiv</a>
+                    </span>
+                  </h2>
+                  <p class="card-intro">
+                    Joint program with Pablo Pel&aacute;ez on the orthogonal spectral sequence: strong convergence in Voevodsky&rsquo;s triangulated category of motives <em>DM</em>, applied to finite filtrations on Chow groups related to the Bloch&ndash;Beilinson&ndash;Murre conjecture.
+                  </p>
+                  <ul>
+                    <li>Bousfield&ndash;orthogonal towers <a class="li-link" href="Galindo_HHA_Uniform_Orthogonal_Filtration.pdf" target="_blank" rel="noreferrer">HHA</a></li>
+                    <li>Stable homotopy categories <a class="li-link" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
+                    <li>Convergent spectral sequences <a class="li-link" href="https://arxiv.org/abs/2111.03508" target="_blank" rel="noreferrer">arXiv</a></li>
+                  </ul>
+                </article>
+              </div>
+
+              <article class="card mt-lg">
+                <h2>Motivic Homotopy Theory
+                  <span class="h2-links">
+                    <a class="h2-link" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">&#8599; Thesis</a>
+                    <a class="h2-link" href="https://tesiunam.dgb.unam.mx/cgi-bin/koha/opac-detail.pl?biblionumber=831924" target="_blank" rel="noreferrer">&#8599; UNAM Catalog</a>
+                  </span>
+                </h2>
+                <ul>
+                  <li>Voevodsky's triangulated category of motives <em>DM</em> <a class="li-link" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
+                  <li>A&sup1;-homotopy and the motivic sphere &#8473;&sup1; <a class="li-link" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
+                  <li>Orthogonal spectral sequences on higher Chow groups <a class="li-link" href="https://arxiv.org/abs/2111.03508" target="_blank" rel="noreferrer">arXiv</a></li>
+                  <li>Motivic topoi <a class="li-link" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
+                </ul>
+              </article>
+
+              <article class="card mt-lg">
+                <h2>Topos Theory &amp; Model Theory</h2>
+                <p class="card-intro">
+                  A geometric theory <em>T</em> determines a classifying topos <strong>Set[<em>T</em>]</strong> that classifies its models: for any topos <em>E</em>, models of <em>T</em> in <em>E</em> correspond to geometric morphisms <em>E</em> &rarr; Set[<em>T</em>]. Kripke&ndash;Joyal semantics supplies the internal, sheaf-theoretic notion of forcing that makes this correspondence precise sheaf by sheaf, and the Diaconescu&ndash;Deligne&ndash;Barr circle of theorems characterizes which Grothendieck toposes arise this way and how their points and internal geometric logic determine them up to the relevant equivalence (joint with Eduardo Due&ntilde;ez and Jos&eacute; Iovino). A second, ongoing line with the same collaborators extends Birkhoff&ndash;von Neumann quantum logic &mdash; classically valued in the lattice of closed subspaces of a Hilbert space &mdash; to a S&ograve;ler&ndash;valued model theory, using S&ograve;ler&rsquo;s theorem characterizing Hilbert spaces among orthomodular spaces to control which lattices admit a compatible model-theoretic semantics. Independent solo results include a non-existence theorem for a deciding meet-filter on the modular ortholattice <em>MO&#8322;</em> &mdash; ruling out a natural strategy for extending classical two-valued semantics to this quantum setting &mdash; and a homological-projector statement obtained via persistent homology, linking topological invariants of a filtration to spectral projectors in the underlying lattice.
+                </p>
+                <ul>
+                  <li>Model theory of Grothendieck toposes: classifying toposes, Kripke&ndash;Joyal semantics, and the Diaconescu&ndash;Deligne&ndash;Barr theorems (joint with Eduardo Due&ntilde;ez and Jos&eacute; Iovino)</li>
+                  <li>S&ograve;ler&ndash;valued model theory extending Birkhoff&ndash;von Neumann quantum logic (joint, in progress)</li>
+                  <li>Solo original results: non-existence of a deciding meet-filter on <em>MO&#8322;</em>, and a homological-projector statement via persistent homology</li>
+                </ul>
+              </article>
+
+              <div class="actions mt-lg">
+                <a class="btn btn-primary" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">Doctoral Thesis</a>
+                <a class="btn btn-accent" href="Galindo_HHA_Uniform_Orthogonal_Filtration.pdf" target="_blank" rel="noreferrer">HHA Paper</a>
+              </div>
+            </section>
+
+            <section class="institutional-panel" id="other-research">
+              <h3>Other Research Programs</h3>
+              <p>
+                Additional lines of research beyond the core pure&#8209;mathematics program.
+              </p>
+              <div class="grid grid--nested">
+                <article class="card">
+                  <h2>Random Matrix Theory <a class="h2-link" href="Thesis_RMT_Lfunctions.pdf" target="_blank" rel="noreferrer">&#8599; Thesis</a></h2>
+                  <ul>
+                    <li>Dyson Brownian motion and rare gap events <a class="li-link" href="Thesis_RMT_Lfunctions.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
+                    <li>Cover times, Poisson point processes, and Gumbel fluctuations <a class="li-link" href="Thesis_RMT_Lfunctions.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
+                    <li>Connections to Riemann zeta zeros and L-functions <a class="li-link" href="Thesis_RMT_Lfunctions.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
+                  </ul>
+                </article>
+
+                <article class="card">
+                  <h2>Coffee Market Econometrics</h2>
+                  <p class="card-intro">
+                    Joint work with Marisol Salazar applying multivariate and bivariate econometric methods&mdash;principal component analysis, nonparametric tests, and spatial geolocation&mdash;to study coffee prices and market disruptions.
+                  </p>
+                  <ul>
+                    <li>Multivariate and bivariate analysis of coffee prices (with Marisol Salazar)</li>
+                    <li>Principal component analysis and nonparametric tests</li>
+                    <li>Spatial geolocation and market disruption analysis</li>
+                  </ul>
+                </article>
+              </div>
+
+              <article class="card mt-lg">
+                <h2>Number Theory <a class="h2-link" href="Galindo_Morfismos_Drinfeld_Reciprocity.pdf" target="_blank" rel="noreferrer">&#8599; Morfismos</a></h2>
+                <p class="card-intro">
+                  Master&rsquo;s thesis, <em>La ley de reciprocidad de Drinfeld</em> (advisor: Timothy Mooney Gendron Thornton, UNAM, 2016), published in <em>Morfismos</em> (Cinvestav) Vol. 20, No. 2. Presents Drinfeld&rsquo;s proof of the Langlands correspondence for GL&#8322; over function fields via Drinfeld modules, rigid cohomology, and Eichler&ndash;Shimura theory.
+                </p>
+                <ul>
+                  <li>Langlands correspondence for GL&#8322; over function fields</li>
+                  <li>Drinfeld modules and Drinfeld modular varieties</li>
+                  <li>Rigid cohomology and Eichler&ndash;Shimura theory</li>
+                </ul>
+              </article>
+
+              <article class="card mt-lg">
+                <h2>Quantitative Finance &amp; Risk Consulting</h2>
+                <p class="card-intro">
+                  Applied work in mathematical finance and actuarial risk, combining stochastic simulation, time-series forecasting, and machine learning for insurance and financial-risk applications, alongside teaching and research in portfolio theory and Monte Carlo methods (BUAP, Faculty of Physics and Mathematics).
+                </p>
+                <ul>
+                  <li>Insurance portfolio optimization, pricing, and risk mitigation &mdash; Carl Zeiss Group</li>
+                  <li>Premium forecasting via time-series methods &mdash; Comisi&oacute;n Nacional de Seguros y Fianzas (CNSF)</li>
+                  <li>Sentiment analysis and boosting techniques for gender-related policy analysis &mdash; CNSF</li>
+                  <li>Portfolio theory and Monte Carlo methods in Python &mdash; BUAP</li>
+                  <li>In progress: <em>A Quantum Categorical Approach to Portfolio Theory</em></li>
+                </ul>
+              </article>
+
+              <article class="card mt-lg">
+                <h2>Urban Welfare &amp; Mobility</h2>
+                <p class="card-intro">
+                  Joint work with Akito Kamei examining how housing affordability and commuting burden shape urban welfare in Mexico City, using the spatial structure of mobility from INEGI&rsquo;s 2017 Origin&ndash;Destination Survey to study transit-network optimization and ridership flows.
+                </p>
+                <ul>
+                  <li>Housing affordability, commuting burden, and urban welfare in Mexico City (with Akito Kamei)</li>
+                  <li>Spatial structure of mobility from the 2017 Origin&ndash;Destination Survey (INEGI)</li>
+                  <li>Transit-network optimization and persistent&#8209;homology analysis of ridership flows</li>
+                </ul>
+              </article>
+
+              <div class="actions mt-lg">
+                <a class="btn btn-secondary" href="Kamei_Galindo_Urban_Mobility_Mexico_City.pdf" target="_blank" rel="noreferrer">Urban Mobility Working Paper</a>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-gallery" class="tab-panel" role="tabpanel" tabindex="0">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-num">04</span>
+            <span class="section-tag">Gallery</span>
+          </div>
+          <div class="section-rule"></div>
+
+          <section class="institutional-panel institutional-panel--gallery" id="gallery">
+            <h3>Mathematical Gallery</h3>
+            <p>Algebraic geometry, homotopy theory, and motivic homotopy theory &mdash; the objects at the center of the research program.</p>
+            <div class="math-grid">
+              <div class="formula gallery-item">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Clebsch_Cubic.png" alt="Clebsch cubic surface" loading="lazy" />
+                <strong>Clebsch Cubic Surface</strong>
+                <span class="credit">Algebraic Geometry &middot; Wikimedia Commons</span>
+              </div>
+              <div class="formula gallery-item">
+                <img src="Elliptic_Curve_Mila.png" alt="Elliptic curve y^2 = x^3 - x, illustrated for the Mila y las olas notes" loading="lazy" />
+                <strong>Elliptic Curve</strong>
+                <span class="credit">Algebraic Geometry &middot; Original illustration, <em>Mila y las olas</em></span>
+              </div>
+              <div class="formula gallery-item">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Torus.png" alt="Torus" loading="lazy" />
+                <strong>Torus</strong>
+                <span class="credit">Homotopy Theory &middot; Wikimedia Commons</span>
+              </div>
+              <div class="formula gallery-item">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/M%C3%B6bius_Strip.jpg" alt="Möbius strip" loading="lazy" />
+                <strong>M&ouml;bius Strip</strong>
+                <span class="credit">Homotopy Theory &middot; Wikimedia Commons</span>
+              </div>
+              <div class="formula gallery-item">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/2sphere_2.png" alt="2-sphere" loading="lazy" />
+                <strong>2-Sphere</strong>
+                <span class="credit">Homotopy Theory &middot; Wikimedia Commons</span>
+              </div>
+              <div class="formula gallery-item">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/RiemannKugel.svg" alt="Riemann sphere representing the projective line" loading="lazy" />
+                <strong>Riemann Sphere (&#8473;&sup1;)</strong>
+                <span class="credit">Motivic Homotopy Theory &middot; Wikimedia Commons</span>
+              </div>
+            </div>
+          </section>
+
+          <div class="banner">
+            Institutional academic profile dedicated to teaching excellence, scholarly inquiry, and quantitative analysis in economics and mathematics.
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-cv" class="tab-panel" role="tabpanel" tabindex="0">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-num">05</span>
+            <span class="section-tag">Curriculum Vitae</span>
+          </div>
+          <div class="section-rule"></div>
+
+          <section id="cv">
+            <div>
+              <h2>Academic Curriculum Vitae</h2>
+              <p>Updated academic dossier for institutional review, professional reference, and research documentation.</p>
+            </div>
+            <div class="actions">
+              <a class="btn btn-accent" href="Julio_Cesar_Galindo_CV.pdf" target="_blank" rel="noreferrer">Download CV</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div><strong style="color:white;">Universidad Panamericana</strong> &middot; Facultad de Ciencias Econ&oacute;micas y Empresariales</div>
+      <div style="margin-top: 6px;">Contact: <a href="mailto:jcgalindo@up.edu.mx">jcgalindo@up.edu.mx</a></div>
+    </footer>
+
+    <script>
+      (function () {
+        var tabButtons = document.querySelectorAll('.tab-btn');
+        var panels = document.querySelectorAll('.tab-panel');
+
+        function activate(tabName, focusPanel) {
+          tabButtons.forEach(function (btn) {
+            btn.setAttribute('aria-selected', String(btn.dataset.tab === tabName));
+          });
+          panels.forEach(function (panel) {
+            panel.classList.toggle('active', panel.id === 'panel-' + tabName);
+          });
+          if (focusPanel) {
+            var main = document.querySelector('main');
+            window.scrollTo({ top: main.offsetTop - 140, behavior: 'smooth' });
+          }
+        }
+
+        tabButtons.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            activate(btn.dataset.tab, true);
+          });
+        });
+
+        var initial = (location.hash || '').replace('#', '');
+        var validTabs = Array.prototype.map.call(tabButtons, function (b) { return b.dataset.tab; });
+        if (validTabs.indexOf(initial) !== -1) {
+          activate(initial, false);
+        }
+      })();
+    </script>
+  </body>
+</html>
