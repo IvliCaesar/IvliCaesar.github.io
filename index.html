@@ -486,6 +486,7 @@
         <button class="tab-btn" type="button" role="tab" data-tab="research" aria-selected="false">Research</button>
         <button class="tab-btn" type="button" role="tab" data-tab="gallery" aria-selected="false">Gallery</button>
         <button class="tab-btn" type="button" role="tab" data-tab="cv" aria-selected="false">CV</button>
+        <button class="tab-btn" type="button" role="tab" data-tab="ruso" aria-selected="false">Ruso</button>
       </nav>
     </div>
 
@@ -543,10 +544,25 @@
 
             <article class="card mt-lg" style="grid-column: 1 / -1;">
               <h2>Teaching Notes</h2>
+
+              <h3>Linear Algebra</h3>
               <ul>
                 <li><a href="Notas_Algebra.pdf" target="_blank" rel="noreferrer">Notas de &Aacute;lgebra</a></li>
                 <li><a href="Notas_Algebra_Lineal_Empresariales.pdf" target="_blank" rel="noreferrer">Notas de &Aacute;lgebra Lineal para Negocios</a></li>
+              </ul>
+
+              <h3>Probability and Statistics</h3>
+              <ul>
                 <li><a href="Notas_Cadenas_Markov.pdf" target="_blank" rel="noreferrer">Notas de Cadenas de Markov</a></li>
+              </ul>
+
+              <h3>Differential Equations and Optimization</h3>
+              <ul>
+                <li><a href="Notas_Sumas_Riemann.pdf" target="_blank" rel="noreferrer">Sumas de Riemann: motivaci&oacute;n hist&oacute;rica, la derivada, n&uacute;meros complejos y el Teorema Central del L&iacute;mite</a></li>
+              </ul>
+
+              <h3>Other Topics</h3>
+              <ul>
                 <li><a href="Notas_Geometria_Algebraica.pdf" target="_blank" rel="noreferrer">Notas de Geometr&iacute;a Algebraica</a></li>
               </ul>
             </article>
@@ -668,16 +684,23 @@
               </p>
               <div class="grid grid--nested">
                 <article class="card">
-                  <h2>Random Matrix Theory <a class="h2-link" href="Thesis_RMT_Lfunctions.pdf" target="_blank" rel="noreferrer">&#8599; Thesis</a></h2>
+                  <h2>Random Matrix Theory &amp; L-functions <a class="h2-link" href="Thesis_RMT_Lfunctions.pdf" target="_blank" rel="noreferrer">&#8599; Thesis</a></h2>
+                  <p class="card-intro">
+                    Advisor: Eduardo Due&ntilde;ez, developing Due&ntilde;ez&rsquo;s framework of random matrix ensembles associated to compact symmetric spaces, with applications to the fine structure of Riemann zeta zeros and L-function statistics.
+                  </p>
                   <ul>
                     <li>Dyson Brownian motion and rare gap events <a class="li-link" href="Thesis_RMT_Lfunctions.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
                     <li>Cover times, Poisson point processes, and Gumbel fluctuations <a class="li-link" href="Thesis_RMT_Lfunctions.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
-                    <li>Connections to Riemann zeta zeros and L-functions <a class="li-link" href="Thesis_RMT_Lfunctions.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
+                    <li>Connections to Riemann zeta zeros and L-functions (advisor: Eduardo Due&ntilde;ez) <a class="li-link" href="Thesis_RMT_Lfunctions.pdf" target="_blank" rel="noreferrer">Thesis</a></li>
                   </ul>
                 </article>
 
                 <article class="card">
-                  <h2>Coffee Market Econometrics</h2>
+                  <h2>Coffee Market Econometrics
+                    <span class="h2-links">
+                      <a class="h2-link" href="AFIT_WSSA_Program_2026.pdf#page=6" target="_blank" rel="noreferrer">&#8599; WSSA/AFIT 2026 Program</a>
+                    </span>
+                  </h2>
                   <p class="card-intro">
                     Joint work with Marisol Salazar applying multivariate and bivariate econometric methods&mdash;principal component analysis, nonparametric tests, and spatial geolocation&mdash;to study coffee prices and market disruptions.
                   </p>
@@ -685,6 +708,7 @@
                     <li>Multivariate and bivariate analysis of coffee prices (with Marisol Salazar)</li>
                     <li>Principal component analysis and nonparametric tests</li>
                     <li>Spatial geolocation and market disruption analysis</li>
+                    <li>&ldquo;Reconfiguraci&oacute;n de las cadenas globales de valor del caf&eacute; en M&eacute;xico: trabajo, &eacute;tica y sostenibilidad desde una perspectiva humanista,&rdquo; with Dr. Marisol Vel&aacute;zquez&ndash;Salazar &mdash; WSSA/AFIT 2026 Annual Meeting, session LASC&#8209;04/ASE (Reconfiguration of Global Value Chains, Geoeconomics and Climate Change) <a class="li-link" href="AFIT_WSSA_Program_2026.pdf#page=6" target="_blank" rel="noreferrer">Program</a></li>
                   </ul>
                 </article>
               </div>
@@ -745,7 +769,7 @@
 
           <section class="institutional-panel institutional-panel--gallery" id="gallery">
             <h3>Mathematical Gallery</h3>
-            <p>Algebraic geometry, homotopy theory, and motivic homotopy theory &mdash; the objects at the center of the research program.</p>
+            <p>Algebraic geometry, homotopy theory, motivic homotopy theory, and probability &mdash; objects at the center of the research program, including visualizations from <em>Galer&iacute;a para Aura y Luka</em>.</p>
             <div class="math-grid">
               <div class="formula gallery-item">
                 <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Clebsch_Cubic.png" alt="Clebsch cubic surface" loading="lazy" />
@@ -777,6 +801,21 @@
                 <strong>Riemann Sphere (&#8473;&sup1;)</strong>
                 <span class="credit">Motivic Homotopy Theory &middot; Wikimedia Commons</span>
               </div>
+              <div class="formula gallery-item">
+                <img src="Zeta_Riemann_Domain_Coloring.png" alt="Domain-coloring portrait of the Riemann zeta function showing the pole at s=1 and the critical strip" loading="lazy" />
+                <strong>Riemann Zeta Function &zeta;(s)</strong>
+                <span class="credit">Analytic Number Theory &middot; Original illustration, <em>Galer&iacute;a para Aura y Luka</em></span>
+              </div>
+              <div class="formula gallery-item">
+                <img src="GUE_2x2_Eigenvalue_Repulsion.png" alt="Heat map of the joint eigenvalue density of a 2x2 GUE random matrix, showing level repulsion along the diagonal" loading="lazy" />
+                <strong>GUE Eigenvalue Repulsion</strong>
+                <span class="credit">Random Matrix Theory &middot; Original illustration, <em>Galer&iacute;a para Aura y Luka</em></span>
+              </div>
+              <div class="formula gallery-item">
+                <img src="SLE_Traces_Panel.png" alt="Panel of qualitative chordal SLE traces for kappa = 2, 3, 6, 8" loading="lazy" />
+                <strong>Chordal SLE&#8342; Traces</strong>
+                <span class="credit">Conformal Probability &middot; Original illustration, <em>Galer&iacute;a para Aura y Luka</em></span>
+              </div>
             </div>
           </section>
 
@@ -801,6 +840,28 @@
             </div>
             <div class="actions">
               <a class="btn btn-accent" href="Julio_Cesar_Galindo_CV.pdf" target="_blank" rel="noreferrer">Download CV</a>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div id="panel-ruso" class="tab-panel" role="tabpanel" tabindex="0">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-num">06</span>
+            <span class="section-tag">Ruso</span>
+          </div>
+          <div class="section-rule"></div>
+
+          <section id="ruso">
+            <div>
+              <h2>Russian Language Study</h2>
+              <p class="card-intro">
+                Ongoing study of Russian, in collaboration with Ekaterina Larina, including a self-built interactive Streamlit application for vocabulary and grammar practice.
+              </p>
+            </div>
+            <div class="actions">
+              <a class="btn btn-secondary" href="https://github.com/IvliCaesar/Ruso" target="_blank" rel="noreferrer">Ruso (GitHub)</a>
             </div>
           </section>
         </div>
