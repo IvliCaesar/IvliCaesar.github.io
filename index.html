@@ -202,6 +202,27 @@
       .stat-box strong { display: block; color: var(--navy); font-family: var(--serif); font-size: 1.15rem; margin-bottom: 4px; }
       .stat-box span { color: var(--muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
 
+      .quant-row { margin-top: 16px; }
+      .quant-label {
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .quant-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+      .quant-chip {
+        background: var(--navy-tint);
+        border: 1px solid var(--gold-soft);
+        color: var(--navy-2);
+        font-size: 0.78rem;
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 3px;
+        white-space: nowrap;
+      }
+
       .photo-box { display: flex; justify-content: center; }
       .photo-frame {
         width: min(320px, 100%);
@@ -469,6 +490,16 @@
             <div class="stat-box"><strong>Research</strong><span>Driven</span></div>
             <div class="stat-box"><strong>Academic</strong><span>Excellence</span></div>
           </div>
+
+          <div class="quant-row">
+            <div class="quant-label">Quant Credentials</div>
+            <div class="quant-chips">
+              <span class="quant-chip">Actuary</span>
+              <span class="quant-chip">Quantitative Finance</span>
+              <span class="quant-chip">Risk Consulting</span>
+              <span class="quant-chip">Stochastic Calculus</span>
+            </div>
+          </div>
         </div>
 
         <div class="photo-box">
@@ -582,7 +613,8 @@
 
               <h3>Differential Equations and Optimization</h3>
               <ul>
-                <li><a href="Notas_Sumas_Riemann.pdf" target="_blank" rel="noreferrer">Sumas de Riemann: motivaci&oacute;n hist&oacute;rica, la derivada, n&uacute;meros complejos y el Teorema Central del L&iacute;mite</a></li>
+                <li><a href="Notas_Sumas_Riemann.pdf" target="_blank" rel="noreferrer">Sumas de Riemann: motivaci&oacute;n hist&oacute;rica, la derivada, n&uacute;meros complejos, y aplicaciones a Quant y Data Science</a></li>
+                <li><a href="Notas_Ecuaciones_Diferenciales.pdf" target="_blank" rel="noreferrer">Ecuaciones Diferenciales Lineales de Primer Orden: el factor integrante, existencia y unicidad, la ecuaci&oacute;n de Bernoulli, y tres aplicaciones a las finanzas</a></li>
               </ul>
 
               <h3>Other Topics</h3>
