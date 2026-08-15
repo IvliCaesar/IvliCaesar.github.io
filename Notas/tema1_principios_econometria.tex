@@ -1,0 +1,412 @@
+\documentclass[11pt,a4paper,oneside]{article}
+
+% -------------------------------------------------
+% Basic packages
+% -------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=1.18in,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
+\usepackage[capitalize,noabbrev]{cleveref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  citecolor=red!55!black,
+  urlcolor=teal!60!black,
+  pdftitle={Fundamentos de Econometría -- Tema 1: Principios de Econometría},
+  pdfauthor={César Galindo}
+}
+
+% -------------------------------------------------
+% Theorem-like environments (usados como "Definición"/"Ejemplo"/"Ejercicio")
+% -------------------------------------------------
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[section]
+\newtheorem{example}[definition]{Ejemplo}
+\newtheorem{exercise}[definition]{Ejercicio}
+
+% -------------------------------------------------
+% Fancy page and heading style
+% -------------------------------------------------
+\definecolor{ihesblue}{RGB}{25,62,114}
+\definecolor{ihesgold}{RGB}{160,120,40}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textsc{Fundamentos de Econometría -- ECO515}}
+\fancyhead[R]{\textsc{César Galindo}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\renewcommand{\footrulewidth}{0pt}
+\titleformat{\section}{\Large\bfseries\color{ihesblue}}{\thesection.}{0.65em}{}
+\titleformat{\subsection}{\large\bfseries\color{ihesblue}}{\thesubsection.}{0.65em}{}
+\titlespacing*{\section}{0pt}{1.9em}{1.05em}
+\titlespacing*{\subsection}{0pt}{1.45em}{0.95em}
+\tcbset{colback=white,colframe=ihesblue!65!black,boxrule=0.5pt,arc=1.5pt}
+\setlength{\parskip}{0.85em}
+\setstretch{1.13}
+\setlength{\parindent}{0pt}
+
+% -------------------------------------------------
+% Pedagogical boxes
+% -------------------------------------------------
+\newtcolorbox{ideaBox}[1][]{enhanced,breakable,colback=blue!2,colframe=ihesblue,
+  borderline west={1.5pt}{0pt}{ihesblue},title=Idea central,fonttitle=\bfseries,#1}
+\newtcolorbox{summaryBox}[1][]{enhanced,breakable,colback=gray!4,colframe=black!55,
+  borderline west={1.5pt}{0pt}{black!70},title=Qué conviene recordar,fonttitle=\bfseries,#1}
+\newtcolorbox{warningBox}[1][]{enhanced,breakable,colback=red!2,colframe=red!55!black,
+  borderline west={1.5pt}{0pt}{red!75!black},title=Error frecuente,fonttitle=\bfseries,#1}
+\newtcolorbox{empresaBox}[1][]{enhanced,breakable,colback=orange!3!white,colframe=orange!60!black,
+  borderline west={1.5pt}{0pt}{orange!70!black},title=Conexión empresarial,fonttitle=\bfseries\color{orange!60!black},#1}
+\newtcolorbox{cfaBox}[1][]{enhanced,breakable,
+  colback=violet!3!white,colframe=violet!50!black,
+  borderline west={2pt}{0pt}{violet!65!black},
+  title=Ejercicio estilo CFA,fonttitle=\bfseries\color{violet!80!black},
+  attach boxed title to top left={yshift=-2mm,xshift=4mm},
+  boxed title style={colback=violet!12,colframe=violet!50!black,boxrule=0.5pt},#1}
+\newtcolorbox{practiceBox}[1][]{enhanced,breakable,
+  colback=green!2!white,colframe=green!45!black,
+  borderline west={2pt}{0pt}{green!55!black},
+  title=Para practicar,fonttitle=\bfseries\color{green!50!black},
+  attach boxed title to top left={yshift=-2mm,xshift=4mm},
+  boxed title style={colback=green!10,colframe=green!45!black,boxrule=0.5pt},#1}
+
+\title{\vspace{-1.5cm}\textbf{\Large Fundamentos de Econometría}\\[2pt]\large Tema 1: Principios de Econometría}
+\author{César Galindo\\ \small Universidad Panamericana \textperiodcentered\ Licenciatura en Finanzas \textperiodcentered\ ECO515}
+\date{\small Otoño 2026}
+
+\begin{document}
+\maketitle
+
+\begin{ideaBox}
+Este documento cubre el Tema 1 del syllabus de \emph{Fundamentos de Econometría}
+(ECO515, Semana 1): qué es la econometría, cómo se distingue la econometría
+financiera de la económica, de qué piezas se compone un modelo econométrico,
+cómo se clasifican los datos económicos y financieros, y de dónde viene la
+disciplina. Incluye ejercicios de práctica y una sección de ejercicios estilo
+CFA (Quantitative Methods, Nivel I) sobre estos mismos conceptos.
+\end{ideaBox}
+
+\tableofcontents
+
+\section{¿Qué es la econometría?}
+
+La \textbf{econometría} es la disciplina que usa la teoría económica, las
+matemáticas y la inferencia estadística para cuantificar relaciones
+económicas, poner a prueba hipótesis y pronosticar variables económicas y
+financieras a partir de datos reales.
+
+\begin{definition}[Econometría]
+La econometría es el análisis cuantitativo de fenómenos económicos reales,
+basado en el desarrollo simultáneo de la teoría y la observación, relacionadas
+mediante métodos apropiados de inferencia (definición atribuida a Ragnar
+Frisch, cofundador de la \emph{Econometric Society} en 1930).
+\end{definition}
+
+La palabra misma lo dice: \emph{econo-metría} = medición de la economía. Pero
+medir no es solo calcular un promedio: es traducir una afirmación cualitativa
+de la teoría (``si sube la tasa de interés, baja la inversión'') en una
+relación cuantificable, con un número y un margen de error asociados
+(``un aumento de 1 punto porcentual en la tasa reduce la inversión en
+$\beta$ millones de pesos, con un intervalo de confianza de...'').
+
+\begin{summaryBox}
+La econometría combina tres ingredientes, y ninguno basta por sí solo:
+\begin{itemize}[nosep]
+\item \textbf{Teoría económica o financiera:} qué relación se espera y por qué (el signo esperado de $\beta$, la forma funcional).
+\item \textbf{Matemáticas:} el modelo formal (ecuaciones, álgebra matricial, cálculo de optimización para estimar parámetros).
+\item \textbf{Estadística (inferencia):} cómo estimar los parámetros a partir de una muestra y cuantificar la incertidumbre alrededor de esa estimación.
+\end{itemize}
+\end{summaryBox}
+
+\subsection{Econometría descriptiva vs.\ econometría teórica}
+Es útil distinguir, dentro de la econometría misma, entre:
+\begin{itemize}[nosep]
+\item \textbf{Econometría teórica:} desarrolla los métodos mismos (propiedades
+de los estimadores, condiciones bajo las cuales MCO es insesgado o eficiente,
+etc.). No es el foco de este curso, aunque se usarán sus resultados.
+\item \textbf{Econometría aplicada:} usa esos métodos para estimar modelos
+sobre datos reales y responder preguntas económicas o financieras concretas.
+Éste es el foco del curso.
+\end{itemize}
+
+\section{Econometría para Economía vs.\ Econometría Financiera}
+
+Aunque comparten las mismas herramientas estadísticas (regresión, pruebas de
+hipótesis, series de tiempo), la \textbf{econometría económica} y la
+\textbf{econometría financiera} difieren en el tipo de preguntas que hacen y,
+por lo tanto, en qué supuestos son razonables.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{p{4.1cm}p{5.2cm}p{5.2cm}}
+\toprule
+& \textbf{Econometría económica} & \textbf{Econometría financiera} \\
+\midrule
+\textbf{Preguntas típicas} & ¿Cómo afecta el gasto público al PIB? ¿Cuál es la elasticidad-precio de la demanda? & ¿El mercado es eficiente? ¿Qué explica el rendimiento de un activo? ¿Cuál es su volatilidad? \\
+\textbf{Frecuencia de los datos} & Trimestral o anual, series relativamente cortas & Diaria, incluso intradía; series largas y muy ruidosas \\
+\textbf{Supuestos típicos que fallan} & Endogeneidad, variables omitidas & Heteroscedasticidad (volatilidad cambiante), colas pesadas, no normalidad \\
+\textbf{Modelos característicos} & Regresión múltiple, modelos de panel, modelos macro estructurales & CAPM y modelos multifactoriales, GARCH, modelos de series de tiempo financieras \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{empresaBox}
+El ejemplo canónico de econometría financiera es el \textbf{CAPM}:
+$E(R_i) - R_f = \beta_i\,[E(R_m)-R_f]$. Estimar $\beta_i$ por MCO, usando
+rendimientos históricos del activo $i$ y del mercado, es literalmente
+correr una regresión lineal simple --- el mismo método que se introduce en
+el Tema 2 de este curso, aplicado a un problema de finanzas en vez de uno
+macroeconómico.
+\end{empresaBox}
+
+\section{Elementos de un modelo econométrico}
+
+Todo modelo econométrico simple comparte la misma anatomía. Considérese la
+forma general de un modelo de regresión lineal:
+\[
+Y_i = \beta_0 + \beta_1 X_i + u_i.
+\]
+
+\begin{definition}[Elementos de un modelo econométrico]
+\begin{itemize}[nosep]
+\item \textbf{Variable dependiente (o explicada), $Y$:} lo que se quiere explicar o pronosticar (p.\,ej., el rendimiento de una acción).
+\item \textbf{Variable(s) independiente(s) (o explicativa(s)), $X$:} lo que se usa para explicar a $Y$ (p.\,ej., el rendimiento del mercado).
+\item \textbf{Parámetros, $\beta_0,\beta_1$:} números fijos, desconocidos, que se estiman con los datos; cuantifican la relación entre $X$ y $Y$.
+\item \textbf{Término de error (o perturbación), $u$:} recoge todo lo que afecta a $Y$ y no está en el modelo --- variables omitidas, error de medición, aleatoriedad genuina.
+\item \textbf{Forma funcional:} cómo se relacionan $Y$ y $X$ (lineal, log-lineal, cuadrática, \dots); el Tema 2 del curso trata este punto con más detalle.
+\end{itemize}
+\end{definition}
+
+\begin{example}
+En el modelo $\text{Rendimiento}_i = \beta_0 + \beta_1\,\text{Rendimiento del mercado}_i + u_i$:
+$Y$ es el rendimiento de la acción $i$; $X$ es el rendimiento del mercado;
+$\beta_1$ (la beta del CAPM) mide la sensibilidad de la acción al mercado;
+$\beta_0$ es el rendimiento esperado cuando el mercado no se mueve; y $u_i$
+captura el riesgo idiosincrático (específico de la empresa) no explicado por
+el mercado.
+\end{example}
+
+\begin{warningBox}
+El término de error $u_i$ \textbf{no} es ``el error del analista''; es una
+parte estructural del modelo. Ningún modelo econométrico pretende explicar
+el 100\,\% de la variación de $Y$: si $u_i\equiv0$ para todos los datos, algo
+está mal (sobreajuste, o $Y$ y $X$ son en realidad la misma variable
+disfrazada).
+\end{warningBox}
+
+\section{Tipos y formas de agrupación de datos}
+
+Antes de estimar cualquier modelo hay que saber qué tipo de datos se tiene,
+porque eso determina qué métodos son válidos.
+
+\begin{definition}[Tipos de datos económicos y financieros]
+\begin{itemize}[nosep]
+\item \textbf{Series de tiempo (\emph{time series}):} observaciones de \emph{una}
+unidad (un país, una empresa, un activo) a lo largo del tiempo, en orden
+cronológico. Ejemplo: el precio diario de cierre del IPC durante 2020--2026.
+\item \textbf{Datos transversales (\emph{cross-section}):} observaciones de
+\emph{muchas} unidades en \emph{un solo} punto en el tiempo. Ejemplo: el
+rendimiento anual de las 35 empresas de la muestra del IPC en 2025.
+\item \textbf{Datos de panel (\emph{panel data}):} combinan ambas dimensiones ---
+muchas unidades, observadas a lo largo de varios periodos. Ejemplo: el
+rendimiento trimestral de 35 empresas del IPC durante 20 trimestres.
+\item \textbf{Datos continuos vs.\ discretos:} una variable es \emph{continua}
+si puede tomar cualquier valor real en un intervalo (un precio, una tasa de
+rendimiento); es \emph{discreta} si solo toma valores en un conjunto
+numerable, frecuentemente enteros (el número de transacciones en un día, una
+variable binaria como ``la empresa pagó dividendos: sí/no'').
+\end{itemize}
+\end{definition}
+
+\begin{summaryBox}
+Un panel ``ve'' tanto la variación \emph{entre} unidades (¿por qué la
+empresa A rinde más que la B, en promedio?) como la variación \emph{dentro}
+de cada unidad a través del tiempo (¿por qué la empresa A rindió más este
+año que el pasado?). Una serie de tiempo pura solo ve la segunda; un corte
+transversal puro solo ve la primera.
+\end{summaryBox}
+
+\begin{practiceBox}
+Clasifica cada conjunto de datos como serie de tiempo, corte transversal, o
+panel, y di si la variable de interés es continua o discreta:
+\begin{enumerate}[label=(\alph*)]
+\item El PIB trimestral de México, 2000--2026.
+\item La calificación crediticia (AAA, AA, \dots, D) de 50 empresas emisoras de deuda, al cierre de 2025.
+\item El rendimiento mensual de 20 fondos de inversión, durante 36 meses.
+\item El número de operaciones (\emph{trades}) ejecutadas cada minuto en una acción durante un día de bolsa.
+\end{enumerate}
+\emph{Respuestas:} (a) serie de tiempo, continua; (b) corte transversal,
+discreta (categórica ordinal); (c) panel, continua; (d) serie de tiempo (alta
+frecuencia), discreta (conteo).
+\end{practiceBox}
+
+\section{Definición, antecedentes, objeto y método de la econometría}
+
+\subsection{Antecedentes históricos}
+El término ``econometría'' (del francés \emph{économétrie}) fue acuñado
+formalmente con la fundación de la \textbf{Econometric Society} en 1930, por
+iniciativa de Ragnar Frisch, Charles Roos e Irving Fisher. Frisch y Jan
+Tinbergen recibieron el primer Premio Nobel de Economía en 1969
+``por haber desarrollado y aplicado modelos dinámicos al análisis de
+procesos económicos''. Trygve Haavelmo, en su artículo de 1944 \emph{The
+Probability Approach in Econometrics}, sentó las bases probabilísticas
+modernas de la disciplina: tratar los datos económicos como realizaciones de
+variables aleatorias, no como cantidades determinísticas --- exactamente el
+punto de vista que permite hablar de errores estándar e intervalos de
+confianza para $\beta_1$.
+
+\subsection{Objeto de estudio}
+El objeto de la econometría es doble:
+\begin{enumerate}[nosep]
+\item \textbf{Estimar} relaciones cuantitativas entre variables económicas o financieras a partir de datos observados (no experimentales, en la gran mayoría de los casos).
+\item \textbf{Contrastar} (poner a prueba) predicciones de la teoría económica o financiera contra la evidencia empírica.
+\end{enumerate}
+
+\subsection{Método}
+El método econométrico típico sigue estos pasos, que reaparecerán a lo largo
+del curso:
+\begin{enumerate}[nosep]
+\item Plantear una hipótesis teórica (p.\,ej., el CAPM predice $\beta_1>0$).
+\item Especificar un modelo matemático que la traduzca en una ecuación estimable.
+\item Recolectar los datos relevantes y clasificarlos (Sección 4).
+\item Estimar los parámetros (Tema 2: mínimos cuadrados ordinarios).
+\item Poner a prueba la hipótesis mediante inferencia estadística (Tema 3).
+\item Diagnosticar el modelo (Temas 5--6) y, si es necesario, corregirlo o re-especificarlo.
+\item Usar el modelo para pronosticar o para política/decisión de inversión.
+\end{enumerate}
+
+\section{Ejercicios}
+
+\begin{exercise}
+Enuncia, con tus propias palabras, la diferencia entre econometría teórica y
+econometría aplicada. Da un ejemplo de cada una relacionado con mercados
+financieros.
+\end{exercise}
+
+\begin{exercise}
+Para el modelo $\text{Precio de la vivienda}_i = \beta_0 + \beta_1\,\text{Metros cuadrados}_i + u_i$,
+identifica la variable dependiente, la variable independiente, los
+parámetros y el término de error. ¿Qué signo esperarías para $\beta_1$ y por
+qué?
+\end{exercise}
+
+\begin{exercise}
+Un analista tiene el rendimiento diario de las 35 acciones del IPC durante
+los últimos 5 años. Explica por qué estos datos son un panel, y describe
+brevemente una pregunta que solo se puede responder aprovechando la
+dimensión de panel (y no con un simple corte transversal o una simple serie
+de tiempo).
+\end{exercise}
+
+\begin{exercise}
+¿Por qué, según Haavelmo (1944), es necesario un enfoque probabilístico para
+poder hablar de ``errores estándar'' o ``intervalos de confianza'' en
+econometría? ¿Qué pasaría con esos conceptos si tratáramos los datos
+económicos como cantidades puramente determinísticas?
+\end{exercise}
+
+\section{Ejercicios estilo CFA}
+
+Las siguientes preguntas siguen el formato de opción múltiple (A/B/C) del
+programa CFA (Nivel I, \emph{Quantitative Methods}), aplicadas a los
+conceptos de este tema.
+
+\begin{cfaBox}
+\textbf{1.} Un analista recopila el rendimiento trimestral de 40 fondos de
+cobertura (\emph{hedge funds}) distintos, cada uno observado durante 12
+trimestres consecutivos. Este conjunto de datos se describe \textbf{mejor}
+como:
+\begin{enumerate}[label=\Alph*.]
+\item Una serie de tiempo.
+\item Un corte transversal.
+\item Un panel de datos.
+\end{enumerate}
+\end{cfaBox}
+\emph{Solución: C.} Hay múltiples unidades (40 fondos) observadas a través
+de múltiples periodos (12 trimestres) para cada una: es la combinación
+característica de un panel. (A) sería correcto solo si hubiera un único
+fondo; (B) sería correcto solo si cada fondo se observara en un único
+trimestre.
+
+\begin{cfaBox}
+\textbf{2.} En el modelo de regresión $\text{Rendimiento}_{i} = \alpha + \beta\,(\text{Rendimiento del mercado}_i) + \varepsilon_i$,
+el coeficiente $\beta$ representa:
+\begin{enumerate}[label=\Alph*.]
+\item El rendimiento esperado del activo cuando el mercado no se mueve.
+\item La sensibilidad del rendimiento del activo ante cambios en el rendimiento del mercado.
+\item La parte del rendimiento del activo que no explica el mercado.
+\end{enumerate}
+\end{cfaBox}
+\emph{Solución: B.} $\beta$ es el parámetro de pendiente: mide cuánto cambia
+$Y$ (el rendimiento del activo) por cada unidad de cambio en $X$ (el
+rendimiento del mercado). (A) describe al intercepto $\alpha$; (C) describe
+al término de error $\varepsilon_i$.
+
+\begin{cfaBox}
+\textbf{3.} ¿Cuál de las siguientes variables es \textbf{discreta}?
+\begin{enumerate}[label=\Alph*.]
+\item El precio de cierre diario de una acción.
+\item El número de operaciones de compra ejecutadas en un fondo durante un mes.
+\item La tasa interna de retorno (TIR) de un proyecto de inversión.
+\end{enumerate}
+\end{cfaBox}
+\emph{Solución: B.} Un conteo de operaciones solo puede tomar valores
+enteros no negativos ($0,1,2,\dots$): es discreta. Tanto un precio como una
+TIR pueden, en principio, tomar cualquier valor real dentro de un rango:
+ambas son continuas.
+
+\begin{cfaBox}
+\textbf{4.} Según el enfoque probabilístico de Haavelmo (1944), los datos
+económicos observados se interpretan \textbf{principalmente} como:
+\begin{enumerate}[label=\Alph*.]
+\item Cantidades determinísticas, libres de todo error de medición.
+\item Realizaciones particulares de variables aleatorias subyacentes.
+\item Parámetros poblacionales conocidos con certeza.
+\end{enumerate}
+\end{cfaBox}
+\emph{Solución: B.} El aporte central de Haavelmo fue tratar los datos
+económicos observados como una muestra (una realización) de un proceso
+aleatorio subyacente, lo cual es precisamente lo que permite aplicar
+inferencia estadística --- errores estándar, pruebas de hipótesis,
+intervalos de confianza --- a los parámetros estimados.
+
+\begin{cfaBox}
+\textbf{5.} Un analista de econometría financiera, a diferencia de uno de
+econometría económica ``pura'', debe prestar \textbf{particular} atención a
+cuál de los siguientes problemas, dado que trabaja frecuentemente con series
+de rendimientos financieros de alta frecuencia:
+\begin{enumerate}[label=\Alph*.]
+\item Estacionalidad en el gasto público trimestral.
+\item Heteroscedasticidad (volatilidad cambiante en el tiempo).
+\item Elasticidades de largo plazo en modelos de demanda agregada.
+\end{enumerate}
+\end{cfaBox}
+\emph{Solución: B.} Los rendimientos financieros exhiben típicamente
+``agrupamiento de volatilidad'' (\emph{volatility clustering}): periodos de
+alta y baja varianza que se alternan --- la razón por la que modelos como
+GARCH (fuera del alcance de este tema, pero relevante para econometría
+financiera) son tan usados en finanzas. (A) y (C) son preocupaciones más
+características de la econometría macroeconómica.
+
+\begin{summaryBox}
+\textbf{En una frase:} la econometría traduce afirmaciones cualitativas de
+la teoría económica o financiera en modelos cuantificables y contrastables
+--- y el primer paso, antes de estimar nada, es reconocer qué tipo de datos
+se tiene y qué piezas tendrá el modelo.
+\end{summaryBox}
+
+\end{document}
