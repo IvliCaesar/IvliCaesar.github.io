@@ -50,8 +50,8 @@
 \newcommand{\CWq}{\mathrm{CW}}
 
 \title{\normalfont\bfseries Topología algebraica\\ \large Observaciones, notas y ejercicios}
-\author{César Galindo López\\ \normalsize Universidad Panamericana}
-\date{\normalsize }
+\author{César Galindo López\\ \normalsize Notas de Preparación para Examen General}
+\date{\normalsize Fecha: Diciembre 2013}
 
 \begin{document}
 \shorthandoff{"<>}
@@ -425,18 +425,22 @@ Ahora, tomemos $[\sigma_{x_0}]\in\pi_1(X,x_0)$. Entonces,
 Por lo tanto, $\alpha_*$ es isomorfismo de grupos.
 \item Se tiene que, si $[\sigma]\in\pi_1(X,x_0)$,
 \[
-\beta_*([\sigma])=[\overline\beta\sigma\beta]
-=[\overline\beta\alpha\overline\alpha\sigma\alpha\overline\alpha\beta]
-=[\overline\beta\alpha][\overline\alpha\sigma\alpha][\overline\alpha\beta]
-=[\overline\beta\alpha][\overline\alpha\sigma\alpha][\overline\beta\alpha]^{-1}
-=[\overline\beta\alpha]\alpha_*([\sigma])[\overline\beta\alpha]^{-1}.
+\begin{aligned}
+\beta_*([\sigma])&=[\overline\beta\sigma\beta]\\
+&=[\overline\beta\alpha\overline\alpha\sigma\alpha\overline\alpha\beta]\\
+&=[\overline\beta\alpha][\overline\alpha\sigma\alpha][\overline\alpha\beta]\\
+&=[\overline\beta\alpha][\overline\alpha\sigma\alpha][\overline\beta\alpha]^{-1}\\
+&=[\overline\beta\alpha]\alpha_*([\sigma])[\overline\beta\alpha]^{-1}.
+\end{aligned}
 \]
 \item Es una consecuencia directa del primer inciso.
 \item Sean $p:X\times Y\to X$ y $q:X\times Y\to Y$ proyecciones. Entonces,
 se induce una aplicación
 \[
-\Phi=(p_*,q_*):\pi_1(X\times Y,(x_0,y_0))\to\pi_1(X,x_0)\times\pi_1(Y,y_0),
-\qquad [\alpha]\mapsto(p_*[\alpha],q_*[\alpha])=([p\circ\alpha],[q\circ\alpha]).
+\begin{aligned}
+\Phi=(p_*,q_*)&:\pi_1(X\times Y,(x_0,y_0))\to\pi_1(X,x_0)\times\pi_1(Y,y_0),\\
+&\qquad [\alpha]\mapsto(p_*[\alpha],q_*[\alpha])=([p\circ\alpha],[q\circ\alpha]).
+\end{aligned}
 \]
 Veamos que $\Phi$ está bien definida y es morfismo de grupos.
 
@@ -1442,10 +1446,12 @@ conexo, entonces $h$ es un isomorfismo.
 \begin{enumerate}[label=\alph*)]
 \item Sea $U\subset X$ abierto. Entonces
 \[
-p^{-1}(p(U))=\{x\in X\mid p(x)\in p(U)\}
-=\{x\in X\mid Gx=Gy \text{ para algún } y\in U\}
-=\{x\in X\mid x=gy \text{ para algún } y\in U,\ g\in G\}
-=\bigcup_{g\in G}gU.
+\begin{aligned}
+p^{-1}(p(U))&=\{x\in X\mid p(x)\in p(U)\}\\
+&=\{x\in X\mid Gx=Gy \text{ para algún } y\in U\}\\
+&=\{x\in X\mid x=gy \text{ para algún } y\in U,\ g\in G\}\\
+&=\bigcup_{g\in G}gU.
+\end{aligned}
 \]
 La acción de cada $g\in G$ sobre $X$ define un homeomorfismo
 $\varphi_g:X\to X$, $x\mapsto gx$. Así, $\varphi_g(U)=gU$; es decir, $gU$ es
@@ -1772,7 +1778,10 @@ y $\overline\sigma(p\circ\alpha)\sigma$ se levanta en
 $\overline{\tilde\sigma}\alpha\tilde\sigma$, un lazo basado en $y=h(x)$.
 Así,
 \[
-[\overline\sigma(p\circ\alpha)\sigma]\in p_*\pi_1(X,y)=p_*\pi_1(X,h(x))=p_*h_*\pi_1(X,x)=(p\circ h)_*\pi_1(X,x)=p_*\pi_1(X,x).
+\begin{aligned}
+[\overline\sigma(p\circ\alpha)\sigma]\in p_*\pi_1(X,y)&=p_*\pi_1(X,h(x))=p_*h_*\pi_1(X,x)\\
+&=(p\circ h)_*\pi_1(X,x)=p_*\pi_1(X,x).
+\end{aligned}
 \]
 Recíprocamente, supongamos que $p_*\pi_1(X,x)$ es normal en $\pi_1(B,b)$.
 Comencemos por construir un homomorfismo de grupos
@@ -2382,7 +2391,10 @@ H_q(X/A,A/A)\cong H_q(X/A,V/A) \qquad\text{y}\qquad H_q\big(X/A-A/A,\,V/A-A/A\bi
 \]
 Encadenando las cinco identificaciones,
 \[
-H_q(X,A)\cong H_q(X,V)\cong H_q(X-A,V-A)\cong H_q\big(X/A-A/A,V/A-A/A\big)\cong H_q(X/A,V/A)\cong H_q(X/A,A/A),
+\begin{aligned}
+H_q(X,A)\cong H_q(X,V)\cong H_q(X-A,V-A)&\cong H_q\big(X/A-A/A,V/A-A/A\big)\\
+&\cong H_q(X/A,V/A)\cong H_q(X/A,A/A),
+\end{aligned}
 \]
 y un chequeo directo sobre representantes de ciclos muestra que el
 isomorfismo compuesto es precisamente $q_*$. Finalmente,
@@ -2455,7 +2467,12 @@ Sea $X=A\cup B$. Sean $A_1\subset A$ y $B_1\subset B$. Supongamos que los
 pares $\{A,B\}$ y $\{A_1,B_1\}$ son escisivos. Entonces, se tiene la
 sucesión exacta de homología relativa
 \[
-\cdots\to H_{q+1}(X,A_1\cup B_1)\to H_q(A\cap B,A_1\cap B_1)\xrightarrow{(i_*,-j_*)}H_q(A,A_1)\oplus H_q(B,B_1)\xrightarrow{k_*+l_*}H_q(X,A_1\cup B_1)\to H_{q-1}(A\cap B,A_1\cap B_1)\to\cdots
+\begin{aligned}
+\cdots\to H_{q+1}(X,A_1\cup B_1)\to H_q(A\cap B,A_1\cap B_1)&\\
+&\xrightarrow{(i_*,-j_*)}H_q(A,A_1)\oplus H_q(B,B_1)\\
+&\xrightarrow{k_*+l_*}H_q(X,A_1\cup B_1)\\
+&\to H_{q-1}(A\cap B,A_1\cap B_1)\to\cdots
+\end{aligned}
 \]
 en donde $i:(A\cap B,A_1\cap B_1)\hookrightarrow(A,A_1)$,
 $j:(A\cap B,A_1\cap B_1)\hookrightarrow(B,B_1)$,
@@ -2471,10 +2488,16 @@ En particular, si $A_1=B_1=\{*\}$, se obtiene la sucesión exacta
 \begin{proof}
 En el nivel de cadenas, defínase
 \[
-\phi:S_\bullet(A\cap B)/S_\bullet(A_1\cap B_1)\to \big(S_\bullet(A)/S_\bullet(A_1)\big)\oplus\big(S_\bullet(B)/S_\bullet(B_1)\big), \qquad c\mapsto(i_\#c,\,-j_\#c),
+\begin{aligned}
+\phi:S_\bullet(A\cap B)/S_\bullet(A_1\cap B_1)&\to \big(S_\bullet(A)/S_\bullet(A_1)\big)\oplus\big(S_\bullet(B)/S_\bullet(B_1)\big),\\
+&\qquad c\mapsto(i_\#c,\,-j_\#c),
+\end{aligned}
 \]
 \[
-\psi:\big(S_\bullet(A)/S_\bullet(A_1)\big)\oplus\big(S_\bullet(B)/S_\bullet(B_1)\big)\to\big(S_\bullet(A)+S_\bullet(B)\big)/\big(S_\bullet(A_1)+S_\bullet(B_1)\big), \qquad (a,b)\mapsto a+b.
+\begin{aligned}
+\psi:\big(S_\bullet(A)/S_\bullet(A_1)\big)\oplus\big(S_\bullet(B)/S_\bullet(B_1)\big)&\to\big(S_\bullet(A)+S_\bullet(B)\big)/\big(S_\bullet(A_1)+S_\bullet(B_1)\big),\\
+&\qquad (a,b)\mapsto a+b.
+\end{aligned}
 \]
 La sucesión $0\to\bullet\xrightarrow{\phi}\bullet\xrightarrow{\psi}\bullet\to0$
 es exacta en cada grado: $\phi$ es inyectiva porque si
@@ -2496,7 +2519,11 @@ Por el lema del zig-zag (como en la demostración del
 Teorema~\ref{thm:sucesion-larga}), esta sucesión corta exacta de
 complejos induce una sucesión exacta larga
 \[
-\cdots\to H_{q+1}\Big(\tfrac{S_\bullet(A)+S_\bullet(B)}{S_\bullet(A_1)+S_\bullet(B_1)}\Big)\to H_q(A\cap B,A_1\cap B_1)\xrightarrow{(i_*,-j_*)}H_q(A,A_1)\oplus H_q(B,B_1)\xrightarrow{\psi_*}H_q\Big(\tfrac{S_\bullet(A)+S_\bullet(B)}{S_\bullet(A_1)+S_\bullet(B_1)}\Big)\to\cdots
+\begin{aligned}
+\cdots\to H_{q+1}\Big(\tfrac{S_\bullet(A)+S_\bullet(B)}{S_\bullet(A_1)+S_\bullet(B_1)}\Big)\to H_q(A\cap B,A_1\cap B_1)&\\
+&\xrightarrow{(i_*,-j_*)}H_q(A,A_1)\oplus H_q(B,B_1)\\
+&\xrightarrow{\psi_*}H_q\Big(\tfrac{S_\bullet(A)+S_\bullet(B)}{S_\bullet(A_1)+S_\bullet(B_1)}\Big)\to\cdots
+\end{aligned}
 \]
 Como $\{A,B\}$ y $\{A_1,B_1\}$ son escisivos, las inclusiones
 $S_\bullet(A)+S_\bullet(B)\hookrightarrow S_\bullet(X)$ y
@@ -2573,7 +2600,10 @@ $\tilde H_q(Y)\cong\tilde H_q(X)$.
 
 Para 2 y 3, aíslese el segmento de la sucesión en torno a $q=n-1,n$:
 \[
-0=H_{n+1}(X,Y)\to\tilde H_n(Y)\to\tilde H_n(X)\xrightarrow{\ \partial\ }H_n(X,Y)\xrightarrow{\ \partial\ }\tilde H_{n-1}(Y)\to\tilde H_{n-1}(X)\to H_{n-1}(X,Y)=0.
+\begin{aligned}
+0=H_{n+1}(X,Y)\to\tilde H_n(Y)\to\tilde H_n(X)&\xrightarrow{\ \partial\ }H_n(X,Y)\\
+&\xrightarrow{\ \partial\ }\tilde H_{n-1}(Y)\to\tilde H_{n-1}(X)\to H_{n-1}(X,Y)=0.
+\end{aligned}
 \]
 Por naturalidad del morfismo conectante aplicada a la aplicación de
 parejas $\Phi:(D^n,S^{n-1})\to(X,Y)$, el siguiente diagrama conmuta:
@@ -2961,10 +2991,12 @@ Se tiene una biyección
 \]
 Así,
 \[
-H_q(X,A)=H_q(S_\bullet(X)/S_\bullet(A))
-=H_q\left(\bigoplus_\alpha S_\bullet(X_\alpha)/S_\bullet(A_\alpha)\right)
-\cong\bigoplus_\alpha H_q(S_\bullet(X_\alpha)/S_\bullet(A_\alpha))
-=\bigoplus_\alpha H_q(X_\alpha,A_\alpha).
+\begin{aligned}
+H_q(X,A)&=H_q(S_\bullet(X)/S_\bullet(A))\\
+&=H_q\left(\bigoplus_\alpha S_\bullet(X_\alpha)/S_\bullet(A_\alpha)\right)\\
+&\cong\bigoplus_\alpha H_q(S_\bullet(X_\alpha)/S_\bullet(A_\alpha))\\
+&=\bigoplus_\alpha H_q(X_\alpha,A_\alpha).
+\end{aligned}
 \]
 \end{enumerate}
 
@@ -3009,19 +3041,23 @@ homología.
 \end{tikzcd}
 \]
 También, consideremos el siguiente diagrama:
+{\footnotesize
 \[
-\begin{tikzcd}
+\begin{tikzcd}[column sep=small]
 0 \arrow[r] & S_*(B) \arrow[r] \arrow[d,"="] & S_*(A)+S_*(B) \arrow[r] \arrow[d,"i"] & \dfrac{S_*(A)+S_*(B)}{S_*(B)} \arrow[r] \arrow[d,"\overline\imath"] & 0 \\
 0 \arrow[r] & S_*(B) \arrow[r] & S_*(X) \arrow[r] & \dfrac{S_*(X)}{S_*(B)} \arrow[r] & 0
 \end{tikzcd}
 \]
+}
 Aplicando el teorema fundamental del álgebra homológica se obtiene que
+{\scriptsize
 \[
-\begin{tikzcd}[column sep=small]
+\begin{tikzcd}[column sep=4pt]
 \cdots \arrow[r] & H_q(B) \arrow[r] \arrow[d,"="] & H_q(S_*(A)+S_*(B)) \arrow[r] \arrow[d,"i_*"] & H_q\left(\dfrac{S_*(A)+S_*(B)}{S_*(B)}\right) \arrow[r] \arrow[d,"\overline\imath_*"] & H_{q-1}(B) \arrow[r] \arrow[d,"="] & H_{q-1}(S_*(A)+S_*(B)) \arrow[r] \arrow[d] & \cdots \\
 \cdots \arrow[r] & H_q(B) \arrow[r] & H_q(X) \arrow[r] & H_q(X,B) \arrow[r] & H_{q-1}(B) \arrow[r] & H_{q-1}(X) \arrow[r] & \cdots
 \end{tikzcd}
 \]
+}
 Supóngase que la pareja $\{A,B\}$ es escisiva; es decir
 $i:S_*(A)+S_*(B)\to S_*(X)$ induce el isomorfismo $i_*$. Por el lema del $5$,
 $\overline\imath_*$ es isomorfismo. Ya que $\overline\imath$ es isomorfismo
@@ -3043,7 +3079,10 @@ $\{B,A\}$ son escisivas pues $S_*(X)+S_*(A)=S_*(X)$ y
 $S_*(B)+S_*(A)=S_*(A)$. La sucesión de Mayer--Vietoris
 (Teorema~\ref{thm:mayer-vietoris}) en este caso es:
 \[
-\cdots\to H_q(X\cap A,A\cap B)\to H_q(X,B)\oplus H_q(A,A)\to H_q(X,A\cup B)\to H_{q-1}(X\cap A,A\cap B)\to\cdots
+\begin{aligned}
+\cdots\to H_q(X\cap A,A\cap B)\to H_q(X,B)\oplus H_q(A,A)&\to H_q(X,A\cup B)\\
+&\to H_{q-1}(X\cap A,A\cap B)\to\cdots
+\end{aligned}
 \]
 Ya que $H_q(A,A)=0$, se tiene el resultado.
 
@@ -3097,7 +3136,11 @@ Por lo tanto, $H_2(\mathbb T^2)=\ker A=\ZZ[\alpha-\beta]=\ZZ$.
 Para $H_1(\mathbb T^2)$, concentrémonos en la parte de la sucesión de
 Mayer--Vietoris:
 \[
-\cdots\to H_1(A\cap B)\xrightarrow{(i_*,j_*)}H_1(A)\oplus H_1(B)\xrightarrow{k_*-l_*}H_1(\mathbb T^2)\xrightarrow{\delta}H_0(A\cap B)\xrightarrow{(i_*,j_*)}H_0(A)\oplus H_0(B)\to\cdots
+\begin{aligned}
+\cdots\to H_1(A\cap B)&\xrightarrow{(i_*,j_*)}H_1(A)\oplus H_1(B)\\
+&\xrightarrow{k_*-l_*}H_1(\mathbb T^2)\xrightarrow{\delta}H_0(A\cap B)\\
+&\xrightarrow{(i_*,j_*)}H_0(A)\oplus H_0(B)\to\cdots
+\end{aligned}
 \]
 en donde $k_*$ y $l_*$ son inducidos por las inclusiones $k:A\to\mathbb T^2$
 y $l:B\to\mathbb T^2$. A continuación, cortamos la sucesión como
@@ -3493,7 +3536,10 @@ convexo y por lo tanto es contraíble. Así,
 $\tilde H_n(\mathcal H_n-\{x\})=0$. La sucesión larga de la pareja
 $(\mathcal H_n,\mathcal H_n-\{x\})$ es:
 \[
-\cdots\to\tilde H_n(\mathcal H_n-\{x\})\to\tilde H_n(\mathcal H_n)\to H_n(\mathcal H_n,\mathcal H_n-\{x\})\to\tilde H_{n-1}(\mathcal H_n-\{x\})\to\tilde H_{n-1}(\mathcal H_n)\to\cdots
+\begin{aligned}
+\cdots\to\tilde H_n(\mathcal H_n-\{x\})\to\tilde H_n(\mathcal H_n)&\to H_n(\mathcal H_n,\mathcal H_n-\{x\})\\
+&\to\tilde H_{n-1}(\mathcal H_n-\{x\})\to\tilde H_{n-1}(\mathcal H_n)\to\cdots
+\end{aligned}
 \]
 Por lo tanto, $H_n(\mathcal H_n,\mathcal H_n-\{x\})=0$.
 
@@ -3731,8 +3777,10 @@ F(x_1,\dots,x_n)=\left[x_1,\dots,x_n,\sqrt{1-\sum_{i=1}^nx_i^2}\right].
 \]
 Si consideramos $F|_{D^n-S^{n-1}}$, su inversa está dada por
 \[
-F':\RR P^n-\RR P^{n-1}\to D^n-S^{n-1}, \qquad
-[x_1,\dots,x_{n+1}]\mapsto\frac{x_{n+1}}{\sqrt{\sum_{i=1}^n(x_ix_{n+1})^2}}(x_1,\dots,x_n).
+\begin{aligned}
+F':\RR P^n-\RR P^{n-1}&\to D^n-S^{n-1}, \\
+[x_1,\dots,x_{n+1}]&\mapsto\frac{x_{n+1}}{\sqrt{\sum_{i=1}^n(x_ix_{n+1})^2}}(x_1,\dots,x_n).
+\end{aligned}
 \]
 Se sigue que $\RR P^n\cong\RR P^{n-1}\cup_{F|_{S^{n-1}}}D^n$.
 \item Por inducción sobre $n$. Para $n=0$, $\CC P^n=\{*\}$ es un complejo
@@ -3745,8 +3793,10 @@ D^{2n} \arrow[r,swap,"F"] & \CC P^n
 \]
 Defínase,
 \[
-F:(D^{2n},S^{2n-1})\to(\CC P^n,\CC P^{n-1}), \qquad
-(x_1,\dots,x_{2n})\mapsto\left[x_1+ix_2,\dots,x_{2n-1}+ix_{2n},\sqrt{1-\sum_{i=1}^{2n}x_i^2}\right].
+\begin{aligned}
+F:(D^{2n},S^{2n-1})&\to(\CC P^n,\CC P^{n-1}), \\
+(x_1,\dots,x_{2n})&\mapsto\left[x_1+ix_2,\dots,x_{2n-1}+ix_{2n},\sqrt{1-\sum_{i=1}^{2n}x_i^2}\right].
+\end{aligned}
 \]
 Definimos la inversa de $F$ como
 \[
@@ -3806,7 +3856,10 @@ tanto, $\{A,B\}$ es escisiva.
 
 Se tiene la sucesión de Mayer--Vietoris:
 \[
-\cdots\to H_q(\{*\},\{*\})\to H_q(A,\{*\})\oplus H_q(S_1,\{*\})\to H_q(X,\{*\})\to H_{q-1}(\{*\},\{*\})\to\cdots
+\begin{aligned}
+\cdots\to H_q(\{*\},\{*\})\to H_q(A,\{*\})\oplus H_q(S_1,\{*\})&\to H_q(X,\{*\})\\
+&\to H_{q-1}(\{*\},\{*\})\to\cdots
+\end{aligned}
 \]
 Por lo tanto, se tiene el isomorfismo
 $H_q\left(\bigvee_{n-1}S^1,\{*\}\right)\oplus H_q(S^1,\{*\})\cong H_q\left(\bigvee_nS^1,\{*\}\right)$.
@@ -3839,8 +3892,10 @@ $q\ne1,2$
 \item $\tilde H_1(S^1\times S^1)\cong\tilde H_1(S^1\vee S^1)/\im f_*\cong\ZZ\oplus\ZZ/\im f_*$
 en donde $f_*:\tilde H_1(S^1)\to\tilde H_1(S^1\vee S^1)$. Sean
 \[
-i_1:S^1\to S^1\vee S^1, \qquad z\mapsto(z,1), \qquad\qquad
-i_2:S^1\to S^1\vee S^1, \qquad z\mapsto(1,z).
+\begin{aligned}
+i_1&:S^1\to S^1\vee S^1, \qquad z\mapsto(z,1),\\
+i_2&:S^1\to S^1\vee S^1, \qquad z\mapsto(1,z).
+\end{aligned}
 \]
 Los generadores de $H_1(S^1\vee S^1)$ son $i_{1*}[e]$ y $i_{2*}$. Denotemos
 $i_{1*}[e]=[\alpha]$ y $i_{2*}=[\beta]$ con $\alpha(t)=(e^{2\pi it},1)$ y
@@ -3851,10 +3906,12 @@ a(t)=(t,0), \qquad b(t)=(1,t), \qquad c(t)=(1-t,1), \qquad d(t)=(0,1-t).
 \]
 Así las cosas,
 \[
-f_*[a+b+c+d]=[f\circ a]+[f\circ b]+[f\circ c]+[f\circ d]
-=[\alpha]+[\beta]+[\overline\alpha]+[\overline\beta]
-=[\alpha]+[\beta]-[\alpha]-[\beta]
-=0,
+\begin{aligned}
+f_*[a+b+c+d]&=[f\circ a]+[f\circ b]+[f\circ c]+[f\circ d]\\
+&=[\alpha]+[\beta]+[\overline\alpha]+[\overline\beta]\\
+&=[\alpha]+[\beta]-[\alpha]-[\beta]\\
+&=0,
+\end{aligned}
 \]
 en donde usamos el ejercicio 14. Por lo tanto,
 $H_1(S^1\times S^1)\cong\ZZ\oplus\ZZ$.
@@ -3884,9 +3941,11 @@ d_2(e_1^2)=e_1^1+e_2^1-e_1^1-e_2^1=0.
 \]
 Por lo tanto, $d_1$ y $d_2$ son los mapeos cero. Finalmente,
 \[
-H_0(\mathbb T^2)=\mathcal C_0/\im d_1=\ZZ; \qquad
-H_1(\mathbb T^2)=\ker d_1/\im d_2\cong\mathcal C_1/\im d_2=\ZZ\oplus\ZZ; \qquad
-H_2(\mathbb T^2)=\ker d_2/\im d_3=\ZZ.
+\begin{aligned}
+H_0(\mathbb T^2)&=\mathcal C_0/\im d_1=\ZZ; \\
+H_1(\mathbb T^2)&=\ker d_1/\im d_2\cong\mathcal C_1/\im d_2=\ZZ\oplus\ZZ; \\
+H_2(\mathbb T^2)&=\ker d_2/\im d_3=\ZZ.
+\end{aligned}
 \]
 En resumen,
 \[
@@ -3954,7 +4013,10 @@ Entonces $\sum_{i=1}^r(-1)^{i+1}\ran(A_i)=0$.
 
 En nuestro caso, considérese la sucesión
 \[
-0\to\cdots\to H_q(A;\ZZ)\to H_q(X;\ZZ)\to H_q(X,A;\ZZ)\to H_{q-1}(A;\ZZ)\to\cdots\to H_0(X,A;\ZZ)\to0
+\begin{aligned}
+0\to\cdots\to H_q(A;\ZZ)\to H_q(X;\ZZ)&\to H_q(X,A;\ZZ)\\
+&\to H_{q-1}(A;\ZZ)\to\cdots\to H_0(X,A;\ZZ)\to0
+\end{aligned}
 \]
 Por lo anterior, $\pm\beta(X)\pm\beta(A)\pm\beta(X,A)=0$. De aquí, se
 sigue que $\beta(X,A)=\beta(X)-\beta(A)$.
@@ -3964,10 +4026,12 @@ H_q(S^n;R)=\begin{cases}R\oplus R & q=n=0\\ R & 0=q<n\\ 0 & 0<q<n\\ R & 0<q=n\\ 
 \]
 Entonces,
 \[
-\beta(S^n)=\sum_{q\ge0}(-1)^q\ran(H_q(S^n;\ZZ))
-=\ran(H_0(S^n;\ZZ))+\sum_{q=1}^{n-1}(-1)^q\ran(H_q(S^n;\ZZ))+(-1)^n\ran(H_n(S^n;\ZZ))
-=\begin{cases}1+(-1)^n & n>0\\2 & n=0\end{cases}
-=1+(-1)^n.
+\begin{aligned}
+\beta(S^n)&=\sum_{q\ge0}(-1)^q\ran(H_q(S^n;\ZZ))\\
+&=\ran(H_0(S^n;\ZZ))+\sum_{q=1}^{n-1}(-1)^q\ran(H_q(S^n;\ZZ))+(-1)^n\ran(H_n(S^n;\ZZ))\\
+&=\begin{cases}1+(-1)^n & n>0\\2 & n=0\end{cases}\\
+&=1+(-1)^n.
+\end{aligned}
 \]
 \item Sabemos que $F:(D^n,S^{n-1})\to(Z,Y)$ induce
 $F_*:H_q(D^n,S^{n-1};\ZZ)\overset{\cong}{\to}H_q(Z,Y;\ZZ)\ \forall q$. Por
@@ -3996,14 +4060,16 @@ $\chi(K_1)=\beta(|K_1|)=\beta(|K_2|)\cong\chi(K_2)$.
 \item Tenemos que $\RR P^n=\RR P^{n-1}\cup_fD^n$ en donde
 $f:S^{n-1}\to\RR P^{n-1}$. Ya que $\RR P^n$ es complejo CW finito,
 \[
-\chi(\RR P^n)=\beta(\RR P^n)=\beta(\RR P^{n-1})+(-1)^n
-=\beta(\RR P^{n-2})+(-1)^{n-1}+(-1)^n
-=\beta(\RR P^{n-3})+(-1)^{n-2}+(-1)^{n-1}+(-1)^n
-=\cdots
-=\beta(\RR P^{n-(n-1)})+(-1)^{n-(n-2)}+\cdots+(-1)^{n-1}+(-1)^n
-=\beta(S^1)+\sum_{j=2}^n(-1)^j
-=\sum_{j=2}^n(-1)^j
-=1+\sum_{j=3}^{n-1}(-1)^j+(-1)^n.
+\begin{aligned}
+\chi(\RR P^n)&=\beta(\RR P^n)=\beta(\RR P^{n-1})+(-1)^n\\
+&=\beta(\RR P^{n-2})+(-1)^{n-1}+(-1)^n\\
+&=\beta(\RR P^{n-3})+(-1)^{n-2}+(-1)^{n-1}+(-1)^n\\
+&=\cdots\\
+&=\beta(\RR P^{n-(n-1)})+(-1)^{n-(n-2)}+\cdots+(-1)^{n-1}+(-1)^n\\
+&=\beta(S^1)+\sum_{j=2}^n(-1)^j\\
+&=\sum_{j=2}^n(-1)^j\\
+&=1+\sum_{j=3}^{n-1}(-1)^j+(-1)^n.
+\end{aligned}
 \]
 Obsérvese que si $n$ es par, entonces $n-1$ es impar. Por lo tanto, la suma
 en la ecuación anterior contiene $n-3$ términos. Esto es, un número impar
@@ -4020,13 +4086,15 @@ $\chi(\RR P^n)=1+0+(-1)^n=0$. En resumen,
 \item Tenemos que $\CC P^n=\CC P^{n-1}\cup_fD^{2n}$ en donde
 $f:S^{2n-1}\to\CC P^{n-1}$. Ya que $\CC P^n$ es un complejo CW finito,
 \[
-\chi(\CC P^n)=\beta(\CC P^n)=\beta(\CC P^{n-1})+(-1)^{2n}
-=\beta(\CC P^{n-2})+(-1)^{2(n-1)}+(-1)^{2n}
-=\cdots
-=\beta(\CC P^{n-(n-1)})+(-1)^{2(n-(n-2))}+\cdots+(-1)^{2n}
-=\beta(S^2)+\sum_{j=2}^n(-1)^{2j}
-=2+(n-1)
-=n+1.
+\begin{aligned}
+\chi(\CC P^n)&=\beta(\CC P^n)=\beta(\CC P^{n-1})+(-1)^{2n}\\
+&=\beta(\CC P^{n-2})+(-1)^{2(n-1)}+(-1)^{2n}\\
+&=\cdots\\
+&=\beta(\CC P^{n-(n-1)})+(-1)^{2(n-(n-2))}+\cdots+(-1)^{2n}\\
+&=\beta(S^2)+\sum_{j=2}^n(-1)^{2j}\\
+&=2+(n-1)\\
+&=n+1.
+\end{aligned}
 \]
 \item Tenemos que $T_g=\bigvee_{2g}S^1\cup_fD^2$. Ya que $T_g$ es un
 complejo CW finito, se tiene que
@@ -4132,22 +4200,28 @@ composición $q\varphi$ es entonces $1+(-1)^k$.
 
 De esta manera,
 \[
-0\to R\xrightarrow{2}R\xrightarrow{0}R\xrightarrow{2}\cdots\xrightarrow{0}R\xrightarrow{2}R\xrightarrow{0}R\to0; \qquad
-0\to R\xrightarrow{0}R\xrightarrow{2}R\xrightarrow{0}R\xrightarrow{2}\cdots\xrightarrow{0}R\xrightarrow{2}R\to0
+\begin{aligned}
+0&\to R\xrightarrow{2}R\xrightarrow{0}R\xrightarrow{2}\cdots\xrightarrow{0}R\xrightarrow{2}R\xrightarrow{0}R\to0;\\
+0&\to R\xrightarrow{0}R\xrightarrow{2}R\xrightarrow{0}R\xrightarrow{2}\cdots\xrightarrow{0}R\xrightarrow{2}R\to0
+\end{aligned}
 \]
 Obsérvese que,
 \[
-H_0(\RR P^n)=\ker d_0/\im d_1=R; \qquad
-H_1(\RR P^n)=\ker d_1/\im d_2=R/2R; \qquad
-H_2(\RR P^n)=\ker d_2/\im d_3=R_2; \qquad
-H_3(\RR P^n)=\ker d_3/\im d_4=R/2R;
+\begin{aligned}
+H_0(\RR P^n)&=\ker d_0/\im d_1=R; \\
+H_1(\RR P^n)&=\ker d_1/\im d_2=R/2R; \\
+H_2(\RR P^n)&=\ker d_2/\im d_3=R_2; \\
+H_3(\RR P^n)&=\ker d_3/\im d_4=R/2R;
+\end{aligned}
 \]
 \[
 \vdots
 \]
 \[
-H_{2j}(\RR P^{2j})=\ker d_{2j}/\im d_{2j+1}=R_2; \qquad
-H_{2j+1}(\RR P^{2j+1})=\ker d_{2j+1}/\im d_{2j+2}=R.
+\begin{aligned}
+H_{2j}(\RR P^{2j})&=\ker d_{2j}/\im d_{2j+1}=R_2; \\
+H_{2j+1}(\RR P^{2j+1})&=\ker d_{2j+1}/\im d_{2j+2}=R.
+\end{aligned}
 \]
 Por lo tanto,
 \[
@@ -4155,9 +4229,12 @@ H_q(\RR P^n)=\begin{cases}R & q=0\text{ o }q=n\text{ impar}\\ R/2R & q\text{ imp
 \]
 \item \textbf{Cálculo de $\chi(\RR P^n)$.} Nótese que $\ZZ_2=0$.
 \[
-\chi(\RR P^n)=\sum_{q\ge0}(-1)^q\ran\big(H_q(\RR P^n;\ZZ)\big)
-=\ran(H_0(\RR P^n;\ZZ))+\sum_{j=0}^{[\frac{n-1}2]-1}(-1)^{2j+1}\ran\big(H_{2j+1}(\RR P^n;\ZZ)\big)+(-1)\ran\big(H_{2j+1}(\RR P^n;\ZZ)\big)
-=\begin{cases}1 & n\text{ par}\\0 & \text{si no.}\end{cases}
+\begin{aligned}
+\chi(\RR P^n)&=\sum_{q\ge0}(-1)^q\ran\big(H_q(\RR P^n;\ZZ)\big)\\
+&=\ran(H_0(\RR P^n;\ZZ))+\sum_{j=0}^{[\frac{n-1}2]-1}(-1)^{2j+1}\ran\big(H_{2j+1}(\RR P^n;\ZZ)\big)\\
+&\qquad+(-1)\ran\big(H_{2j+1}(\RR P^n;\ZZ)\big)\\
+&=\begin{cases}1 & n\text{ par}\\0 & \text{si no.}\end{cases}
+\end{aligned}
 \]
 \end{itemize}
 \item \textbf{Tres incisos~\ref{thm:tres-incisos}.} Por inducción sobre
@@ -4171,7 +4248,10 @@ Teorema~\ref{thm:tres-incisos}:
 \begin{enumerate}[label=\arabic*)]
 \item $\tilde H_q(\CC P^n)\cong\tilde H_q(\CC P^{n-1})$, $q\ne2n,2n-1$.
 \item $\tilde H_{2n-1}(\CC P^n)\cong\tilde H_{2n-1}(\CC P^{n-1})/\im f_*$,
-en donde $f_*:\tilde H_{2n-1}(S^{2n-1})\to\tilde H_{2n-1}(\CC P^{n-1})=0$
+en donde
+\[
+f_*:\tilde H_{2n-1}(S^{2n-1})\to\tilde H_{2n-1}(\CC P^{n-1})=0
+\]
 \item $0\to\tilde H_{2n}(\CC P^{n-1})=0\to\tilde H_{2n}(\CC P^n)\xrightarrow{\cong}\ker f_*\cong\tilde H_{2n-1}(S^{2n-1})\cong R$
 \end{enumerate}
 \begin{itemize}
@@ -4234,9 +4314,11 @@ d_2(e^2)=\sum_\beta d_{\alpha\beta}e^1_\beta
 \]
 Por lo tanto, $d_1=d_2=0$.
 \[
-H_0(T_g)=\ker d_0/\im d_1=R/0=R; \qquad
-H_1(T_g)=\ker d_1/\im d_2=R^{2g}; \qquad
-H_2(T_g)=\ker d_2/\im d_3=R/0=R.
+\begin{aligned}
+H_0(T_g)&=\ker d_0/\im d_1=R/0=R; \\
+H_1(T_g)&=\ker d_1/\im d_2=R^{2g}; \\
+H_2(T_g)&=\ker d_2/\im d_3=R/0=R.
+\end{aligned}
 \]
 Finalmente,
 \[
@@ -4294,7 +4376,10 @@ d_2(e^2)=2\big(e_{a_1}+\cdots+e_{a_g}\big).
 \]
 Entonces,
 \[
-H_0(P_g)=\ker d_0/\im d_1=R; \qquad H_1(P_g)=\ker d_1/\im d_2=R^g/2R; \qquad H_2(P_g)=\ker d_2/\im d_3=R_2.
+\begin{aligned}
+H_0(P_g)&=\ker d_0/\im d_1=R; \qquad H_1(P_g)=\ker d_1/\im d_2=R^g/2R;\\
+&H_2(P_g)=\ker d_2/\im d_3=R_2.
+\end{aligned}
 \]
 En resumen,
 \[
@@ -4440,8 +4525,10 @@ $\pi_1(\RR^3-f(S^1),*)^{\mathrm{ab}}\cong\ZZ$.
 \begin{enumerate}[label=\alph*)]
 \item Sea $Z=\RR^{n+1}-A$. Sean
 \[
-Z_+=\{(x,r)\in\RR^n\times\RR\mid r>0\text{ o }x\in\RR^n-A\}, \qquad
-Z_-=\{(x,r)\in\RR^n\times\RR\mid r<0\text{ o }x\in\RR^n-A\}.
+\begin{aligned}
+Z_+&=\{(x,r)\in\RR^n\times\RR\mid r>0\text{ o }x\in\RR^n-A\},\\
+Z_-&=\{(x,r)\in\RR^n\times\RR\mid r<0\text{ o }x\in\RR^n-A\}.
+\end{aligned}
 \]
 Se tiene que $Z_+$ y $Z_-$ son abiertos en $Z$ y, además, $Z=Z_+\cup Z_-$ y
 $Z_+\cap Z_-=(\RR^n-A)\times\RR$. Sea $\mathcal H_1=\{(x,1)\in\RR^{n+1}\}$.
@@ -4456,7 +4543,10 @@ contraíble. De la misma manera, $Z_-$ es contraíble.
 
 Se tiene la sucesión de Mayer--Vietoris:
 \[
-\cdots\to\tilde H_{q+1}(Z)\to\tilde H_q(Z_+\cap Z_-)\to\tilde H_q(Z_+)\oplus\tilde H_q(Z_-)\to\tilde H_q(Z)\xrightarrow{\cong}\tilde H_{q-1}(Z_+\cap Z_-)\to0
+\begin{aligned}
+\cdots\to\tilde H_{q+1}(Z)\to\tilde H_q(Z_+\cap Z_-)\to\tilde H_q(Z_+)\oplus\tilde H_q(Z_-)&\to\tilde H_q(Z)\\
+&\xrightarrow{\cong}\tilde H_{q-1}(Z_+\cap Z_-)\to0
+\end{aligned}
 \]
 Por lo tanto, se sigue el isomorfismo
 \[
@@ -4837,7 +4927,10 @@ libre). Aplicando $\Hom(-,G)$ a
 $0\to B_q\xrightarrow{\iota_q}Z_q\to H_q(X;\ZZ)\to0$ se obtiene la
 sucesión exacta larga de Ext,
 \[
-0\to\Hom(H_q(X;\ZZ),G)\to\Hom(Z_q,G)\xrightarrow{\iota_q^*}\Hom(B_q,G)\to\mathrm{Ext}^1_\ZZ(H_q(X;\ZZ),G)\to\mathrm{Ext}^1_\ZZ(Z_q,G)=0
+\begin{aligned}
+0\to\Hom(H_q(X;\ZZ),G)\to\Hom(Z_q,G)&\xrightarrow{\iota_q^*}\Hom(B_q,G)\\
+&\to\mathrm{Ext}^1_\ZZ(H_q(X;\ZZ),G)\to\mathrm{Ext}^1_\ZZ(Z_q,G)=0
+\end{aligned}
 \]
 (el último término se anula porque $Z_q$, siendo libre, es proyectivo).
 De aquí,
@@ -5384,8 +5477,11 @@ abelianos.
 
 \begin{proof}
 Inmediato: las fórmulas del Corolario~\ref{cor:homologia-lente} y del
-Teorema~\ref{thm:cohomologia-lente} para $H_q(L_m(\ell_1,\dots,\ell_n);\ZZ)$
-y $H^q(L_m(\ell_1,\dots,\ell_n);\ZZ)$ dependen únicamente de $m$ y de $n$
+Teorema~\ref{thm:cohomologia-lente} para
+\[
+H_q(L_m(\ell_1,\dots,\ell_n);\ZZ) \qquad\text{y}\qquad H^q(L_m(\ell_1,\dots,\ell_n);\ZZ)
+\]
+dependen únicamente de $m$ y de $n$
 (equivalentemente, de la dimensión $2n-1$), sin mencionar en absoluto los
 parámetros $\ell_1,\dots,\ell_n$; dos espacios lente con el mismo $m$ y la
 misma dimensión producen así, término a término, los mismos grupos.
@@ -5462,7 +5558,7 @@ cohomología singular) y su análogo en de Rham (Ejercicio 6 de esta
 sección), comparados por el \emph{lema de los cinco} vía las
 transformaciones naturales $I$ en cada término:
 \[
-\begin{tikzcd}
+\begin{tikzcd}[column sep=small]
 H^{k-1}_{\mathrm{dR}}(U\cap V) \arrow[r] \arrow[d,"I","\cong"'] & H^k_{\mathrm{dR}}(U\cup V) \arrow[r] \arrow[d,"I"] & H^k_{\mathrm{dR}}(U)\oplus H^k_{\mathrm{dR}}(V) \arrow[r] \arrow[d,"I","\cong"'] & H^k_{\mathrm{dR}}(U\cap V) \arrow[d,"I","\cong"'] \\
 H^{k-1}(U\cap V;\RR) \arrow[r] & H^k(U\cup V;\RR) \arrow[r] & H^k(U;\RR)\oplus H^k(V;\RR) \arrow[r] & H^k(U\cap V;\RR)
 \end{tikzcd}
@@ -5544,8 +5640,10 @@ H^0\cong\Hom(\ZZ,\ZZ)=\ZZ, \qquad
 H^1\cong\Hom(\ZZ/m\ZZ,\ZZ)\oplus\mathrm{Ext}^1(\ZZ,\ZZ)=0\oplus0=0,
 \]
 \[
-H^2\cong\Hom(0,\ZZ)\oplus\mathrm{Ext}^1(\ZZ/m\ZZ,\ZZ)=0\oplus\ZZ/m\ZZ=\ZZ/m\ZZ, \qquad
-H^3\cong\Hom(\ZZ,\ZZ)\oplus\mathrm{Ext}^1(0,\ZZ)=\ZZ\oplus0=\ZZ.
+\begin{aligned}
+H^2&\cong\Hom(0,\ZZ)\oplus\mathrm{Ext}^1(\ZZ/m\ZZ,\ZZ)=0\oplus\ZZ/m\ZZ=\ZZ/m\ZZ,\\
+H^3&\cong\Hom(\ZZ,\ZZ)\oplus\mathrm{Ext}^1(0,\ZZ)=\ZZ\oplus0=\ZZ.
+\end{aligned}
 \]
 Esto coincide con el Corolario~\ref{cor:cohomologia-lente-3d}.
 \item Con $R=\ZZ/m\ZZ$: $\mathrm{Ext}^1(\ZZ/m\ZZ,\ZZ/m\ZZ)\cong\ZZ/m\ZZ$ y
@@ -5646,8 +5744,10 @@ y $H_2(K;\ZZ)=0$. Dualizando, $\delta^0=0$ y $\delta^1:\ZZ^2\to\ZZ$ es la
 funcional $(x,y)\mapsto2x$. Por el T.C.U. (o directamente del complejo
 dual),
 \[
-H^0(K;\ZZ)=\ZZ, \qquad H^1(K;\ZZ)=\ker(\delta^1)=\ZZ, \qquad
-H^2(K;\ZZ)=\mathrm{coker}(\delta^1)\oplus\Hom(H_2,\ZZ)\cong\ZZ/2\ZZ.
+\begin{aligned}
+H^0(K;\ZZ)&=\ZZ, \qquad H^1(K;\ZZ)=\ker(\delta^1)=\ZZ,\\
+H^2(K;\ZZ)&=\mathrm{coker}(\delta^1)\oplus\Hom(H_2,\ZZ)\cong\ZZ/2\ZZ.
+\end{aligned}
 \]
 Es decir, $H^2(K;\ZZ)\cong\ZZ/2\ZZ$ --- \textbf{no} $0$: la torsión de
 $H_1(K;\ZZ)=\ZZ\oplus\ZZ/2\ZZ$ reaparece, desplazada un grado, en
