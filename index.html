@@ -663,10 +663,7 @@
                 <li>Undergraduate advisor for Fernando Flores Tiburcio (Facultad de Ciencias, UNAM): almost coherent sheaves on compact Riemann surfaces (honorable mention, 2023)</li>
                 <li>Undergraduate advisor for Mart&iacute;n Rodolfo Garc&iacute;a Barrera (UNAM, 2025&ndash;2026): optimal high-dimensional covariance-matrix estimation via random matrix theory (Marchenko&ndash;Pastur cleaning and nonlinear shrinkage) and its application to portfolio optimization</li>
                 <li>Thesis co-advisor (with Laura Jim&eacute;nez Casillas) for Daniela Cojab Mizrahi (Universidad Panamericana, 2026&ndash;): AI-driven homogenization and fragility in equity markets, comparing developed and emerging markets, and its bearing on human displacement</li>
-                <li>Joint work with Gabriel Villafuerte C. (Facultad de Estudios Superiores Acatl&aacute;n, UNAM, 2026): <a href="https://github.com/IvliCaesar/Galindo-C.-J.-y-Villafuerte-C.-G.-2026-.-SIAMDA" target="_blank" rel="noreferrer">SIAMDA</a> (Sistema Integrado de An&aacute;lisis Multiresoluci&oacute;n y Desempe&ntilde;o Acad&eacute;mico) &mdash; a Streamlit tool that builds a per-student sentiment index from open-ended course survey responses via token-position wavelet decomposition, paired with an explicit Fisher information/Cram&eacute;r&ndash;Rao efficiency check; MIT-licensed, 22 automated tests under CI, with a sensitivity analysis (sample size,
-wavelet family, decomposition level) that caught and fixed a real interface bug. Companion
-technical note: <a href="galindo_villafuerte.pdf" target="_blank" rel="noreferrer">Spanish</a> /
-<a href="galindo_villafuerte_en.pdf" target="_blank" rel="noreferrer">English</a></li>
+                <li>Joint work with Gabriel Villafuerte C. (Facultad de Estudios Superiores Acatl&aacute;n, UNAM, 2026): SIAMDA, a wavelet-based sentiment index for academic early warning &mdash; see <em>Other Research Programs</em>, below</li>
               </ul>
               <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">Thesis committee (sinodal)</p>
               <ul>
@@ -883,6 +880,25 @@ technical note: <a href="galindo_villafuerte.pdf" target="_blank" rel="noreferre
                   <li>Robust to a dynamic DCC&ndash;GARCH benchmark and to the heavy-tailed (non-Gaussian) returns actually present in the data</li>
                   <li>Extends beyond the minimum-variance portfolio to a CAPM-anchored efficient frontier and a Black&ndash;Litterman equilibrium posterior</li>
                   <li>Connects, via Dyson Brownian motion, to a proposed continuous-time bridge between static spectral cleaning and dynamic correlation models</li>
+                </ul>
+              </article>
+
+              <article class="card mt-lg">
+                <h2>SIAMDA: Wavelet-Based Sentiment Index for Academic Early Warning
+                  <span class="h2-links">
+                    <a class="h2-link" href="galindo_villafuerte.pdf" target="_blank" rel="noreferrer">&#8599; Paper (ES)</a>
+                    <a class="h2-link" href="galindo_villafuerte_en.pdf" target="_blank" rel="noreferrer">&#8599; Paper (EN)</a>
+                    <a class="h2-link" href="https://github.com/IvliCaesar/Galindo-C.-J.-y-Villafuerte-C.-G.-2026-.-SIAMDA" target="_blank" rel="noreferrer">&#8599; Code</a>
+                  </span>
+                </h2>
+                <p class="card-intro">
+                  Joint work with Gabriel Villafuerte C. (Facultad de Estudios Superiores Acatl&aacute;n, UNAM, 2026). Most course-feedback dashboards turn open-ended survey text into a sentiment score without stating what, if anything, guarantees that score is statistically meaningful. SIAMDA is an open-source Streamlit tool that builds a per-student sentiment index from survey responses&mdash;via token-position wavelet decomposition rather than the more common (and less justified) decomposition over embedding coordinates&mdash;and pairs it with an explicit efficiency check (Fisher information, the Cram&eacute;r&ndash;Rao bound under Gaussian and Laplacian models) that states plainly what it does and does not certify.
+                </p>
+                <ul>
+                  <li>Sentiment index built by projecting each token&rsquo;s contextual embedding onto the response&rsquo;s sentence embedding, then applying the discrete wavelet transform over token position&mdash;an axis with genuine sequential structure, unlike the embedding&rsquo;s own coordinates</li>
+                  <li>Explicit statistical validation layer (Fisher information, Cram&eacute;r&ndash;Rao bound, Shapiro&ndash;Wilk normality test, bootstrap variance) with a documented finding: under the Gaussian model the efficiency check is close to tautological (&asymp;100% even when the sample rejects normality), a distinction the software&rsquo;s own interface used to overclaim and now states correctly</li>
+                  <li>Sensitivity analysis (sample size, wavelet family, decomposition level) that caught and fixed a real interface bug: for realistically short survey responses, the decomposition-level parameter silently had no effect</li>
+                  <li>MIT-licensed, 22 automated tests under continuous integration, companion technical notes in Spanish and English, and a JOSS submission draft</li>
                 </ul>
               </article>
 
