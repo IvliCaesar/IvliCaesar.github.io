@@ -846,15 +846,20 @@
                 </article>
 
                 <article class="card">
-                  <h2>Breast-Cancer Gene-Panel Design: Fisher Information and Random Matrix Theory</h2>
+                  <h2>Breast-Cancer Gene-Panel Design: Fisher Information and Random Matrix Theory
+                    <span class="h2-links">
+                      <a class="h2-link" href="Galindo_Reflectance_Inverse_Design.pdf" target="_blank" rel="noreferrer">&#8599; Paper</a>
+                      <a class="h2-link" href="Galindo_Reflectance_Inverse_Design.tex" target="_blank" rel="noreferrer">&#8599; LaTeX Source</a>
+                    </span>
+                  </h2>
                   <p class="card-intro">
-                    Extends the D-optimal experimental-design framework of <em>RGB&ndash;LED Sensor Fusion</em> (above) from spectral-reflectance channel selection to fixed-budget probe/gene-panel design in computational genomics, with the breast-cancer framing developed in discussion with <a href="https://csbig.inmegen.gob.mx/about/" target="_blank" rel="noreferrer">Enrique Hern&aacute;ndez&ndash;Lemus</a> (Computational Systems Biology and Integrative Genomics Lab, Instituto Nacional de Medicina Gen&oacute;mica).
+                    Extends the D-optimal experimental-design framework of <em>RGB&ndash;LED Sensor Fusion</em> (above) from spectral-reflectance channel selection to fixed-budget probe/gene-panel design in computational genomics. The breast-cancer application builds directly on six papers by <a href="https://csbig.inmegen.gob.mx/about/" target="_blank" rel="noreferrer">Enrique Hern&aacute;ndez&ndash;Lemus</a> (Computational Systems Biology and Integrative Genomics Lab, Instituto Nacional de Medicina Gen&oacute;mica) on the information theory and network biology of breast-cancer transcriptomics, including a reproduced figure (CC BY 4.0) from his group&rsquo;s chromatin-conformation/gene-expression network study, and was refined in direct discussion with him.
                   </p>
                   <ul>
                     <li>Poses fixed-budget gene-panel selection &mdash; the same design question behind the 21-gene Oncotype DX, 70-gene MammaPrint, and 50-gene PAM50 breast-cancer classifiers, each derived separately &mdash; as the same D-optimal Fisher-information criterion used for optical channel selection</li>
                     <li>Poisson and negative-binomial Fisher information matrices, derived and Monte-Carlo-verified, transfer the D-optimal criterion unchanged to count-valued RNA-seq panels</li>
-                    <li>Connects the Marchenko&ndash;Pastur random-matrix threshold, already used to denoise breast-cancer gene co-expression networks, to which candidate-library sizes the D-optimal criterion can resolve exactly before the asymptotic RMT regime takes over</li>
-                    <li>Relates the exact Gaussian posterior-entropy reduction achieved by the design to the mutual-information feature selection (mRMR, MIFS) and wavelet copy-number denoising already used, separately, in the breast-cancer transcriptomics literature</li>
+                    <li>Connects the Marchenko&ndash;Pastur random-matrix threshold &mdash; used by Gonz&aacute;lez-Espinoza, Zamora-Fuentes, Hern&aacute;ndez&ndash;Lemus &amp; Espinal-Enr&iacute;quez to denoise breast-cancer gene co-expression networks &mdash; to which candidate-library sizes the D-optimal criterion can resolve exactly before the asymptotic RMT regime takes over</li>
+                    <li>Relates the exact Gaussian posterior-entropy reduction achieved by the design to Hern&aacute;ndez&ndash;Lemus&rsquo;s information-theoretical approach to breast-cancer transcriptional regulation, and to the mutual-information feature selection (mRMR, MIFS) and wavelet copy-number denoising used, separately, in the wider transcriptomics literature</li>
                     <li>Developed and proved in full, but honestly scoped: not yet tested against a real, measured breast-cancer expression-profile library</li>
                   </ul>
                 </article>
