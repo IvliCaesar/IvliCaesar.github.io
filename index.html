@@ -887,6 +887,20 @@
               </article>
 
               <article class="card mt-lg">
+                <h2>Electronic-Toll Adoption and Payment Evasion: Disruptive Innovation and Operations Research</h2>
+                <p class="card-intro">
+                  Joint work with Ximena Zamora (undergraduate thesis, Facultad de Ciencias, UNAM, 2027 tentative), testing Christensen&rsquo;s theory of disruptive innovation and the Bass diffusion model against real operational data &mdash; monthly aforo/evasion by toll plaza, electronic-toll adoption series, and capital-expenditure plans &mdash; from a Mexican toll-highway concessionaire (IDEAL).
+                </p>
+                <ul>
+                  <li>A mixed-effects (random-intercept-by-plaza) decomposition of evaded-toll revenue finds an intraclass correlation of 0.938: 93.8% of the variance is a fixed level per toll plaza, with a proved variance-floor proposition showing that no regression, regularized, or tree-based model can predict a never-seen plaza below the sum of the between-plaza and within-plaza variance</li>
+                  <li>Ridge regression, run specifically to test whether regularizing the per-highway fixed effects would help, honestly does not improve on unregularized least squares out-of-sample &mdash; shrinking toward the population mean hurts most exactly where the outlying plazas dominate total evasion</li>
+                  <li>A two-state Markov chain of each plaza&rsquo;s own evasion regime (high/low, split by its own median) finds persistence probabilities barely above chance (0.48&ndash;0.54), consistent with the intraclass-correlation result: what is not a fixed plaza-level effect is largely unstructured month-to-month noise</li>
+                  <li>Nonlinear least-squares fits of the Bass diffusion equation to six electronic-toll adoption series are uniformly poor (negative R&sup2; against each series&rsquo; own mean, in all six), a negative result traced to the observed series already sitting past the diffusion curve&rsquo;s take-off phase, not to a numerical failure of the fit</li>
+                  <li>Recasts capital budgeting across disincentive and lane-expansion projects as a 0/1 knapsack solved exactly by mixed-integer linear programming, with a proved linear-relaxation bound certifying optimality &mdash; the correct analogue of Markowitz portfolio theory once no tradable-asset return series exists in the data</li>
+                </ul>
+              </article>
+
+              <article class="card mt-lg">
                 <h2>SIAMDA: Wavelet-Based Sentiment Index for Academic Early Warning
                   <span class="h2-links">
                     <a class="h2-link" href="https://github.com/IvliCaesar/Galindo-C.-J.-y-Villafuerte-C.-G.-2026-.-SIAMDA" target="_blank" rel="noreferrer">&#8599; Code</a>
