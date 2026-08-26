@@ -1,0 +1,915 @@
+\documentclass[11pt,a4paper,oneside]{article}
+
+% -------------------------------------------------
+% Basic packages
+% -------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=1.18in,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
+\usepackage[capitalize,noabbrev]{cleveref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  citecolor=red!55!black,
+  urlcolor=teal!60!black,
+  pdftitle={Fundamentos de Econometría -- Hoja de ejercicios: MCO},
+  pdfauthor={César Galindo}
+}
+
+% -------------------------------------------------
+% Theorem-like environments
+% -------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{proposicion}[teorema]{Proposición}
+\newtheorem{lema}[teorema]{Lema}
+
+\theoremstyle{definition}
+\newtheorem{exercise}[teorema]{Ejercicio}
+
+% -------------------------------------------------
+% Fancy page and heading style
+% -------------------------------------------------
+\definecolor{econblue}{RGB}{25,62,114}
+\definecolor{econgold}{RGB}{160,120,40}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textsc{Fundamentos de Econometría -- ECO515}}
+\fancyhead[R]{\textsc{César Galindo}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\renewcommand{\footrulewidth}{0pt}
+\titleformat{\section}{\Large\bfseries\color{econblue}}{\thesection.}{0.65em}{}
+\titleformat{\subsection}{\large\bfseries\color{econblue}}{\thesubsection.}{0.65em}{}
+\titlespacing*{\section}{0pt}{1.9em}{1.05em}
+\titlespacing*{\subsection}{0pt}{1.45em}{0.95em}
+\tcbset{colback=white,colframe=econblue!65!black,boxrule=0.5pt,arc=1.5pt}
+\setlength{\parskip}{0.85em}
+\setstretch{1.13}
+\setlength{\parindent}{0pt}
+
+% -------------------------------------------------
+% Pedagogical boxes
+% -------------------------------------------------
+\newtcolorbox{ideaBox}[1][]{enhanced,breakable,colback=blue!2,colframe=econblue,
+  borderline west={1.5pt}{0pt}{econblue},title=Idea central,fonttitle=\bfseries,#1}
+\newtcolorbox{summaryBox}[1][]{enhanced,breakable,colback=gray!4,colframe=black!55,
+  borderline west={1.5pt}{0pt}{black!70},title=Recordatorio,fonttitle=\bfseries,#1}
+\newtcolorbox{warningBox}[1][]{enhanced,breakable,colback=red!2,colframe=red!55!black,
+  borderline west={1.5pt}{0pt}{red!75!black},title=Error frecuente,fonttitle=\bfseries,#1}
+\newtcolorbox{hintBox}[1][]{enhanced,breakable,colback=green!2!white,colframe=green!40!black,
+  borderline west={1.5pt}{0pt}{green!45!black},title=Sugerencia,fonttitle=\bfseries\color{green!40!black},#1}
+
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Corr}{\operatorname{Corr}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\SCR}{\mathrm{SCR}}
+
+\title{\vspace{-1.5cm}\textbf{\Large Fundamentos de Econometría}\\[2pt]
+\large Hoja de ejercicios: Mínimos Cuadrados Ordinarios (MCO)}
+\author{César Galindo\\ \small Universidad Panamericana \textperiodcentered\ Licenciatura en Finanzas \textperiodcentered\ ECO515}
+\date{\small Otoño 2026}
+
+\begin{document}
+\maketitle
+\vspace{-0.8cm}
+\tableofcontents
+\vspace{0.3cm}
+
+\begin{ideaBox}
+Conjunto de ejercicios de práctica sobre MCO en la regresión lineal
+simple $y_i=\beta_0+\beta_1x_i+u_i$, complementario a las notas
+\emph{Suma de variables aleatorias, varianza, covarianza, y la deducción
+de los estimadores de MCO}. Se agrupan en cinco bloques: (I) álgebra y
+deducción, (II) cálculo numérico, (III) interpretación y aplicaciones,
+(IV) preguntas de opción múltiple estilo examen CFA, (V) un reto
+opcional. Varios ejercicios incluyen solución completa; otros se dejan
+propuestos, algunos con sugerencia.
+\end{ideaBox}
+
+\begin{summaryBox}
+Para toda la hoja, $\bar x,\bar y$ son las medias muestrales,
+$S_{xx}=\sum_i(x_i-\bar x)^2$, $S_{yy}=\sum_i(y_i-\bar y)^2$,
+$S_{xy}=\sum_i(x_i-\bar x)(y_i-\bar y)$, y los estimadores de MCO son
+\[
+  \hat\beta_1 = \frac{S_{xy}}{S_{xx}}, \qquad
+  \hat\beta_0 = \bar y - \hat\beta_1\bar x, \qquad
+  \hat u_i = y_i-\hat\beta_0-\hat\beta_1x_i,
+\]
+con $\sum_i \hat u_i=0$ y $\sum_i x_i\hat u_i=0$ (ecuaciones normales).
+\end{summaryBox}
+
+\subsection*{Deducción vía derivadas parciales}
+
+Un camino alternativo a las fórmulas de MCO, complementario al del
+Ejercicio~\ref{ej:sin-calculo} (que no usa cálculo diferencial): aquí se
+usa, y se muestra completo, paso a paso, con las \textbf{dos} formas
+usuales de resolver el sistema $2\times2$ resultante --por la inversa de
+la matriz y por la regla de Cramer-- para que se vea que dan exactamente
+el mismo resultado.
+
+\emph{Paso 1: la función a minimizar.}
+\[
+  \SCR(b_0,b_1)=\sum_{i=1}^n(y_i-b_0-b_1x_i)^2 .
+\]
+
+\emph{Paso 2: derivar cada término y sumar.} Para un término genérico,
+por la regla de la cadena,
+\[
+  \frac{\partial}{\partial b_0}(y_i-b_0-b_1x_i)^2 = 2(y_i-b_0-b_1x_i)(-1),
+  \qquad
+  \frac{\partial}{\partial b_1}(y_i-b_0-b_1x_i)^2 = 2(y_i-b_0-b_1x_i)(-x_i).
+\]
+Sumando sobre $i=1,\dots,n$ (derivar bajo el signo de suma es válido
+porque es una suma finita):
+\[
+  \frac{\partial \SCR}{\partial b_0}=-2\sum_i(y_i-b_0-b_1x_i), \qquad
+  \frac{\partial \SCR}{\partial b_1}=-2\sum_ix_i(y_i-b_0-b_1x_i).
+\]
+
+\emph{Paso 3: condiciones de primer orden.} Igualando ambas derivadas a
+cero en $(b_0,b_1)=(\hat\beta_0,\hat\beta_1)$ y dividiendo entre $-2$:
+\[
+  \sum_i(y_i-\hat\beta_0-\hat\beta_1x_i)=0, \qquad
+  \sum_ix_i(y_i-\hat\beta_0-\hat\beta_1x_i)=0.
+\]
+
+\emph{Paso 4: distribuir la suma y agrupar las incógnitas a la
+izquierda.} Distribuyendo cada suma y separando los términos con
+$\hat\beta_0,\hat\beta_1$ de los que no los tienen:
+\[
+  \sum_iy_i-n\hat\beta_0-\hat\beta_1\sum_ix_i=0
+  \;\Longrightarrow\;
+  n\,\hat\beta_0 + \Big(\sum_ix_i\Big)\hat\beta_1 = \sum_iy_i,
+\]
+\[
+  \sum_ix_iy_i-\hat\beta_0\sum_ix_i-\hat\beta_1\sum_ix_i^2=0
+  \;\Longrightarrow\;
+  \Big(\sum_ix_i\Big)\hat\beta_0+\Big(\sum_ix_i^2\Big)\hat\beta_1=\sum_ix_iy_i.
+\]
+Dos ecuaciones lineales en las dos incógnitas $\hat\beta_0,\hat\beta_1$.
+
+\emph{Paso 5: forma matricial.} Con $\mathbf b=(\hat\beta_0,\hat\beta_1)^\top$,
+el sistema del Paso 4 es $A\mathbf b=\mathbf c$ con
+\[
+  A=\begin{pmatrix} n & \displaystyle\sum_ix_i \\[4pt]
+  \displaystyle\sum_ix_i & \displaystyle\sum_ix_i^2\end{pmatrix}, \qquad
+  \mathbf c=\begin{pmatrix}\displaystyle\sum_iy_i\\[4pt] \displaystyle\sum_ix_iy_i\end{pmatrix}
+\]
+($A$ es simétrica: la entrada fuera de la diagonal, $\sum_ix_i$, es la
+misma arriba a la derecha y abajo a la izquierda, porque viene de la
+misma suma cruzada en ambas ecuaciones del Paso 4).
+
+\emph{Paso 6: la identidad de suma de cuadrados, y $\det A$.} Antes de
+calcular $\det A$ conviene tener a mano la identidad que conecta la suma
+``cruda'' $\sum_ix_i^2$ con $S_{xx}$. Partiendo de la definición
+$S_{xx}=\sum_i(x_i-\bar x)^2$ y expandiendo el cuadrado:
+\[
+  S_{xx}=\sum_i(x_i-\bar x)^2 = \sum_i\big(x_i^2-2x_i\bar x+\bar x^2\big)
+  = \sum_ix_i^2 - 2\bar x\sum_ix_i + \sum_i\bar x^2 .
+\]
+El último término es $n\bar x^2$ ($\bar x^2$ sumado $n$ veces, una por
+cada $i$), y como $\bar x=\frac1n\sum_ix_i$ se tiene
+$\sum_ix_i=n\bar x$, así que el término de en medio es
+$2\bar x(n\bar x)=2n\bar x^2$. Sustituyendo ambos:
+\[
+  S_{xx} = \sum_ix_i^2 - 2n\bar x^2+n\bar x^2 = \sum_ix_i^2-n\bar x^2 .
+\]
+Falta escribir $n\bar x^2$ en términos de $\sum_ix_i$: sustituyendo
+$\bar x=\frac1n\sum_ix_i$,
+\[
+  n\bar x^2 = n\Big(\frac1n\sum_ix_i\Big)^{\!2}
+  = n\cdot\frac{1}{n^2}\Big(\sum_ix_i\Big)^2
+  = \frac{n}{n^2}\Big(\sum_ix_i\Big)^2
+  = \frac1n\Big(\sum_ix_i\Big)^2
+\]
+(el factor $n/n^2$ se simplifica a $1/n$, cancelando una $n$ arriba y
+abajo). Sustituyendo de vuelta:
+\[
+  S_{xx} = \sum_ix_i^2 - \frac{(\sum_ix_i)^2}{n}. \tag{$\star$}
+\]
+Ahora sí, $\det A$: multiplicando \emph{ambos lados} de ($\star$) por
+$n$,
+\[
+  n\,S_{xx} = n\sum_ix_i^2 - n\cdot\frac{(\sum_ix_i)^2}{n}
+  = n\sum_ix_i^2-\frac{n}{n}\Big(\sum_ix_i\Big)^2
+  = n\sum_ix_i^2-\Big(\sum_ix_i\Big)^2
+\]
+(de nuevo $n/n=1$, así que ese factor simplemente desaparece). El lado
+derecho es exactamente $\det A = ps-qr$ para las entradas de $A$ del
+Paso 5 ($p=n$, $s=\sum_ix_i^2$, $q=r=\sum_ix_i$), así que
+\[
+  \det A = n\sum_ix_i^2-\Big(\sum_ix_i\Big)^2 = n\,S_{xx},
+\]
+positivo siempre que $S_{xx}>0$ (es decir, que $x_i$ no sea constante
+--la misma condición que hace a $A$ invertible). A partir de aquí, dos
+caminos igual de válidos para resolver $A\mathbf b=\mathbf c$.
+
+\paragraph{Camino 1: por la inversa de la matriz.}
+
+\emph{Paso 7a: invertir $A$.} Con la fórmula de la inversa de una matriz
+$2\times2$,
+$\begin{psmallmatrix}p&q\\r&s\end{psmallmatrix}^{-1}
+=\dfrac1{ps-qr}\begin{psmallmatrix}s&-q\\-r&p\end{psmallmatrix}$, y
+usando $\det A=nS_{xx}$ del Paso 6:
+\[
+  A^{-1}=\frac1{n\,S_{xx}}
+  \begin{pmatrix}\displaystyle\sum_ix_i^2 & -\displaystyle\sum_ix_i \\[4pt]
+  -\displaystyle\sum_ix_i & n\end{pmatrix}.
+\]
+
+\emph{Paso 8a: $\mathbf b=A^{-1}\mathbf c$.} Multiplicando la matriz por
+el vector $\mathbf c$ del Paso 5, entrada por entrada:
+\[
+  \begin{pmatrix}\hat\beta_0\\\hat\beta_1\end{pmatrix}=A^{-1}\mathbf c
+  =\frac1{n\,S_{xx}}
+  \begin{pmatrix}\Big(\sum_ix_i^2\Big)\Big(\sum_iy_i\Big)-\Big(\sum_ix_i\Big)\Big(\sum_ix_iy_i\Big)\\[6pt]
+  n\displaystyle\sum_ix_iy_i-\Big(\sum_ix_i\Big)\Big(\sum_iy_i\Big)\end{pmatrix}.
+\]
+
+\emph{Paso 9a: simplificar la segunda entrada, $\hat\beta_1$.} Se
+necesita la identidad análoga a ($\star$) del Paso 6, ahora para
+$S_{xy}$. Partiendo de $S_{xy}=\sum_i(x_i-\bar x)(y_i-\bar y)$ y
+expandiendo el producto:
+\[
+  S_{xy} = \sum_i\big(x_iy_i-x_i\bar y-\bar xy_i+\bar x\bar y\big)
+  = \sum_ix_iy_i - \bar y\sum_ix_i - \bar x\sum_iy_i + n\bar x\bar y .
+\]
+Con $\sum_ix_i=n\bar x$ y $\sum_iy_i=n\bar y$, los dos términos de en
+medio son $\bar y(n\bar x)=n\bar x\bar y$ y $\bar x(n\bar y)=n\bar x\bar y$;
+sumados al último término, $-n\bar x\bar y-n\bar x\bar y+n\bar x\bar y=-n\bar x\bar y$, así que
+\[
+  S_{xy} = \sum_ix_iy_i - n\bar x\bar y .
+\]
+Sustituyendo $\bar x=\frac1n\sum_ix_i$, $\bar y=\frac1n\sum_iy_i$:
+\[
+  n\bar x\bar y = n\Big(\frac1n\sum_ix_i\Big)\Big(\frac1n\sum_iy_i\Big)
+  = \frac{n}{n^2}\Big(\sum_ix_i\Big)\Big(\sum_iy_i\Big)
+  = \frac1n\Big(\sum_ix_i\Big)\Big(\sum_iy_i\Big)
+\]
+(otra vez $n/n^2=1/n$), de modo que
+\[
+  S_{xy} = \sum_ix_iy_i-\frac{(\sum_ix_i)(\sum_iy_i)}{n}. \tag{$\star\star$}
+\]
+Multiplicando \emph{ambos lados} de ($\star\star$) por $n$:
+\[
+  n\,S_{xy} = n\sum_ix_iy_i - n\cdot\frac{(\sum_ix_i)(\sum_iy_i)}{n}
+  = n\sum_ix_iy_i-\frac{n}{n}\Big(\sum_ix_i\Big)\Big(\sum_iy_i\Big)
+  = n\sum_ix_iy_i-\Big(\sum_ix_i\Big)\Big(\sum_iy_i\Big)
+\]
+(de nuevo $n/n=1$). El lado derecho es exactamente el numerador de
+$\hat\beta_1$ del Paso 8a, así que ese numerador es $n\,S_{xy}$, y
+\[
+  \hat\beta_1=\frac{n\,S_{xy}}{n\,S_{xx}}
+  = \frac{n}{n}\cdot\frac{S_{xy}}{S_{xx}}
+  = \frac{S_{xy}}{S_{xx}}
+\]
+(el factor $n/n=1$ se cancela una última vez, dejando el cociente
+familiar).
+
+\emph{Paso 10a: simplificar la primera entrada, $\hat\beta_0$.} Se suma
+y se resta $(\sum_ix_i)^2(\sum_iy_i)/n$ dentro del numerador, y se usan
+las mismas definiciones de $S_{xx}$ y $S_{xy}$ de los Pasos 6 y 9a:
+\begin{align*}
+  \Big(\sum_iy_i\Big)S_{xx} - S_{xy}\Big(\sum_ix_i\Big)
+  &= \Big(\sum_iy_i\Big)\Big[\sum_ix_i^2-\frac{(\sum_ix_i)^2}{n}\Big]
+   - \Big[\sum_ix_iy_i-\frac{(\sum_ix_i)(\sum_iy_i)}{n}\Big]\Big(\sum_ix_i\Big) \\
+  &= \Big(\sum_iy_i\Big)\Big(\sum_ix_i^2\Big) - \Big(\sum_ix_i\Big)\Big(\sum_ix_iy_i\Big)
+   \underbrace{-\,\frac{(\sum_ix_i)^2(\sum_iy_i)}{n}+\frac{(\sum_ix_i)^2(\sum_iy_i)}{n}}_{=\,0} \\
+  &= \Big(\sum_ix_i^2\Big)\Big(\sum_iy_i\Big)-\Big(\sum_ix_i\Big)\Big(\sum_ix_iy_i\Big),
+\end{align*}
+es decir, el numerador de la primera entrada del Paso 8a es exactamente
+$(\sum_iy_i)S_{xx}-S_{xy}(\sum_ix_i)$. Dividiendo entre $\det A=n\,S_{xx}$
+y separando la fracción en dos antes de simplificar:
+\[
+  \hat\beta_0=\frac{\big(\sum_iy_i\big)S_{xx}-S_{xy}\big(\sum_ix_i\big)}{n\,S_{xx}}
+  =\frac{\big(\sum_iy_i\big)S_{xx}}{n\,S_{xx}}-\frac{S_{xy}\big(\sum_ix_i\big)}{n\,S_{xx}} .
+\]
+En el primer término $S_{xx}/S_{xx}=1$ se cancela, dejando
+$(\sum_iy_i)/n=\bar y$; en el segundo se reagrupa
+$S_{xy}/S_{xx}=\hat\beta_1$ y queda $(\sum_ix_i)/n=\bar x$:
+\[
+  \hat\beta_0 = \bar y-\hat\beta_1\bar x .
+\]
+
+\paragraph{Camino 2: por la regla de Cramer.}
+
+\emph{Paso 7b: enunciado de Cramer.} Para $A\mathbf b=\mathbf c$ con
+$\det A\neq0$,
+\[
+  \hat\beta_0=\frac{\det A_0}{\det A}, \qquad \hat\beta_1=\frac{\det A_1}{\det A},
+\]
+donde $A_0$ es $A$ con su \emph{primera} columna (los coeficientes de
+$\hat\beta_0$) reemplazada por $\mathbf c$, y $A_1$ es $A$ con su
+\emph{segunda} columna reemplazada por $\mathbf c$:
+\[
+  A_0=\begin{pmatrix}\displaystyle\sum_iy_i & \displaystyle\sum_ix_i \\[4pt]
+  \displaystyle\sum_ix_iy_i & \displaystyle\sum_ix_i^2\end{pmatrix}, \qquad
+  A_1=\begin{pmatrix} n & \displaystyle\sum_iy_i \\[4pt]
+  \displaystyle\sum_ix_i & \displaystyle\sum_ix_iy_i\end{pmatrix}.
+\]
+
+\emph{Paso 8b: $\det A_0$ y $\det A_1$.} Desarrollando cada determinante
+$2\times2$ por la fórmula usual ($ps-qr$):
+\[
+  \det A_0 = \Big(\sum_iy_i\Big)\Big(\sum_ix_i^2\Big) - \Big(\sum_ix_i\Big)\Big(\sum_ix_iy_i\Big),
+  \qquad
+  \det A_1 = n\sum_ix_iy_i - \Big(\sum_ix_i\Big)\Big(\sum_iy_i\Big).
+\]
+Éstas son, entrada por entrada, las mismas dos expresiones que aparecen
+en el numerador de $\mathbf b=A^{-1}\mathbf c$ del Paso 8a --no es
+casualidad: para una matriz $2\times2$, la fórmula de la inversa y la
+regla de Cramer son álgebraicamente la misma construcción, sólo
+organizada de otra manera.
+
+\emph{Paso 9b: dividir entre $\det A$.} Del Paso 9a, $\det A_1=n\,S_{xy}$;
+del Paso 10a, $\det A_0=(\sum_iy_i)S_{xx}-S_{xy}(\sum_ix_i)$. Dividiendo
+cada uno entre $\det A=n\,S_{xx}$ (Paso 6):
+\[
+  \hat\beta_1=\frac{\det A_1}{\det A}=\frac{n\,S_{xy}}{n\,S_{xx}}
+  =\frac{n}{n}\cdot\frac{S_{xy}}{S_{xx}}=\frac{S_{xy}}{S_{xx}}
+\]
+(el mismo factor $n/n=1$ del Paso 9a). Para $\hat\beta_0$, se separa la
+fracción en dos antes de simplificar:
+\[
+  \hat\beta_0=\frac{\det A_0}{\det A}
+  =\frac{\big(\sum_iy_i\big)S_{xx}-S_{xy}\big(\sum_ix_i\big)}{n\,S_{xx}}
+  =\frac{\big(\sum_iy_i\big)S_{xx}}{n\,S_{xx}}-\frac{S_{xy}\big(\sum_ix_i\big)}{n\,S_{xx}} .
+\]
+En el primer término, $S_{xx}/S_{xx}=1$ se cancela, dejando
+$(\sum_iy_i)/n=\bar y$; en el segundo, se reagrupa
+$S_{xy}/S_{xx}=\hat\beta_1$ y queda $(\sum_ix_i)/n=\bar x$:
+\[
+  \hat\beta_0 = \bar y - \hat\beta_1\,\bar x .
+\]
+
+\emph{Conclusión.} Los dos caminos --inversa de la matriz y regla de
+Cramer-- recuperan exactamente $\hat\beta_1=S_{xy}/S_{xx}$ y
+$\hat\beta_0=\bar y-\hat\beta_1\bar x$, las mismas fórmulas que el
+Ejercicio~\ref{ej:sin-calculo} obtiene completando el cuadrado, sin usar
+cálculo. Los tres caminos son válidos exactamente bajo la misma
+condición, $S_{xx}>0$ (equivalente a $\det A\neq0$): la elección entre
+ellos es de conveniencia algebraica, no de contenido matemático
+distinto.
+
+% ================================================================
+\section{Álgebra y deducción}
+% ================================================================
+
+\begin{exercise}[Deducción sin cálculo diferencial]\label{ej:sin-calculo}
+Pruebe, \textbf{sin usar derivadas}, que $(\hat\beta_0,\hat\beta_1)$
+minimiza $\SCR(b_0,b_1)=\sum_i(y_i-b_0-b_1x_i)^2$, completando cuadrados
+en dos pasos:
+\begin{enumerate}[nosep,leftmargin=1.8em,label=(\alph*)]
+  \item Para $b_1$ fijo, muestre que $b_0=\overline{(y-b_1x)}$ minimiza
+  $\sum_i(y_i-b_1x_i-b_0)^2$, usando la identidad
+  $\sum_i(a_i-b_0)^2 = \sum_i(a_i-\bar a)^2+n(\bar a-b_0)^2$ con
+  $a_i=y_i-b_1x_i$.
+  \item Sustituya ese $b_0$ óptimo de vuelta en $\SCR$ para obtener una
+  función \emph{sólo} de $b_1$, exprésela como
+  $S_{xx}\,b_1^2-2S_{xy}\,b_1+S_{yy}$, y complete el cuadrado en $b_1$
+  para mostrar que se minimiza en $b_1=S_{xy}/S_{xx}$.
+\end{enumerate}
+\end{exercise}
+\begin{proof}[Solución]
+(a) $\sum_i(a_i-b_0)^2 = \sum_i\big[(a_i-\bar a)+(\bar a-b_0)\big]^2
+= \sum_i(a_i-\bar a)^2 + 2(\bar a-b_0)\sum_i(a_i-\bar a) + n(\bar a-b_0)^2$.
+El término cruzado se anula porque $\sum_i(a_i-\bar a)=0$ (suma de
+desviaciones respecto a la media). Queda
+$\sum_i(a_i-\bar a)^2+n(\bar a-b_0)^2$, suma de un término que no
+depende de $b_0$ más un cuadrado no negativo que se anula exactamente en
+$b_0=\bar a=\overline{(y-b_1x)}=\bar y-b_1\bar x$.
+
+(b) Sustituyendo $b_0=\bar y-b_1\bar x$, el residual se vuelve
+$y_i-b_0-b_1x_i = (y_i-\bar y)-b_1(x_i-\bar x)$, así que
+\begin{align*}
+  \SCR(b_1) &= \sum_i\big[(y_i-\bar y)-b_1(x_i-\bar x)\big]^2 \\
+  &= \sum_i(y_i-\bar y)^2 - 2b_1\sum_i(x_i-\bar x)(y_i-\bar y)
+     + b_1^2\sum_i(x_i-\bar x)^2 \\
+  &= S_{yy} - 2S_{xy}\,b_1 + S_{xx}\,b_1^2 .
+\end{align*}
+Completando el cuadrado en $b_1$ (posible porque $S_{xx}>0$):
+\[
+  \SCR(b_1) = S_{xx}\left(b_1-\frac{S_{xy}}{S_{xx}}\right)^{\!2}
+  + \left(S_{yy}-\frac{S_{xy}^2}{S_{xx}}\right).
+\]
+El segundo término no depende de $b_1$; el primero es
+$S_{xx}$ (positivo) por un cuadrado, así que es mínimo exactamente
+cuando el cuadrado se anula: $b_1=S_{xy}/S_{xx}=\hat\beta_1$. Esto
+recupera las fórmulas de los estimadores de MCO (Recordatorio anterior)
+sin usar cálculo diferencial en ningún paso --sólo la misma identidad de
+``completar el cuadrado'' usada para probar la desigualdad de
+Cauchy--Schwarz.
+\end{proof}
+
+\begin{exercise}[Invarianza ante un cambio de escala en $x$]\label{ej:invarianza-x}
+Sea $x_i' = a+bx_i$ ($b\neq0$) un reescalamiento del regresor (por
+ejemplo, pasar de tasas en decimales a tasas en puntos porcentuales).
+Sean $\hat\beta_0,\hat\beta_1$ los estimadores de MCO de $y$ sobre $x$, y
+$\hat\beta_0',\hat\beta_1'$ los de $y$ sobre $x'$. Demuestre que
+\[
+  \hat\beta_1' = \frac{\hat\beta_1}{b}, \qquad
+  \hat\beta_0' = \hat\beta_0 - \hat\beta_1\,\frac{a}{b}.
+\]
+\end{exercise}
+\begin{proof}[Solución]
+Como $\bar x'=a+b\bar x$, se tiene $x_i'-\bar x' = b(x_i-\bar x)$. Por
+tanto
+\[
+  S_{x'y} = \sum_i (x_i'-\bar x')(y_i-\bar y) = b\sum_i(x_i-\bar x)(y_i-\bar y) = b\,S_{xy},
+\]
+\[
+  S_{x'x'} = \sum_i (x_i'-\bar x')^2 = b^2\sum_i(x_i-\bar x)^2 = b^2 S_{xx}.
+\]
+Entonces $\hat\beta_1' = S_{x'y}/S_{x'x'} = bS_{xy}/(b^2S_{xx}) =
+\hat\beta_1/b$. Para el intercepto,
+$\hat\beta_0'=\bar y-\hat\beta_1'\bar x' = \bar y -
+\dfrac{\hat\beta_1}{b}(a+b\bar x) = \bar y - \hat\beta_1\bar x -
+\hat\beta_1\dfrac{a}{b} = \hat\beta_0 - \hat\beta_1\dfrac{a}{b}$.
+\end{proof}
+
+\begin{exercise}[Invarianza ante un cambio de escala en $y$]\label{ej:invarianza-y}
+Sea $y_i'=cy_i$ ($c\neq0$; por ejemplo, pasar de pesos a miles de pesos).
+Demuestre que los estimadores de MCO de $y'$ sobre el mismo $x$ satisfacen
+$\hat\beta_1'=c\,\hat\beta_1$ y $\hat\beta_0'=c\,\hat\beta_0$. (Imite el
+argumento del Ejercicio~\ref{ej:invarianza-x}.)
+\end{exercise}
+\begin{proof}[Solución]
+Como $\bar y'=c\bar y$, se tiene $y_i'-\bar y'=c(y_i-\bar y)$, mientras
+que $x_i-\bar x$ no cambia. Por tanto
+\[
+  S_{xy'} = \sum_i(x_i-\bar x)(y_i'-\bar y') = c\sum_i(x_i-\bar x)(y_i-\bar y) = c\,S_{xy},
+\]
+y $S_{xx}$ no cambia. Entonces $\hat\beta_1' = S_{xy'}/S_{xx} = c\,S_{xy}/S_{xx} = c\,\hat\beta_1$,
+y $\hat\beta_0' = \bar y'-\hat\beta_1'\bar x = c\bar y - c\hat\beta_1\bar x
+= c(\bar y-\hat\beta_1\bar x) = c\,\hat\beta_0$.
+\end{proof}
+
+\begin{exercise}[Cambio de escala simultáneo en $x$ y $y$]\label{ej:invarianza-combinada}
+Combine los Ejercicios~\ref{ej:invarianza-x} y \ref{ej:invarianza-y} para
+mostrar que, si $x_i'=a+bx_i$ y $y_i'=cy_i$ simultáneamente
+($b,c\neq0$), entonces
+\[
+  \hat\beta_1' = \frac{c}{b}\,\hat\beta_1, \qquad
+  \hat\beta_0' = c\,\hat\beta_0 - \frac{ac}{b}\,\hat\beta_1
+  = c\,\hat\beta_0 - a\,\hat\beta_1' .
+\]
+¿Qué le dice esto sobre por qué, al reportar una regresión, siempre hay
+que especificar las unidades de $x$ y $y$?
+\end{exercise}
+\begin{proof}[Solución]
+Como $x_i'-\bar x'=b(x_i-\bar x)$ y $y_i'-\bar y'=c(y_i-\bar y)$,
+\[
+  S_{x'y'} = \sum_i(x_i'-\bar x')(y_i'-\bar y') = bc\,S_{xy}, \qquad
+  S_{x'x'} = \sum_i(x_i'-\bar x')^2 = b^2 S_{xx},
+\]
+así que
+$\hat\beta_1' = S_{x'y'}/S_{x'x'} = bc\,S_{xy}/(b^2S_{xx}) =
+(c/b)\,S_{xy}/S_{xx} = (c/b)\,\hat\beta_1$. Para el intercepto, con
+$\bar x'=a+b\bar x$ y $\bar y'=c\bar y$,
+\[
+  \hat\beta_0' = \bar y'-\hat\beta_1'\bar x'
+  = c\bar y - \frac{c}{b}\hat\beta_1(a+b\bar x)
+  = c\bar y - \frac{ac}{b}\hat\beta_1 - c\hat\beta_1\bar x
+  = c(\bar y-\hat\beta_1\bar x) - \frac{ac}{b}\hat\beta_1
+  = c\,\hat\beta_0 - \frac{ac}{b}\hat\beta_1,
+\]
+que, usando $\hat\beta_1'=(c/b)\hat\beta_1$, también se escribe
+$\hat\beta_0'=c\hat\beta_0-a\hat\beta_1'$. En palabras: reescalar $x$ y
+$y$ no cambia la forma de la recta ajustada, sólo sus coeficientes --por
+eso un $\hat\beta_1$ reportado sin unidades es ambiguo: el mismo
+fenómeno económico puede dar una pendiente de $0.7$ o de $700$ según se
+mida $x$ en decimales o en puntos base.
+\end{proof}
+
+\begin{exercise}[Residuales y valores ajustados no están correlacionados]\label{ej:ortog-fitted}
+Demuestre que $\sum_i \hat u_i\,\hat y_i = 0$, donde
+$\hat y_i=\hat\beta_0+\hat\beta_1x_i$ son los valores ajustados.
+\end{exercise}
+\begin{proof}[Solución]
+\[
+  \sum_i \hat u_i\hat y_i = \sum_i \hat u_i(\hat\beta_0+\hat\beta_1x_i)
+  = \hat\beta_0\sum_i\hat u_i + \hat\beta_1\sum_i x_i\hat u_i
+  = \hat\beta_0(0)+\hat\beta_1(0) = 0,
+\]
+usando las dos ecuaciones normales. Junto con $\sum_i\hat u_i=0$, esto
+dice que el vector de residuales es \emph{ortogonal}, en el sentido
+usual del producto punto, tanto al vector constante como al vector de
+valores ajustados --la razón geométrica detrás de la descomposición
+$\mathrm{SST}=\mathrm{SSE}+\mathrm{SSR}$ del
+Ejercicio~\ref{ej:r2-rho2}.
+\end{proof}
+
+% ================================================================
+\section{Cálculo numérico}
+% ================================================================
+
+\begin{exercise}\label{ej:numerico-grande}
+Con la muestra $n=6$:
+\begin{center}
+\begin{tabular}{@{}ccccccc@{}}
+\toprule
+$i$ & 1 & 2 & 3 & 4 & 5 & 6 \\
+\midrule
+$x_i$ & 2 & 4 & 6 & 8 & 10 & 12 \\
+$y_i$ & 3 & 5 & 6 & 8 & 7 & 10 \\
+\bottomrule
+\end{tabular}
+\end{center}
+calcule $\bar x,\bar y,S_{xy},S_{xx},S_{yy}$, los estimadores
+$\hat\beta_0,\hat\beta_1$, y la suma de cuadrados residuales en el
+mínimo, $\SCR_{\min}=S_{yy}-S_{xy}^2/S_{xx}$.
+\end{exercise}
+\begin{proof}[Solución]
+$\bar x=42/6=7$, $\bar y=39/6=6.5$.
+\begin{center}
+\begin{tabular}{@{}crrrr@{}}
+\toprule
+$i$ & $x_i-\bar x$ & $y_i-\bar y$ & producto & $(x_i-\bar x)^2$ \\
+\midrule
+1 & $-5$ & $-3.5$ & $17.5$ & $25$ \\
+2 & $-3$ & $-1.5$ & $4.5$  & $9$  \\
+3 & $-1$ & $-0.5$ & $0.5$  & $1$  \\
+4 & $1$  & $1.5$  & $1.5$  & $1$  \\
+5 & $3$  & $0.5$  & $1.5$  & $9$  \\
+6 & $5$  & $3.5$  & $17.5$ & $25$ \\
+\midrule
+$\sum$ & & & $S_{xy}=43$ & $S_{xx}=70$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+$S_{yy}=3.5^2+1.5^2+0.5^2+1.5^2+0.5^2+3.5^2 = 12.25+2.25+0.25+2.25+0.25+12.25=29.5$.
+\[
+  \hat\beta_1 = \frac{43}{70} \approx 0.6143, \qquad
+  \hat\beta_0 = 6.5 - 0.6143(7) = 6.5-4.3 = 2.2,
+\]
+donde $0.6143\times7=43\times7/70=301/70=4.3$ exactamente. Finalmente,
+\[
+  \SCR_{\min} = S_{yy}-\frac{S_{xy}^2}{S_{xx}} = 29.5-\frac{43^2}{70}
+  = 29.5-\frac{1849}{70} \approx 29.5-26.414 \approx 3.086.
+\]
+\end{proof}
+
+\begin{exercise}[Sensibilidad a un dato atípico]\label{ej:outlier}
+Recuerde el ejemplo de las notas con $n=5$: $x=(1,2,3,4,5)$,
+$y=(2,3,5,4,6)$, para el cual $\hat\beta_1=0.9$, $\hat\beta_0=1.3$.
+Sustituya el último punto por $(5,20)$ --un dato atípico-- y recalcule
+$\hat\beta_0,\hat\beta_1$. Compare con los valores originales y comente,
+en una o dos líneas, qué tan sensible es MCO a un solo dato extremo.
+\end{exercise}
+\begin{proof}[Solución]
+Con $y=(2,3,5,4,20)$: $\bar y=34/5=6.8$ ($\bar x=3$ no cambia, así que
+$S_{xx}=10$ sigue igual). Las desviaciones de $y$ son
+$(-4.8,-3.8,-1.8,-2.8,13.2)$, y con $x-\bar x=(-2,-1,0,1,2)$ los
+productos son $9.6,\,3.8,\,0,\,-2.8,\,26.4$, con suma
+$S_{xy}=37$. Entonces
+\[
+  \hat\beta_1 = \frac{37}{10}=3.7, \qquad
+  \hat\beta_0 = 6.8-3.7(3) = 6.8-11.1=-4.3 .
+\]
+La pendiente pasó de $0.9$ a $3.7$ (más de cuatro veces mayor) y el
+intercepto de $1.3$ a $-4.3$: un único punto atípico, con la misma $x$
+que los demás, basta para dominar por completo la recta ajustada. Esto
+ilustra por qué MCO no es robusto a valores atípicos --la función
+objetivo $\SCR$ penaliza el error al \emph{cuadrado}, así que una
+observación lejana pesa desproporcionadamente en la suma.
+\end{proof}
+
+\begin{exercise}[Practicar con desviaciones ya calculadas]\label{ej:numerico-desviaciones}
+Para una muestra de $n=8$ se reportan únicamente las desviaciones
+respecto a la media: $\sum_i(x_i-\bar x)(y_i-\bar y)=54$,
+$\sum_i(x_i-\bar x)^2=36$, $\sum_i(y_i-\bar y)^2=100$, $\bar x=12$,
+$\bar y=45$. Sin conocer los datos individuales, calcule
+$\hat\beta_0,\hat\beta_1$, la correlación muestral $\hat\rho_{xy}$, y
+$R^2$.
+\end{exercise}
+\begin{proof}[Solución]
+$\hat\beta_1=54/36=1.5$. $\hat\beta_0=45-1.5(12)=45-18=27$.
+$\hat\rho_{xy}=54/\sqrt{36\times100}=54/60=0.9$. Anticipando el
+Ejercicio~\ref{ej:r2-rho2}, $R^2=\hat\rho_{xy}^2=0.81$: el regresor
+explica el 81\% de la variación muestral de $y$. Nótese que las tres
+cantidades se obtienen sólo de $S_{xy},S_{xx},S_{yy},\bar x,\bar y$, sin
+necesidad de los datos individuales --exactamente el mismo principio
+detrás de reportar una regresión mediante su tabla de resultados en vez
+de la base de datos completa.
+\end{proof}
+
+% ================================================================
+\section{Interpretación y aplicaciones}
+% ================================================================
+
+\begin{exercise}[$R^2$ es la correlación muestral al cuadrado]\label{ej:r2-rho2}
+Defina $\mathrm{SST}=S_{yy}$, $\mathrm{SSE}=\sum_i(\hat y_i-\bar y)^2$
+(suma de cuadrados explicada) y $\mathrm{SSR}=\sum_i\hat u_i^2$ (suma de
+cuadrados residual), con $\hat y_i=\hat\beta_0+\hat\beta_1x_i$.
+\begin{enumerate}[nosep,leftmargin=1.8em,label=(\alph*)]
+  \item Pruebe la descomposición $\mathrm{SST}=\mathrm{SSE}+\mathrm{SSR}$,
+  mostrando que el término cruzado en
+  $\sum_i\big[(\hat y_i-\bar y)+\hat u_i\big]^2$ se anula usando las
+  ecuaciones normales.
+  \item Pruebe que $\mathrm{SSE}=S_{xy}^2/S_{xx}$.
+  \item Concluya que $R^2:=\mathrm{SSE}/\mathrm{SST} = \hat\rho_{xy}^2$,
+  donde $\hat\rho_{xy}=S_{xy}/\sqrt{S_{xx}S_{yy}}$ es la correlación
+  muestral.
+\end{enumerate}
+\end{exercise}
+\begin{proof}[Solución]
+(a) $y_i-\bar y = (\hat y_i-\bar y)+\hat u_i$, así que
+\[
+  \mathrm{SST}=\sum_i(y_i-\bar y)^2
+  = \sum_i(\hat y_i-\bar y)^2 + 2\sum_i(\hat y_i-\bar y)\hat u_i + \sum_i\hat u_i^2.
+\]
+El término cruzado es
+$\sum_i(\hat y_i-\bar y)\hat u_i = \hat\beta_1\sum_i(x_i-\bar x)\hat u_i$
+(pues $\hat y_i-\bar y=\hat\beta_1(x_i-\bar x)$), y
+$\sum_i(x_i-\bar x)\hat u_i = \sum_i x_i\hat u_i - \bar x\sum_i\hat u_i
+= 0-0=0$ por las dos ecuaciones normales. Luego
+$\mathrm{SST}=\mathrm{SSE}+\mathrm{SSR}$.
+
+(b) $\hat y_i-\bar y=\hat\beta_1(x_i-\bar x)$, así que
+$\mathrm{SSE}=\hat\beta_1^2\sum_i(x_i-\bar x)^2 = \hat\beta_1^2 S_{xx}
+= (S_{xy}/S_{xx})^2 S_{xx} = S_{xy}^2/S_{xx}$.
+
+(c) $R^2 = \dfrac{\mathrm{SSE}}{\mathrm{SST}}
+= \dfrac{S_{xy}^2/S_{xx}}{S_{yy}} = \dfrac{S_{xy}^2}{S_{xx}S_{yy}}
+= \hat\rho_{xy}^2$.
+\end{proof}
+
+\begin{exercise}[Regresión de $y$ sobre $x$ vs.\ de $x$ sobre $y$]\label{ej:reversa}
+Sean $\hat\beta_{y|x}=S_{xy}/S_{xx}$ la pendiente de regresar $y$ sobre
+$x$, y $\hat\beta_{x|y}=S_{xy}/S_{yy}$ la de regresar $x$ sobre $y$ (los
+papeles invertidos). Demuestre que
+\[
+  \hat\beta_{y|x}\cdot\hat\beta_{x|y} = \hat\rho_{xy}^2 \le 1,
+\]
+con igualdad si y sólo si $|\hat\rho_{xy}|=1$ (correlación muestral
+perfecta). Explique por qué esto muestra que, en general, la recta de
+regresar $y$ sobre $x$ \textbf{no} es la misma que la de regresar $x$
+sobre $y$ ``despejada'' para $y$.
+\end{exercise}
+\begin{proof}[Solución]
+$\hat\beta_{y|x}\hat\beta_{x|y} = \dfrac{S_{xy}}{S_{xx}}\cdot
+\dfrac{S_{xy}}{S_{yy}} = \dfrac{S_{xy}^2}{S_{xx}S_{yy}} =
+\hat\rho_{xy}^2$, y $\hat\rho_{xy}^2\le1$ por la versión muestral de la
+desigualdad de Cauchy--Schwarz, con igualdad sólo si $|\hat\rho_{xy}|=1$.
+Si despejar $x$ de $\hat y=\hat\beta_0+\hat\beta_{y|x}x$ diera la recta
+de regresar $x$ sobre $y$, su pendiente (en $y$) sería
+$1/\hat\beta_{y|x}$; pero la pendiente real de esa segunda regresión es
+$\hat\beta_{x|y}$, y $1/\hat\beta_{y|x}=\hat\beta_{x|y}$ sólo cuando
+$\hat\beta_{y|x}\hat\beta_{x|y}=1$, es decir, sólo en el caso extremo
+$|\hat\rho_{xy}|=1$. Fuera de ese caso, las dos rectas de regresión son
+genuinamente distintas.
+\end{proof}
+
+\begin{exercise}[Aplicación: beta de un activo]\label{ej:capm}
+Un analista corre la regresión $R_i - r_f = \alpha + \beta(R_m-r_f)+u$
+(la ecuación de mercado del CAPM) con datos mensuales y obtiene
+$S_{xy}=0.0056$, $S_{xx}=0.0080$, $\overline{R_i-r_f}=0.012$,
+$\overline{R_m-r_f}=0.010$. Calcule $\hat\beta$ y $\hat\alpha$, e
+interprete ambos en el lenguaje del CAPM (¿el activo es más o menos
+volátil que el mercado? ¿hay evidencia de rendimiento anormal?).
+\end{exercise}
+\begin{proof}[Solución]
+$\hat\beta = 0.0056/0.0080 = 0.70$. Como $\hat\beta<1$, el activo es
+--según esta muestra-- menos volátil que el mercado (un movimiento de
+1\% en el exceso de mercado se asocia, en promedio, con un movimiento de
+sólo 0.70\% en el exceso del activo). El intercepto es
+$\hat\alpha = 0.012-0.70(0.010)=0.012-0.007=0.005$, es decir, un
+``alfa'' positivo de 0.5\% mensual no explicado por el riesgo de
+mercado --potencial evidencia de rendimiento anormal, aunque una
+conclusión firme requeriría una prueba de hipótesis sobre $\hat\alpha$
+(Sección 3 del syllabus), no sólo su signo.
+\end{proof}
+
+\begin{exercise}[MCO con un regresor binario: diferencia de medias]\label{ej:dummy}
+Suponga que $x_i\in\{0,1\}$ es una variable \emph{dummy} (por ejemplo,
+$x_i=1$ si la empresa $i$ paga dividendos, $0$ si no), con $n_1$
+observaciones en el grupo $x=1$ y $n_0=n-n_1$ en el grupo $x=0$. Sean
+$\bar y_1$ y $\bar y_0$ las medias muestrales de $y$ dentro de cada
+grupo. Demuestre que
+\[
+  \hat\beta_1 = \bar y_1 - \bar y_0, \qquad \hat\beta_0 = \bar y_0 .
+\]
+\end{exercise}
+\begin{proof}[Solución]
+Como $x_i\in\{0,1\}$, $\bar x=n_1/n$, y
+$\bar y = (n_0\bar y_0+n_1\bar y_1)/n$. Para las observaciones con
+$x_i=1$, $x_i-\bar x = 1-n_1/n=n_0/n$; para las de $x_i=0$,
+$x_i-\bar x=-n_1/n$. Separando la suma $S_{xy}$ por grupo,
+\begin{align*}
+  S_{xy} &= \frac{n_0}{n}\sum_{i:\,x_i=1}(y_i-\bar y)
+          - \frac{n_1}{n}\sum_{i:\,x_i=0}(y_i-\bar y) \\
+  &= \frac{n_0}{n}\,n_1(\bar y_1-\bar y) - \frac{n_1}{n}\,n_0(\bar y_0-\bar y)
+   = \frac{n_0n_1}{n}\big[(\bar y_1-\bar y)-(\bar y_0-\bar y)\big]
+   = \frac{n_0n_1}{n}(\bar y_1-\bar y_0).
+\end{align*}
+Análogamente,
+$S_{xx} = n_1\big(\tfrac{n_0}{n}\big)^2+n_0\big(\tfrac{n_1}{n}\big)^2
+= \dfrac{n_0n_1(n_0+n_1)}{n^2} = \dfrac{n_0n_1}{n}$. Por lo tanto
+\[
+  \hat\beta_1 = \frac{S_{xy}}{S_{xx}}
+  = \frac{(n_0n_1/n)(\bar y_1-\bar y_0)}{n_0n_1/n} = \bar y_1-\bar y_0,
+\]
+y $\hat\beta_0=\bar y-\hat\beta_1\bar x$. Sustituyendo
+$\bar y=(n_0\bar y_0+n_1\bar y_1)/n$ y $\bar x=n_1/n$:
+\[
+  \hat\beta_0 = \frac{n_0\bar y_0+n_1\bar y_1}{n}
+  - (\bar y_1-\bar y_0)\frac{n_1}{n}
+  = \frac{n_0\bar y_0+n_1\bar y_1 - n_1\bar y_1+n_1\bar y_0}{n}
+  = \frac{(n_0+n_1)\bar y_0}{n} = \bar y_0 . \qedhere
+\]
+\end{proof}
+
+\begin{summaryBox}
+Regresar $y$ sobre una dummy es, algebraicamente, exactamente lo mismo
+que comparar la media de $y$ entre dos grupos: $\hat\beta_0$ es la media
+del grupo base ($x=0$) y $\hat\beta_1$ es la diferencia de medias entre
+grupos. Ésta es la base de por qué, más adelante en el curso (Tema 4,
+variables cualitativas), MCO con variables dummy se usa para probar
+diferencias entre grupos con toda la maquinaria de inferencia de la
+regresión (Tema 3): una prueba $t$ sobre $\hat\beta_1$ es, en este caso
+particular, una prueba de diferencia de medias.
+\end{summaryBox}
+
+% ================================================================
+\section{Estilo examen CFA (opción múltiple)}
+% ================================================================
+
+\begin{ideaBox}
+Los exámenes CFA presentan la pendiente de MCO como
+$\hat\beta_1=\Cov(x,y)/\Var(x)$, usando la covarianza y la varianza
+\emph{muestrales estándar} (divididas entre $n-1$), en vez de las sumas
+sin dividir $S_{xy},S_{xx}$ usadas en el resto de esta hoja. El primer
+ejercicio muestra que ambas notaciones dan exactamente el mismo
+número; los siguientes son preguntas de opción múltiple con el formato
+de tres alternativas (A/B/C) típico del examen.
+\end{ideaBox}
+
+\begin{exercise}[De $S_{xy}/S_{xx}$ a $\Cov(x,y)/\Var(x)$]\label{ej:cfa-notacion}
+La covarianza y varianza muestrales \emph{estándar} son
+$\Cov(x,y)=S_{xy}/(n-1)$ y $\Var(x)=S_{xx}/(n-1)$. Demuestre que
+$\Cov(x,y)/\Var(x) = S_{xy}/S_{xx} = \hat\beta_1$, y explique por qué no
+importa si el software (o el examen) usa $n-1$ o $n$ en el denominador.
+\end{exercise}
+\begin{proof}[Solución]
+\[
+  \frac{\Cov(x,y)}{\Var(x)} = \frac{S_{xy}/(n-1)}{S_{xx}/(n-1)}
+  = \frac{S_{xy}}{S_{xx}} = \hat\beta_1,
+\]
+porque el factor $1/(n-1)$ aparece igual en numerador y denominador y se
+cancela. El mismo argumento funciona con cualquier otro divisor común
+(por ejemplo $n$): $\hat\beta_1$ es un \emph{cociente} de dos cantidades
+que se reescalan juntas, así que su valor no depende de la convención de
+normalización que use un paquete estadístico en particular --sólo debe
+usarse la \textbf{misma} convención en la covarianza y en la varianza a
+la vez.
+\end{proof}
+
+\begin{exercise}[Pendiente a partir de covarianza y varianza reportadas]\label{ej:cfa-pendiente}
+Un analista de renta variable estima
+$R_{i,t}=\alpha+\beta R_{m,t}+u_t$ con 36 meses de datos y reporta
+$\Cov(R_i,R_m)=0.00186$ y $\Var(R_m)=0.00150$ (estadísticas estándar,
+ya divididas entre $n-1=35$). ¿Cuál de las siguientes opciones está más
+cerca del valor de $\hat\beta$?
+\begin{enumerate}[label=(\Alph*),nosep,leftmargin=2.2em]
+  \item $0.81$
+  \item $1.24$
+  \item $1.55$
+\end{enumerate}
+\end{exercise}
+\begin{proof}[Solución]
+$\hat\beta=\Cov(R_i,R_m)/\Var(R_m) = 0.00186/0.00150 = 1.24$. Respuesta
+(B). (Que $\Cov$ y $\Var$ ya estén divididas entre $n-1$ no cambia nada,
+por el Ejercicio~\ref{ej:cfa-notacion}.)
+\end{proof}
+
+\begin{exercise}[Correlación y proporción de varianza no explicada]\label{ej:cfa-r2}
+La correlación muestral entre el rendimiento de un fondo y el de su
+benchmark es $\hat\rho=0.72$. Un cliente pregunta qué porcentaje de la
+variación del rendimiento del fondo \textbf{no} queda explicado por el
+benchmark. ¿Cuál de las siguientes opciones es la más cercana?
+\begin{enumerate}[label=(\Alph*),nosep,leftmargin=2.2em]
+  \item $28.0\%$
+  \item $48.2\%$
+  \item $51.8\%$
+\end{enumerate}
+\end{exercise}
+\begin{proof}[Solución]
+$R^2=\hat\rho^2=0.72^2=0.5184$ es la proporción \emph{explicada}
+(51.8\%, opción (C) --una trampa clásica para quien confunde $R^2$ con
+la proporción no explicada). Lo no explicado es
+$1-R^2=1-0.5184=0.4816\approx48.2\%$: respuesta (B). (La opción (A),
+$28\%$, es la trampa de calcular $1-\hat\rho$ en vez de $1-\hat\rho^2$
+--olvidar elevar al cuadrado la correlación antes de restar de 1.)
+\end{proof}
+
+\begin{exercise}[Pronóstico puntual con la recta estimada]\label{ej:cfa-pronostico}
+Con el modelo estimado en el Ejercicio~\ref{ej:numerico-grande},
+$\hat y = 2.2+0.6143\,x$, ¿cuál es el valor pronosticado de $y$ para
+$x=9$, el más cercano a...
+\begin{enumerate}[label=(\Alph*),nosep,leftmargin=2.2em]
+  \item $7.7$
+  \item $5.5$
+  \item $8.9$
+\end{enumerate}
+\end{exercise}
+\begin{proof}[Solución]
+$\hat y = 2.2+0.6143(9) = 2.2+5.5287 = 7.7287\approx7.7$. Respuesta (A).
+(La opción (B), $5.5$, es la trampa de reportar sólo
+$0.6143\times9\approx5.5$, olvidando sumar el intercepto.)
+\end{proof}
+
+\begin{exercise}[Sensibilidad económica: crecimiento de ventas y PIB]\label{ej:cfa-sensibilidad}
+Un analista regresa el crecimiento anual de las ventas de una empresa
+($y$, en \%) sobre el crecimiento del PIB ($x$, en \%) y obtiene
+$\hat\beta_0=-0.3$, $\hat\beta_1=1.8$. Si el consenso de mercado
+pronostica un crecimiento del PIB de $2.5\%$ el próximo año, ¿cuál de
+las siguientes opciones está más cerca del crecimiento de ventas
+pronosticado?
+\begin{enumerate}[label=(\Alph*),nosep,leftmargin=2.2em]
+  \item $4.2\%$
+  \item $4.5\%$
+  \item $4.8\%$
+\end{enumerate}
+\end{exercise}
+\begin{proof}[Solución]
+$\hat y = -0.3+1.8(2.5) = -0.3+4.5 = 4.2\%$. Respuesta (A). (La opción
+(B) olvida el intercepto por completo; la (C) le cambia el signo,
+sumando $0.3$ en vez de restarlo.)
+\end{proof}
+
+\begin{exercise}[Dummy: rendimiento promedio del grupo tratado]\label{ej:cfa-dummy}
+Un analista regresa el rendimiento anual de 50 fondos ($y$) sobre una
+variable dummy $D=1$ si el fondo es de gestión activa y $D=0$ si es
+pasivo (30 fondos activos, 20 pasivos), y obtiene $\hat\beta_0=4.5\%$,
+$\hat\beta_1=-0.8\%$. ¿Cuál de las siguientes opciones es la más
+cercana al rendimiento promedio de los fondos de gestión \textbf{activa}?
+\begin{enumerate}[label=(\Alph*),nosep,leftmargin=2.2em]
+  \item $4.5\%$
+  \item $3.7\%$
+  \item $5.3\%$
+\end{enumerate}
+\end{exercise}
+\begin{proof}[Solución]
+Por el Ejercicio~\ref{ej:dummy}, $\hat\beta_0=\bar y_0$ es la media del
+grupo \emph{base} ($D=0$, fondos pasivos) y $\hat\beta_1=\bar
+y_1-\bar y_0$ es la diferencia (activo menos pasivo). El rendimiento
+promedio del grupo activo ($D=1$) es entonces
+$\bar y_1=\hat\beta_0+\hat\beta_1=4.5\%+(-0.8\%)=3.7\%$. Respuesta (B).
+(La opción (A), $4.5\%$, es la trampa de reportar $\hat\beta_0$
+--el rendimiento del grupo \emph{pasivo}, no del activo.)
+\end{proof}
+
+% ================================================================
+\section{Reto (opcional)}
+% ================================================================
+
+\begin{exercise}[Por qué MCO y no otro estimador lineal]\label{ej:blue}
+Considere estimadores \emph{lineales} de la pendiente de la forma
+$\tilde\beta_1=\sum_i c_i y_i$, con pesos $c_i$ que dependen sólo de los
+$x_i$ (no de $y$). Para que $\tilde\beta_1$ sea \emph{insesgado} bajo
+$y_i=\beta_0+\beta_1x_i+u_i$ con $\E[u_i]=0$, se requiere
+\[
+  \sum_i c_i = 0 \qquad \text{y} \qquad \sum_i c_i x_i = 1 .
+\]
+Suponiendo además que los errores son homocedásticos e incorrelacionados
+($\Var(u_i)=\sigma^2$, $\Cov(u_i,u_j)=0$ para $i\neq j$), se tiene
+$\Var(\tilde\beta_1)=\sigma^2\sum_i c_i^2$. Demuestre que, entre todos
+los pesos $c_i$ que cumplen las dos restricciones de insesgamiento, la
+elección de MCO, $c_i=(x_i-\bar x)/S_{xx}$, es la que \textbf{minimiza}
+$\sum_i c_i^2$ --es decir, MCO es el estimador lineal insesgado de
+mínima varianza (el teorema de Gauss--Markov, en el caso de la
+pendiente simple).
+\end{exercise}
+\begin{hintBox}
+Escriba $c_i = \dfrac{x_i-\bar x}{S_{xx}} + d_i$ para pesos arbitrarios
+$d_i$ que cumplen las restricciones, y muestre primero que las dos
+restricciones de insesgamiento fuerzan $\sum_i d_i=0$ y
+$\sum_i d_i(x_i-\bar x)=0$ (recuerde $\sum_i(x_i-\bar x)=0$). Luego
+expanda $\sum_ic_i^2=\sum_i\Big(\dfrac{x_i-\bar x}{S_{xx}}+d_i\Big)^2$ y
+muestre que el término cruzado se anula usando esas dos identidades,
+dejando $\sum_ic_i^2 = \dfrac{1}{S_{xx}} + \sum_id_i^2 \ge \dfrac1{S_{xx}}$,
+con igualdad si y sólo si $d_i=0$ para toda $i$ --es decir, si y sólo si
+$c_i$ son los pesos de MCO. (Este es, de nuevo, el mismo tipo de
+argumento de ``completar el cuadrado'' del
+Ejercicio~\ref{ej:sin-calculo}, ahora en el espacio de los pesos $c_i$
+en vez de en $b_1$.)
+\end{hintBox}
+
+\end{document}
