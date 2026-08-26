@@ -1,0 +1,122 @@
+\documentclass[11pt,a4paper,oneside]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=1.18in,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=teal!60!black,
+  pdftitle={Tarea: Ecuaciones Diferenciales Lineales de Primer Orden},
+  pdfauthor={César Galindo}
+}
+
+\theoremstyle{definition}
+\newtheorem{tarea}{Ejercicio}
+
+\definecolor{econblue}{RGB}{25,62,114}
+\definecolor{econbrown}{RGB}{138,90,47}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textsc{Cálculo Integral -- Facultad de Empresariales}}
+\fancyhead[R]{\textsc{César Galindo}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\renewcommand{\footrulewidth}{0pt}
+\titleformat{\section}{\Large\bfseries\color{econblue}}{\thesection.}{0.65em}{}
+\titlespacing*{\section}{0pt}{1.9em}{1.05em}
+\tcbset{colback=white,colframe=econblue!65!black,boxrule=0.5pt,arc=1.5pt}
+\setlength{\parskip}{0.85em}
+\setstretch{1.13}
+\setlength{\parindent}{0pt}
+
+\newtcolorbox{ideaBox}[1][]{enhanced,breakable,colback=blue!2,colframe=econblue,
+  borderline west={1.5pt}{0pt}{econblue},title=Instrucciones,fonttitle=\bfseries,#1}
+
+\title{\vspace{-1.5cm}\textbf{\Large Tarea}\\[2pt]
+\large Ecuaciones Diferenciales Lineales de Primer Orden}
+\author{César Galindo\\ \small Cálculo Integral \textperiodcentered\ Facultad de Empresariales}
+\date{\small Otoño 2026}
+
+\begin{document}
+\maketitle
+\vspace{-0.8cm}
+
+\begin{ideaBox}
+Resolver los cinco ejercicios siguientes, mostrando todos los pasos
+intermedios. Apóyense en las fórmulas y teoremas de la nota de clase
+\emph{Ecuaciones Diferenciales Lineales de Primer Orden} (factor
+integrante, ecuación de Bernoulli, y las tres aplicaciones financieras
+de la Sección de Aplicaciones): en particular, en los Ejercicios~1--3 de
+esa nota, ya resueltos paso a paso, como modelo de la presentación
+esperada.
+
+\smallskip
+\textbf{Fecha de entrega:} \underline{\hspace{4.5cm}}
+\end{ideaBox}
+
+\begin{tarea}[Factor integrante con forzamiento oscilatorio]
+Resolver $y' + y = 2\cos x$ con $y(0)=0$.
+\emph{Sugerencia:} $\displaystyle\int e^x\cos x\,dx =
+\tfrac12 e^x(\cos x+\sin x)+C$; verifiquen la fórmula derivando antes de
+usarla.
+\end{tarea}
+
+\begin{tarea}[Bernoulli con $n=2$]
+Resolver $y' - y = xy^2$.
+\emph{Sugerencia:} usen la sustitución $v=y^{-1}$; la ecuación lineal
+resultante para $v$ se resuelve con un factor integrante exponencial.
+\end{tarea}
+
+\begin{tarea}[Aplicación financiera: fondo de amortización de un bono corporativo]
+Una empresa debe pagar \$5{,}000{,}000 al vencimiento de un bono a 10
+años, y constituye hoy un \emph{sinking fund} con $A_0=0$ que gana un
+rendimiento continuo $r=4.5\%$ anual, alimentado con aportaciones
+continuas a tasa constante $c$.
+\begin{enumerate}[label=(\alph*)]
+  \item Calcular la aportación anual continua $c$ necesaria para que el
+  fondo alcance exactamente \$5{,}000{,}000 en $t=10$.
+  \item Si la empresa parte en cambio con $A_0=\$800{,}000$ ya ahorrados
+  y mantiene la misma $c$ del inciso (a), calcular cuánto tendrá el
+  fondo en $t=10$, y por cuánto excede la meta.
+\end{enumerate}
+\end{tarea}
+
+\begin{tarea}[Aplicación financiera: dotación perpetua para una cátedra universitaria]
+Un donante quiere financiar a perpetuidad una cátedra universitaria que
+cuesta \$300{,}000 continuos por año, con un fondo invertido a un
+rendimiento requerido continuo $r=5\%$.
+\begin{enumerate}[label=(\alph*)]
+  \item Calcular el monto $V$ que el donante debe aportar hoy para que
+  el fondo pague la cátedra \textbf{para siempre} sin agotarse.
+  \item Si el donante sólo dispone de $B_0=\$4{,}500{,}000$ y aun así se
+  retiran continuamente \$300{,}000 por año, mostrar que el fondo se
+  agota en tiempo finito y calcular en cuántos años.
+\end{enumerate}
+\end{tarea}
+
+\begin{tarea}[Aplicación financiera: reversión del diferencial de crédito]
+El diferencial de crédito de un bono corporativo está hoy en
+$r_0=3.5\%$ sobre la tasa libre de riesgo. El mercado espera que
+revierta a su nivel de largo plazo $b=1.8\%$ a una velocidad $a=0.4$
+(por año).
+\begin{enumerate}[label=(\alph*)]
+  \item Calcular el diferencial proyectado a 1 y a 3 años.
+  \item ¿Cuántos años se necesitan para recorrer el 80\% de la
+  distancia entre $r_0$ y $b$?
+\end{enumerate}
+\end{tarea}
+
+\end{document}
