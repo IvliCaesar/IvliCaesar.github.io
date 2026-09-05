@@ -398,6 +398,24 @@
       .credential-card { background: var(--navy-tint); border: 1px solid var(--line); padding: 20px 24px; margin-top: 18px; }
       .credential-card p { margin: 0; color: var(--muted); line-height: 1.8; }
 
+      .mentor-grid { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; }
+      .mentor-item { display: flex; flex-direction: column; align-items: center; width: 84px; text-align: center; }
+      .mentor-item img {
+        width: 72px;
+        height: 72px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid var(--gold-soft);
+      }
+      .mentor-item span {
+        margin-top: 6px;
+        font-size: 0.68rem;
+        line-height: 1.25;
+        color: var(--navy-2);
+        font-weight: 700;
+      }
+      .mentor-item:hover img { border-color: var(--gold); }
+
       /* ---------- CV section ---------- */
       #cv {
         margin-top: 30px;
@@ -543,6 +561,36 @@
               </p>
             </div>
             <div class="credential-card" style="margin-top: 14px;">
+              <div class="mentor-grid">
+                <a class="mentor-item" href="https://www.matem.unam.mx/fsd/alberto" target="_blank" rel="noreferrer">
+                  <img src="mentors/Verjovsky.jpg" alt="Alberto Verjovsky" loading="lazy" />
+                  <span>Alberto Verjovsky</span>
+                </a>
+                <a class="mentor-item" href="https://sciences.utsa.edu/faculty/profiles/duenez-eduardo.html" target="_blank" rel="noreferrer">
+                  <img src="mentors/Duenez.jpg" alt="Eduardo Due&ntilde;ez" loading="lazy" />
+                  <span>Eduardo Due&ntilde;ez</span>
+                </a>
+                <a class="mentor-item" href="https://www.matcuer.unam.mx/paginas/tim/" target="_blank" rel="noreferrer">
+                  <img src="mentors/Gendron.jpg" alt="Timothy Gendron" loading="lazy" />
+                  <span>Timothy Gendron</span>
+                </a>
+                <a class="mentor-item" href="https://chebyshev.spbu.ru/en/" target="_blank" rel="noreferrer">
+                  <img src="mentors/Pelaez.jpg" alt="Pablo Pel&aacute;ez Menaldo" loading="lazy" />
+                  <span>Pablo Pel&aacute;ez Menaldo</span>
+                </a>
+                <a class="mentor-item" href="https://sites.google.com/site/matematicazg/" target="_blank" rel="noreferrer">
+                  <img src="mentors/Zenteno.jpg" alt="Adri&aacute;n Zenteno" loading="lazy" />
+                  <span>Adri&aacute;n Zenteno</span>
+                </a>
+                <a class="mentor-item" href="https://sciences.utsa.edu/faculty/profiles/iovino-jose.html" target="_blank" rel="noreferrer">
+                  <img src="mentors/Iovino.jpg" alt="Jos&eacute; Iovino" loading="lazy" />
+                  <span>Jos&eacute; Iovino</span>
+                </a>
+                <a class="mentor-item" href="https://csbig.inmegen.gob.mx/about/" target="_blank" rel="noreferrer">
+                  <img src="mentors/Hernandez_Lemus.jpg" alt="Enrique Hern&aacute;ndez&ndash;Lemus" loading="lazy" />
+                  <span>Enrique Hern&aacute;ndez&ndash;Lemus</span>
+                </a>
+              </div>
               <p>
                 <strong>Teachers and mentors:</strong>
                 <a href="https://www.matem.unam.mx/fsd/alberto" target="_blank" rel="noreferrer">Alberto Verjovsky</a>,
@@ -550,7 +598,7 @@
                 <a href="https://www.matcuer.unam.mx/paginas/tim/" target="_blank" rel="noreferrer">Timothy Gendron</a>,
                 <a href="https://chebyshev.spbu.ru/en/" target="_blank" rel="noreferrer">Pablo Pel&aacute;ez Menaldo</a> (Chebyshev Laboratory, St.&nbsp;Petersburg State University),
                 <a href="https://www.cimat.mx/~pabreu/" target="_blank" rel="noreferrer">V&iacute;ctor Manuel P&eacute;rez&ndash;Abreu Carri&oacute;n</a> (CIMAT),
-                <a href="https://sites.google.com/site/matematicazg/" target="_blank" rel="noreferrer">Adri&aacute;n Zenteno</a>,
+                <a href="https://sites.google.com/site/matematicazg/" target="_blank" rel="noreferrer">Adri&aacute;n Zenteno</a> (Universidad Aut&oacute;noma Metropolitana, Unidad Iztapalapa),
                 <a href="https://sciences.utsa.edu/faculty/profiles/iovino-jose.html" target="_blank" rel="noreferrer">Jos&eacute; Iovino</a>,
                 <a href="https://www.fciencias.unam.mx/directorio/33283" target="_blank" rel="noreferrer">Miguel &Aacute;ngel Garc&iacute;a &Aacute;lvarez</a>, and
                 <a href="https://csbig.inmegen.gob.mx/about/" target="_blank" rel="noreferrer">Enrique Hern&aacute;ndez&ndash;Lemus</a> (Computational Systems Biology and Integrative Genomics Lab, Instituto Nacional de Medicina Gen&oacute;mica).
@@ -607,13 +655,14 @@
               <ul>
                 <li><a href="Notas_Algebra.pdf" target="_blank" rel="noreferrer">Notas de &Aacute;lgebra</a></li>
                 <li><a href="Notas_Algebra_Lineal_Empresariales.pdf" target="_blank" rel="noreferrer">Notas de &Aacute;lgebra Lineal para Negocios</a></li>
+                <li><a href="Transformaciones_Lineales_Beamer.pdf" target="_blank" rel="noreferrer">Transformaciones lineales y matrices</a> (beamer) &mdash; definiciones, teoremas, ejemplos y lectura geom&eacute;trica</li>
               </ul>
 
               <h3>Probability and Statistics</h3>
               <ul>
-                <li><a href="Notas_Cadenas_Markov.pdf" target="_blank" rel="noreferrer">Notas de Cadenas de Markov</a></li>
+                <li><a href="Notas_Cadenas_Markov.pdf" target="_blank" rel="noreferrer">Notas de Cadenas de Markov</a> &mdash; <a href="Markov_Cap1_Beamer.pdf" target="_blank" rel="noreferrer">beamer companion</a>: cadenas a tiempo discreto finito, distribuci&oacute;n estacionaria, periodicidad y lazy walks, con ejemplos (ruina del jugador, Ehrenfest, PageRank)</li>
                 <li><a href="Notas_Procesos_Estocasticos.pdf" target="_blank" rel="noreferrer">Procesos Estoc&aacute;sticos</a> &mdash; cadenas de Markov a tiempo continuo, proceso de Poisson, colas M/M/<em>k</em> y M/M/&infin;, paro &oacute;ptimo, martingalas y cambios de medida</li>
-                <li><a href="Notas_Probabilidad_Medida.pdf" target="_blank" rel="noreferrer">Notas de teor&iacute;a de la medida y probabilidad</a> (Facultad de Ciencias, UNAM) &mdash; de la medida de Lebesgue en &Ropf; a la esperanza condicional, con ejercicios de consolidaci&oacute;n</li>
+                <li><a href="Notas_Probabilidad_Medida.pdf" target="_blank" rel="noreferrer">Notas de teor&iacute;a de la medida y probabilidad</a> (Facultad de Ciencias, UNAM) &mdash; de la medida de Lebesgue en &Ropf; a la esperanza condicional, con ejercicios de consolidaci&oacute;n; <a href="Teoria_Medida_Beamer_Secciones_1_4.pdf" target="_blank" rel="noreferrer">beamer companion (secciones 1&ndash;4)</a></li>
                 <li><a href="Galindo_Cambio_de_Medida_Radon_Nikodym.pdf" target="_blank" rel="noreferrer">C&aacute;lculo Estoc&aacute;stico: cambio de medida en probabilidad y an&aacute;lisis estoc&aacute;stico</a> &mdash; de la integral de Lebesgue al teorema de Radon&ndash;Nikodym, martingalas de densidad y transformaciones de Doob, con aplicaciones a algoritmos gen&eacute;ticos, Metr&oacute;polis&ndash;Hastings, cadenas de Markov a tiempo continuo, modelos ocultos y portafolios</li>
                 <li><a href="Notas_Mouvement_Brownien_Donsker_Francais.pdf" target="_blank" rel="noreferrer">Marches al&eacute;atoires et th&eacute;or&egrave;me de Donsker</a> (notes en fran&ccedil;ais) &mdash; existence du mouvement brownien, construction dyadique de Paul L&eacute;vy, th&eacute;or&egrave;me de Cameron&ndash;Martin, et le principe d&rsquo;invariance de Donsker</li>
               </ul>
@@ -634,6 +683,7 @@
               <ul>
                 <li><a href="Notas/tema1_principios_econometria.pdf" target="_blank" rel="noreferrer">Fundamentos de Econometr&iacute;a &mdash; Tema 1: Principios de Econometr&iacute;a</a> (<a href="Notas/tema1_principios_econometria.tex" target="_blank" rel="noreferrer">.tex</a>) &mdash; ECO515, Licenciatura en Finanzas: qu&eacute; es la econometr&iacute;a, econometr&iacute;a econ&oacute;mica vs. financiera, los elementos de un modelo econom&eacute;trico, tipos de datos (series de tiempo, corte transversal, panel), y antecedentes hist&oacute;ricos (Frisch, Tinbergen, Haavelmo), con ejercicios y ejercicios estilo CFA</li>
                 <li><a href="Notas/ejercicios_mco.pdf" target="_blank" rel="noreferrer">Fundamentos de Econometr&iacute;a &mdash; Hoja de ejercicios: M&iacute;nimos Cuadrados Ordinarios (MCO)</a> (<a href="Notas/ejercicios_mco.tex" target="_blank" rel="noreferrer">.tex</a>) &mdash; ECO515, Licenciatura en Finanzas: la deducci&oacute;n de los estimadores de la regresi&oacute;n lineal simple por tres caminos independientes (completar el cuadrado, y derivadas parciales resueltas tanto por la inversa de la matriz como por la regla de Cramer, paso a paso), invarianza ante cambios de escala, la descomposici&oacute;n R&sup2;&nbsp;=&nbsp;correlaci&oacute;n&sup2;, MCO con variables dummy, el teorema de Gauss&ndash;Markov para la pendiente simple, y una secci&oacute;n de preguntas de opci&oacute;n m&uacute;ltiple estilo examen CFA</li>
+                <li><a href="sumas_varianza_covarianza_mco.pdf" target="_blank" rel="noreferrer">Suma de variables aleatorias, varianza, covarianza, y la deducci&oacute;n de los estimadores de MCO</a> &mdash; ECO515, Licenciatura en Finanzas, Oto&ntilde;o 2026: material complementario al Tema 2 del syllabus, que usa las propiedades del valor esperado, la varianza y la covarianza para deducir desde cero las f&oacute;rmulas cerradas de los estimadores de MCO, con un ejemplo num&eacute;rico completo y ejercicios resueltos y propuestos</li>
               </ul>
 
               <h3>Differential Equations and Optimization</h3>
@@ -740,7 +790,7 @@
                 <article class="card">
                   <h2>Algebraic Geometry <a class="h2-link" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">&#8599; Thesis</a></h2>
                   <p class="card-intro">
-                    An ongoing program, joint with Pablo Pel&aacute;ez, develops the consequences of the Galindo&ndash;Pel&aacute;ez convergence theorem for Pel&aacute;ez&rsquo;s birational-cover filtration on Chow groups: an explicit basis and dimension formula for the Griffiths group of a product of non-isogenous elliptic curves, isogeny invariance, a test on the Ceresa cycle, pullback/transfer/Gysin compatibility from a single naturality lemma, base change and Galois descent along finite extensions, an explicit curve where the filtration provably disagrees with the classical Bloch&ndash;Ogus coniveau filtration despite equal length, and comparisons with Voevodsky&rsquo;s slice filtration and Bondarko&rsquo;s weight structure.
+                    An ongoing program, joint with Pablo Pel&aacute;ez, develops further consequences of the Galindo&ndash;Pel&aacute;ez convergence theorem for Pel&aacute;ez&rsquo;s birational-cover filtration on Chow groups. Further details to follow as results are submitted.
                   </p>
                   <ul>
                     <li>Higher Chow groups and motivic cohomology</li>
@@ -797,12 +847,11 @@
               <article class="card mt-lg">
                 <h2>Topos Theory &amp; Model Theory</h2>
                 <p class="card-intro">
-                  A geometric theory <em>T</em> determines a classifying topos <strong>Set[<em>T</em>]</strong> that classifies its models: for any topos <em>E</em>, models of <em>T</em> in <em>E</em> correspond to geometric morphisms <em>E</em> &rarr; Set[<em>T</em>]. Kripke&ndash;Joyal semantics supplies the internal, sheaf-theoretic notion of forcing that makes this correspondence precise sheaf by sheaf, and the Diaconescu&ndash;Deligne&ndash;Barr circle of theorems characterizes which Grothendieck toposes arise this way and how their points and internal geometric logic determine them up to the relevant equivalence (joint with Eduardo Due&ntilde;ez and Jos&eacute; Iovino). A second, ongoing line with the same collaborators extends Birkhoff&ndash;von Neumann quantum logic &mdash; classically valued in the lattice of closed subspaces of a Hilbert space &mdash; to a S&ograve;ler&ndash;valued model theory, using S&ograve;ler&rsquo;s theorem characterizing Hilbert spaces among orthomodular spaces to control which lattices admit a compatible model-theoretic semantics. A further, in-progress direction, joint with Eduardo Due&ntilde;ez and Jos&eacute; Iovino, asks how far this So&#768;ler-valued semantics can be pushed computationally &mdash; toward idempotents, deep computations, and homological readings of orthomodular lattices, connecting to solenoids and to social choice.
+                  A joint program with Eduardo Due&ntilde;ez and Jos&eacute; Iovino at the interaction of topos theory and model theory, including classifying toposes and their internal (Kripke&ndash;Joyal) semantics, and an extension of Birkhoff&ndash;von Neumann quantum logic to a S&ograve;ler&ndash;valued model theory. Further details to follow as results are submitted.
                 </p>
                 <ul>
-                  <li>Model theory of Grothendieck toposes: classifying toposes, Kripke&ndash;Joyal semantics, and the Diaconescu&ndash;Deligne&ndash;Barr theorems (joint with Eduardo Due&ntilde;ez and Jos&eacute; Iovino)</li>
+                  <li>Model theory of Grothendieck toposes: classifying toposes and Kripke&ndash;Joyal semantics (joint with Eduardo Due&ntilde;ez and Jos&eacute; Iovino)</li>
                   <li>S&ograve;ler&ndash;valued model theory extending Birkhoff&ndash;von Neumann quantum logic (joint, in progress)</li>
-                  <li>Ultrafilters, idempotents, and tameness: deep computations, orthomodular lattices, solenoids, and social choice (in progress, joint with Eduardo Due&ntilde;ez and Jos&eacute; Iovino)</li>
                 </ul>
               </article>
             </section>
@@ -829,7 +878,7 @@
                     <li>Dyson Brownian motion and rare gap events</li>
                     <li>Cover times and Poisson point processes for spectral gaps</li>
                     <li>Connections to Riemann zeta zeros and L-functions (advisor: Eduardo Due&ntilde;ez)</li>
-                    <li>Unpublished work in progress: the survival probability of a bulk spectral gap past time <em>T</em> under Dyson&ndash;Ornstein&ndash;Uhlenbeck dynamics, coupled to a Bessel process, and a cover-time law for when the last such gap closes</li>
+                    <li>Unpublished work in progress on spectral-gap survival and cover-time laws for Dyson Brownian motion; further details to follow as results are submitted</li>
                   </ul>
                   <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">
                     <em>Gaussian Random Matrix Ensembles: Classical Theory and Universality</em>, based on a course taught by Eduardo Due&ntilde;ez at CIMAT
@@ -855,21 +904,14 @@
                     </span>
                   </h2>
                   <p class="card-intro">
-                    Extends the D-optimal experimental-design framework of <em>RGB&ndash;LED Sensor Fusion</em> (above) from spectral-reflectance channel selection to fixed-budget probe/gene-panel design in computational genomics. The breast-cancer application builds directly on six papers by <a href="https://csbig.inmegen.gob.mx/about/" target="_blank" rel="noreferrer">Enrique Hern&aacute;ndez&ndash;Lemus</a> (Computational Systems Biology and Integrative Genomics Lab, Instituto Nacional de Medicina Gen&oacute;mica) on the information theory and network biology of breast-cancer transcriptomics, including a reproduced figure (CC BY 4.0) from his group&rsquo;s chromatin-conformation/gene-expression network study, and was refined in direct discussion with him.
+                    Extends the D-optimal experimental-design framework of <em>RGB&ndash;LED Sensor Fusion</em> (below) from spectral-reflectance channel selection to fixed-budget probe/gene-panel design in computational genomics, developed in discussion with <a href="https://csbig.inmegen.gob.mx/about/" target="_blank" rel="noreferrer">Enrique Hern&aacute;ndez&ndash;Lemus</a> (Computational Systems Biology and Integrative Genomics Lab, Instituto Nacional de Medicina Gen&oacute;mica). Further details to follow as the work is submitted.
                   </p>
-                  <ul>
-                    <li>Poses fixed-budget gene-panel selection &mdash; the same design question behind the 21-gene Oncotype DX, 70-gene MammaPrint, and 50-gene PAM50 breast-cancer classifiers, each derived separately &mdash; as the same D-optimal Fisher-information criterion used for optical channel selection</li>
-                    <li>Poisson and negative-binomial Fisher information matrices, derived and Monte-Carlo-verified, transfer the D-optimal criterion unchanged to count-valued RNA-seq panels</li>
-                    <li>Connects the Marchenko&ndash;Pastur random-matrix threshold &mdash; used by Gonz&aacute;lez-Espinoza, Zamora-Fuentes, Hern&aacute;ndez&ndash;Lemus &amp; Espinal-Enr&iacute;quez to denoise breast-cancer gene co-expression networks &mdash; to which candidate-library sizes the D-optimal criterion can resolve exactly before the asymptotic RMT regime takes over</li>
-                    <li>Relates the exact Gaussian posterior-entropy reduction achieved by the design to Hern&aacute;ndez&ndash;Lemus&rsquo;s information-theoretical approach to breast-cancer transcriptional regulation, and to the mutual-information feature selection (mRMR, MIFS) and wavelet copy-number denoising used, separately, in the wider transcriptomics literature</li>
-                    <li>Developed and proved in full, but honestly scoped: not yet tested against a real, measured breast-cancer expression-profile library</li>
-                  </ul>
                 </article>
 
                 <article class="card">
                   <h2>Randomness vs. Market Memory: IPC &amp; Dow Jones</h2>
                   <p class="card-intro">
-                    Joint work with Claudia Cristina Reyes Montes de Oca (Maestr&iacute;a en Econom&iacute;a, FES Acatl&aacute;n, UNAM), asking whether stock prices behave as a random walk or carry memory and predictable structure, across nine equity indices (Mexico&rsquo;s IPC, the Dow Jones, and further markets in Asia and Latin America) using only quantities computed directly from real daily price data &mdash; martingale/EMH diagnostics, Hurst exponents, Marchenko&ndash;Pastur random matrix theory, GJR-GARCH and extreme-value tail risk, a walk-forward machine-learning benchmark, and a continuous-time stochastic-calculus formalization (It&ocirc;, Heston, Girsanov).
+                    Joint work with Claudia Cristina Reyes Montes de Oca (Maestr&iacute;a en Econom&iacute;a, FES Acatl&aacute;n, UNAM), asking whether stock prices behave as a random walk or carry memory and predictable structure, across nine equity indices including Mexico&rsquo;s IPC and the Dow Jones. Further details to follow as the work is submitted.
                   </p>
                 </article>
               </div>
@@ -877,29 +919,15 @@
               <article class="card mt-lg">
                 <h2>Random Matrix Theory in Quantitative Finance</h2>
                 <p class="card-intro">
-                  Joint work with Mart&iacute;n Rodolfo Garc&iacute;a Barrera, using the statistical-mechanical machinery of large random matrices&mdash;the Coulomb-gas/eigenvalue-repulsion picture behind the Mar&#269;enko&ndash;Pastur law and the Baik&ndash;Ben Arous&ndash;P&eacute;ch&eacute; spiked-covariance transition, Tracy&ndash;Widom extreme-value statistics of the spectral edge, and the free-probabilistic deconvolution behind optimal nonlinear shrinkage&mdash;to separate signal from noise in a 38-asset, 14.5-year covariance matrix of the Mexican Stock Exchange (BMV).
+                  Joint work with Mart&iacute;n Rodolfo Garc&iacute;a Barrera, using large-random-matrix theory to separate signal from noise in the covariance structure of the Mexican Stock Exchange (BMV), with applications to portfolio optimization. Further details to follow as the work is submitted.
                 </p>
-                <ul>
-                  <li>Spectral identification of exactly two economically interpretable factors (market, sector), confirmed against independent macroeconomic regressions and, via Tracy&ndash;Widom fluctuation theory, separated from the noise floor at better than 99% confidence</li>
-                  <li>Analytic nonlinear shrinkage (Ledoit&ndash;Wolf) dominates linear shrinkage, eigenvalue clipping, and the raw sample estimator out-of-sample, on both a single window and a rolling reconstruction</li>
-                  <li>Robust to a dynamic DCC&ndash;GARCH benchmark and to the heavy-tailed (non-Gaussian) returns actually present in the data</li>
-                  <li>Extends beyond the minimum-variance portfolio to a CAPM-anchored efficient frontier and a Black&ndash;Litterman equilibrium posterior</li>
-                  <li>Connects, via Dyson Brownian motion, to a proposed continuous-time bridge between static spectral cleaning and dynamic correlation models</li>
-                </ul>
               </article>
 
               <article class="card mt-lg">
                 <h2>Electronic-Toll Adoption and Payment Evasion: Disruptive Innovation and Operations Research</h2>
                 <p class="card-intro">
-                  Joint work with Ximena Pacheco Zamora (undergraduate thesis, Facultad de Ciencias, UNAM, 2027 tentative), testing Christensen&rsquo;s theory of disruptive innovation and the Bass diffusion model against real operational data &mdash; monthly aforo/evasion by toll plaza, electronic-toll adoption series, and capital-expenditure plans &mdash; from a Mexican toll-highway concessionaire (IDEAL).
+                  Joint work with Ximena Pacheco Zamora (undergraduate thesis, Facultad de Ciencias, UNAM, 2027 tentative), testing Christensen&rsquo;s theory of disruptive innovation and the Bass diffusion model against real operational data from a Mexican toll-highway concessionaire. Further details to follow as the thesis is completed.
                 </p>
-                <ul>
-                  <li>A mixed-effects (random-intercept-by-plaza) decomposition of evaded-toll revenue finds an intraclass correlation of 0.938: 93.8% of the variance is a fixed level per toll plaza, with a proved variance-floor proposition showing that no regression, regularized, or tree-based model can predict a never-seen plaza below the sum of the between-plaza and within-plaza variance</li>
-                  <li>Ridge regression, run specifically to test whether regularizing the per-highway fixed effects would help, honestly does not improve on unregularized least squares out-of-sample &mdash; shrinking toward the population mean hurts most exactly where the outlying plazas dominate total evasion</li>
-                  <li>A two-state Markov chain of each plaza&rsquo;s own evasion regime (high/low, split by its own median) finds persistence probabilities barely above chance (0.48&ndash;0.54), consistent with the intraclass-correlation result: what is not a fixed plaza-level effect is largely unstructured month-to-month noise</li>
-                  <li>Nonlinear least-squares fits of the Bass diffusion equation to six electronic-toll adoption series are uniformly poor (negative R&sup2; against each series&rsquo; own mean, in all six), a negative result traced to the observed series already sitting past the diffusion curve&rsquo;s take-off phase, not to a numerical failure of the fit</li>
-                  <li>Recasts capital budgeting across disincentive and lane-expansion projects as a 0/1 knapsack solved exactly by mixed-integer linear programming, with a proved linear-relaxation bound certifying optimality &mdash; the correct analogue of Markowitz portfolio theory once no tradable-asset return series exists in the data</li>
-                </ul>
               </article>
 
               <article class="card mt-lg">
@@ -912,10 +940,9 @@
                   Joint work with Gabriel Villafuerte C. (Facultad de Estudios Superiores Acatl&aacute;n, UNAM, 2026). Most course-feedback dashboards turn open-ended survey text into a sentiment score without stating what, if anything, guarantees that score is statistically meaningful. SIAMDA is an open-source Streamlit tool that builds a per-student sentiment index from survey responses&mdash;via token-position wavelet decomposition rather than the more common (and less justified) decomposition over embedding coordinates&mdash;and pairs it with an explicit efficiency check (Fisher information, the Cram&eacute;r&ndash;Rao bound under Gaussian and Laplacian models) that states plainly what it does and does not certify.
                 </p>
                 <ul>
-                  <li>Sentiment index built by projecting each token&rsquo;s contextual embedding onto the response&rsquo;s sentence embedding, then applying the discrete wavelet transform over token position&mdash;an axis with genuine sequential structure, unlike the embedding&rsquo;s own coordinates</li>
-                  <li>Explicit statistical validation layer (Fisher information, Cram&eacute;r&ndash;Rao bound, Shapiro&ndash;Wilk normality test, bootstrap variance) with a documented finding: under the Gaussian model the efficiency check is close to tautological (&asymp;100% even when the sample rejects normality), a distinction the software&rsquo;s own interface used to overclaim and now states correctly</li>
-                  <li>Sensitivity analysis (sample size, wavelet family, decomposition level) that caught and fixed a real interface bug: for realistically short survey responses, the decomposition-level parameter silently had no effect</li>
-                  <li>MIT-licensed, 22 automated tests under continuous integration, companion technical notes in Spanish and English, and a JOSS submission draft</li>
+                  <li>Sentiment index built via the discrete wavelet transform over token position&mdash;an axis with genuine sequential structure&mdash;rather than the more common (and less justified) decomposition over embedding coordinates</li>
+                  <li>Explicit statistical validation layer (Fisher information, Cram&eacute;r&ndash;Rao bound) stating plainly what it does and does not certify</li>
+                  <li>MIT-licensed, under continuous integration, with companion technical notes in Spanish and English; a JOSS submission is in progress</li>
                 </ul>
               </article>
 
@@ -965,15 +992,8 @@
               <article class="card mt-lg">
                 <h2>Hedonic Economics in Mexico City: Urban Welfare &amp; Mobility</h2>
                 <p class="card-intro">
-                  Joint work with <a href="https://www.up.edu.mx/en/escuelas-y-facultades/escuela-de-gobierno-y-economia/akito-kamei-formando-economistas-con-pasion-y-rigor-para-transformar-la-sociedad/" target="_blank" rel="noreferrer">Akito Kamei</a> (Universidad Panamericana) examining how housing affordability and commuting burden shape urban welfare in Mexico City, using the spatial structure of mobility from INEGI&rsquo;s 2017 Origin&ndash;Destination Survey to study transit-network optimization and ridership flows. The project builds the descriptive and spatial groundwork &mdash; mode choice, commuting burden, transit access, persistent&#8209;homology analysis of the network&rsquo;s most robust cycles &mdash; that a Rosen&ndash;Roback hedonic rent regression would need as inputs, under a formal spatial&#8209;equilibrium definition of amenity capitalization into rents and wages.
+                  Joint work with <a href="https://www.up.edu.mx/en/escuelas-y-facultades/escuela-de-gobierno-y-economia/akito-kamei-formando-economistas-con-pasion-y-rigor-para-transformar-la-sociedad/" target="_blank" rel="noreferrer">Akito Kamei</a> (Universidad Panamericana) on housing affordability, commuting burden, and urban welfare in Mexico City, drawing on INEGI&rsquo;s 2017 Origin&ndash;Destination Survey within a Rosen&ndash;Roback hedonic framework. Further details to follow as the work is submitted.
                 </p>
-                <ul>
-                  <li>Housing affordability, commuting burden, and urban welfare in Mexico City (with Akito Kamei)</li>
-                  <li>Spatial structure of mobility from the 2017 Origin&ndash;Destination Survey (INEGI)</li>
-                  <li>Transit-network optimization and persistent&#8209;homology analysis of ridership flows</li>
-                  <li>Rosen&ndash;Roback hedonic welfare framework: spatial equilibrium and amenity capitalization into rents and wages</li>
-                  <li>Work in progress: estimating the hedonic rent regression by maximum likelihood (MLE) once rent/housing-price, crime, and amenity&#8211;GIS data are incorporated (candidates under evaluation: 2020 Census housing module, INEGI Encuesta Intercensal 2025, SESNSP crime incidence series)</li>
-                </ul>
               </article>
 
               <article class="card mt-lg">
@@ -1031,17 +1051,8 @@
               <article class="card mt-lg">
                 <h2>RGB&ndash;LED Sensor Fusion</h2>
                 <p class="card-intro">
-                  Joint work with &Oacute;scar Amador on data-driven spectral reflectance reconstruction from RGB cameras augmented with a small number of LED channels &mdash; an ill-posed inverse problem made tractable, and its LED wavelengths chosen, by design rather than by trial and error. The framework poses channel selection as a D-optimal experimental design problem: maximizing the determinant of the Fisher information matrix induced by a PCA-learned latent basis for the reflectance spectrum, with sensing-quality diagnostics (condition number, log-determinant) independent of the estimator or test sample, and a closed-form Bayesian posterior for the reconstruction itself.
+                  Joint work with &Oacute;scar Amador on data-driven spectral reflectance reconstruction from RGB cameras augmented with a small number of LED channels, posing channel selection as a D-optimal experimental-design problem. Further details to follow as the work is submitted.
                 </p>
-                <ul>
-                  <li>PCA latent basis with data-driven dimension selection for the reflectance spectrum</li>
-                  <li>D-optimal LED wavelength selection maximizing the log-determinant of the Fisher information matrix</li>
-                  <li>Four structural results underpinning the design criterion: a rank-monotonicity proposition, an exact characterization of when it degenerates, an AM&ndash;GM inequality linking D- and A-optimality, and its identification with maximum expected Shannon information gain in the weak-prior limit &mdash; confirmed in practice far outside that asymptotic regime</li>
-                  <li>A first-order perturbation bound (Weyl&rsquo;s inequality) converting hardware calibration drift into an explicit design tolerance, plus a Cram&eacute;r&ndash;Rao lower bound and a closed-form Bayesian posterior independently verified against Metropolis&ndash;Hastings MCMC</li>
-                  <li>On a controlled benchmark, D-optimal design cuts the sensing operator&rsquo;s condition number from 3.626 to 1.369 and colorimetric error by a factor of six under heteroscedastic noise; a leave-one-out validation on real, spectrophotometrically measured reflectance (the BabelColor ColorChecker dataset) confirms a five-to-sevenfold error reduction on measured, not synthetic, data</li>
-                  <li>Structured neural estimators (a from-scratch transformer and 1D CNN) beat the D-optimal Bayesian pipeline on a majority of families/metrics given enough capacity, while unstructured baselines (MLP, autoencoder) never do</li>
-                  <li>The design criterion extends beyond optics: the same Poisson and negative-binomial Fisher information matrices, derived and Monte-Carlo-verified, transfer the D-optimal criterion unchanged to probe/biomarker panel design in computational genomics</li>
-                </ul>
               </article>
             </section>
           </div>
