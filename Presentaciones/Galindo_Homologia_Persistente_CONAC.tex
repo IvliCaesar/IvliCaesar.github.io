@@ -1,0 +1,550 @@
+% Presentación CONAC — Homología persistente aplicada a datos actuariales
+% Duración objetivo: 40 minutos. Estilo: beamer sobrio (sin decoración, sin
+% diagramas conceptuales de cajas y flechas; solo figuras geométricas
+% concretas: nubes de puntos, complejos, códigos de barra, diagramas).
+%
+% Sede: Universidad Panamericana, Ciudad UP. Fecha: 9 de septiembre de 2026.
+
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % fuentes vectoriales limpias: evita glifos rotos
+                      % de ligaduras (fi, fl) y rayas (--, ---) en lectores como SumatraPDF
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage[dvipsnames]{xcolor}
+
+% ---------------------------------------------------------------------
+% Estilo sobrio: sin tema decorado, sin sombras, sin símbolos de
+% navegación, paleta mínima (tinta + un solo acento).
+% ---------------------------------------------------------------------
+\setbeamertemplate{navigation symbols}{}
+\definecolor{ink}{RGB}{34,34,38}
+\definecolor{accent}{RGB}{15,58,102}
+\definecolor{accent2}{RGB}{140,30,30}
+\definecolor{muted}{RGB}{115,115,120}
+\definecolor{paper}{RGB}{252,252,250}
+
+\setbeamercolor{normal text}{fg=ink,bg=paper}
+\setbeamercolor{structure}{fg=accent}
+\setbeamercolor{title}{fg=accent,bg=paper}
+\setbeamercolor{frametitle}{fg=accent,bg=paper}
+\setbeamercolor{section in toc}{fg=ink}
+\setbeamercolor{footline}{fg=muted,bg=paper}
+\setbeamercolor{itemize item}{fg=accent}
+\setbeamercolor{itemize subitem}{fg=muted}
+\setbeamercolor{block title}{fg=accent,bg=paper}
+\setbeamercolor{block body}{fg=ink,bg=paper}
+
+\setbeamertemplate{background canvas}{\color{paper}\rule{0pt}{0pt}}
+\setbeamertemplate{itemize item}{\raisebox{0.2ex}{\rule{3.2pt}{3.2pt}}}
+\setbeamertemplate{itemize subitem}{\raisebox{0.2ex}{\rule{2.4pt}{2.4pt}}}
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+\setbeamerfont{title}{series=\bfseries}
+\setbeamertemplate{frametitle}{%
+  \vspace{0.4em}\insertframetitle\par
+  {\color{accent}\rule{\linewidth}{0.5pt}}
+}
+\setbeamertemplate{footline}{%
+  \hbox to \paperwidth{\hfil
+    \vbox to 2.2ex{\vfil\hbox{\color{muted}\footnotesize\insertframenumber\,/\,\inserttotalframenumber}\vfil}
+    \hspace{2em}}
+}
+
+\newcommand{\defterm}[1]{\textbf{\color{accent}#1}}
+
+\title{\textbf{Homología persistente aplicada a datos actuariales}}
+\subtitle{Una introducción rigurosa, con ejemplos y una lectura crítica}
+\author{Julio César Galindo López}
+\institute{CONAC \\ Universidad Panamericana, Ciudad UP}
+\date{9 de septiembre de 2026}
+
+\begin{document}
+
+% ======================================================================
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ======================================================================
+\begin{frame}{Agenda}
+  \begin{enumerate}
+    \setlength{\itemsep}{0.6em}
+    \item ¿Por qué topología en datos actuariales?
+    \item Fundamentos de homología persistente
+    \item Un ejemplo completo, calculado a mano
+    \item Diccionario actuarial--topológico
+    \item Caso de estudio: superficies de mortalidad
+    \item Caso de estudio: riesgo de mercado y de crédito
+    \item Un panorama honesto: qué existe y qué no
+    \item Herramientas y cómo empezar un piloto
+    \item Conclusiones
+  \end{enumerate}
+\end{frame}
+
+% ======================================================================
+\section{Motivación}
+\begin{frame}{¿Por qué topología en datos actuariales?}
+  \begin{itemize}
+    \item Los datos actuariales rara vez son una nube homogénea: hay
+      \defterm{cohortes}, \defterm{regímenes}, \defterm{choques} (pandemias,
+      crisis financieras, catástrofes) y \defterm{ciclos}.
+    \item Los modelos habituales (GLM, Lee--Carter, cópulas, triángulos de
+      reserva) suponen una forma funcional y luego prueban ajuste.
+    \item La pregunta topológica es distinta: \textit{¿qué forma tiene la
+      nube de datos, y esa forma se mantiene al cambiar la escala de
+      resolución con la que la miro?}
+    \item Homología persistente da una respuesta \textbf{cuantificable} y
+      \textbf{estable ante ruido} (más adelante, con teorema).
+  \end{itemize}
+  \vspace{0.5em}
+  \begin{block}{Lo que esto no es}
+    No sustituye al modelado actuarial estándar. Es una herramienta
+    exploratoria y de detección de estructura, complementaria al GLM, a
+    Lee--Carter o al triángulo de reserva de siempre.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Un ejemplo para tener en mente}
+  \begin{itemize}
+    \item Una superficie de mortalidad (edad $\times$ año) tiene
+      \emph{forma}: las cohortes dejan diagonales, las pandemias dejan
+      valles y picos.
+    \item Un mercado en crisis tiene \emph{forma}: co-movimientos que
+      normalmente son ``ruido'' se organizan en \emph{ciclos} antes de un
+      colapso.
+    \item En ambos casos, lo interesante no es un punto aislado sino una
+      \textbf{estructura que persiste} en un rango de escalas.
+    \item Ese es exactamente el objeto que la homología persistente está
+      diseñada para medir.
+  \end{itemize}
+  \vspace{0.8em}
+  {\small\itshape\color{muted}
+  Para medirlo con precisión necesitamos tres ingredientes: una nube de
+  puntos, una escala que crece, y una noción de qué nace y qué muere en
+  el camino.}
+\end{frame}
+
+% ======================================================================
+\section{Fundamentos}
+\begin{frame}{Nubes de puntos y complejos simpliciales}
+  Sea $(X,d)$ un espacio métrico finito: $X=\{x_1,\dots,x_n\}$
+  (observaciones: pólizas, celdas edad-año, ventanas de tiempo, series).
+  \vspace{0.4em}
+  \begin{block}{Complejo de Vietoris--Rips, $\mathrm{VR}_\varepsilon(X)$}
+    Un subconjunto $\sigma=\{x_{i_0},\dots,x_{i_k}\}\subseteq X$ es un
+    símplice de $\mathrm{VR}_\varepsilon(X)$ si y solo si
+    $d(x_i,x_j)\le \varepsilon$ para \textbf{todo par} $x_i,x_j\in\sigma$.
+  \end{block}
+  \begin{itemize}
+    \item Condición puramente \emph{pareada}: fácil de calcular a partir de
+      una sola matriz de distancias (o de disimilitud actuarial).
+    \item Alternativa clásica: el \defterm{complejo de Čech}, que exige que
+      las $n$ bolas cerradas de radio $\varepsilon/2$ tengan intersección
+      común no vacía. Por el lema del nervio (Borsuk), en $\mathbb{R}^m$ el
+      complejo de Čech es homotópicamente equivalente a la unión de esas
+      bolas.
+    \item Cota clásica (Vietoris--Rips vs.\ Čech, de Silva--Ghrist):
+      $\mathrm{\check{C}ech}_\varepsilon(X)\subseteq \mathrm{VR}_\varepsilon(X)
+      \subseteq \mathrm{\check{C}ech}_{\sqrt{2}\,\varepsilon}(X)$ en
+      $\mathbb{R}^m$ euclidiano.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Filtración y homología}
+  \begin{itemize}
+    \item Si $\varepsilon\le\varepsilon'$ entonces
+      $\mathrm{VR}_\varepsilon(X)\subseteq \mathrm{VR}_{\varepsilon'}(X)$:
+      una familia \defterm{anidada} de complejos, la \defterm{filtración}.
+    \item Para cada $\varepsilon$ calculamos los grupos de homología
+      simplicial $H_k(\mathrm{VR}_\varepsilon(X);\mathbb{F})$ sobre un campo
+      $\mathbb{F}$ (usualmente $\mathbb{F}_2$).
+    \item Sus rangos son los \defterm{números de Betti}
+      $\beta_k(\varepsilon)$:
+      \begin{itemize}
+        \item $\beta_0$: número de componentes conexas.
+        \item $\beta_1$: número de ciclos independientes (``agujeros'' 1D).
+        \item $\beta_2$: número de cavidades 2D independientes.
+      \end{itemize}
+    \item Las inclusiones inducen mapas lineales
+      $H_k(\mathrm{VR}_\varepsilon)\to H_k(\mathrm{VR}_{\varepsilon'})$: esto
+      es un \defterm{módulo de persistencia}.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Códigos de barra y diagramas de persistencia}
+  \begin{block}{Teorema de estructura (Zomorodian--Carlsson, 2005)}
+    Sobre un campo, y para un complejo finito, todo módulo de persistencia
+    se descompone como suma directa de \defterm{módulos de intervalo}
+    $[b,d)$: cada uno es una clase de homología que \emph{nace} en
+    $\varepsilon=b$ y \emph{muere} en $\varepsilon=d$.
+  \end{block}
+  \begin{itemize}
+    \item El \defterm{código de barras} dibuja cada intervalo $[b,d)$ como
+      una barra horizontal sobre el eje $\varepsilon$.
+    \item El \defterm{diagrama de persistencia} $\mathrm{Dgm}_k$ dibuja cada
+      intervalo como el punto $(b,d)$ en el plano, con $b\le d$.
+    \item Puntos cerca de la diagonal $b=d$: nacen y mueren casi de
+      inmediato $\Rightarrow$ ruido. Puntos lejos de la diagonal: rasgos
+      \textbf{persistentes} $\Rightarrow$ estructura real.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Estabilidad: por qué esto sirve con datos ruidosos}
+  \small
+  \begin{block}{Teorema de estabilidad (Cohen-Steiner--Edelsbrunner--Harer, 2007)}
+    Si $f,g:X\to\mathbb{R}$ son funciones \emph{tame} sobre un mismo espacio
+    (p.ej. dos filtraciones comparables), entonces
+    \[
+      d_B\big(\mathrm{Dgm}(f),\,\mathrm{Dgm}(g)\big) \;\le\; \|f-g\|_\infty,
+    \]
+    donde $d_B$ es la \defterm{distancia bottleneck} entre diagramas.
+  \end{block}
+  \begin{itemize}
+    \setlength{\itemsep}{0.2em}
+    \item Versión para nubes de puntos (Chazal--Cohen-Steiner--Guibas--%
+      Mémoli--Oudot, 2009): si dos nubes están cerca en distancia de
+      Gromov--Hausdorff, sus diagramas están cerca en $d_B$.
+    \item \textbf{Consecuencia actuarial}: una perturbación pequeña de los
+      datos (ruido de medición, redondeo, un año atípico) no puede mover
+      mucho un rasgo topológico verdaderamente persistente.
+  \end{itemize}
+  \vspace{0.4em}
+  {\itshape\color{muted}
+  Con esa garantía en mano, veamos el mecanismo completo en un ejemplo
+  pequeño que se puede verificar a mano.}
+\end{frame}
+
+% ---- Ejemplo calculado a mano ---------------------------------------
+\section{Ejemplo}
+\begin{frame}{Un ejemplo completo, calculado a mano}
+  Seis puntos en un hexágono regular de radio $2$ (ángulos
+  $0^\circ,60^\circ,\dots,300^\circ$). Distancias posibles entre pares:
+  \begin{itemize}
+    \item vecinos adyacentes ($60^\circ$): $d=2$
+    \item salto uno ($120^\circ$): $d=2\sqrt{3}\approx 3.46$
+    \item opuestos ($180^\circ$): $d=4$
+  \end{itemize}
+  \begin{center}
+  \begin{tikzpicture}[scale=0.62]
+    \begin{scope}[shift={(0,0)}]
+      \foreach \a in {0,60,...,300}{
+        \coordinate (p\a) at (\a:2);
+      }
+      \foreach \a in {0,60,...,300}{
+        \fill[accent] (p\a) circle (2.2pt);
+      }
+      \draw[accent,thick] (p0)--(p60)--(p120)--(p180)--(p240)--(p300)--cycle;
+      \node[below] at (0,-2.7) {\footnotesize $\varepsilon=2$: hexágono, $\beta_1=1$};
+    \end{scope}
+    \begin{scope}[shift={(7,0)}]
+      \foreach \a in {0,60,...,300}{
+        \coordinate (q\a) at (\a:2);
+      }
+      \foreach \a in {0,60,...,300}{
+        \fill[accent2] (q\a) circle (2.2pt);
+      }
+      \foreach \a in {0,60,...,300}{
+        \foreach \b in {0,60,...,300}{
+          \ifnum\a<\b
+            \draw[accent2,thin] (q\a)--(q\b);
+          \fi
+        }
+      }
+      \node[below] at (0,-2.7) {\footnotesize $\varepsilon\ge 4$: símplice completo, contraíble};
+    \end{scope}
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Los tres umbrales exactos}
+  \small
+  Por la simetría del hexágono, las tres distancias son también los tres
+  \emph{umbrales de la filtración}:
+  \begin{itemize}
+    \setlength{\itemsep}{0.15em}
+    \item $\varepsilon<2$: solo vértices sueltos. $\beta_0=6$, todo lo
+      demás $0$.
+    \item $\varepsilon=2$: aparecen las $6$ aristas del hexágono a la vez.
+      $\beta_0$ baja de $6$ a $1$; nace \textbf{un} ciclo, $\beta_1=1$.
+    \item $\varepsilon=2\sqrt{3}\approx3.46$: aparecen las $6$ aristas
+      ``salto uno'' \textbf{y} $8$ triángulos a la vez. El complejo es
+      combinatoriamente la frontera de un octaedro ($\simeq S^2$): el
+      ciclo 1D \textbf{muere} ($\beta_1=0$) pero nace una cavidad 2D
+      ($\beta_2=1$).
+    \item $\varepsilon=4$: aparecen las $3$ aristas opuestas; el complejo es
+      el símplice completo en $6$ vértices (contraíble). $\beta_2$ muere.
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{block}{Nota de cautela}
+    A escala intermedia nace una cavidad 2D que \textbf{no corresponde a
+      ninguna estructura real}: es un artefacto de muestrear un círculo
+    con puntos regularmente espaciados. Con estacionalidad (mortalidad
+    anual, siniestros estacionales) puede aparecer un efecto análogo, y
+    \textbf{debe contrastarse contra un modelo nulo} antes de interpretarse.
+  \end{block}
+\end{frame}
+
+\begin{frame}{El mismo ejemplo: código de barras y diagrama}
+  \begin{center}
+  \begin{tikzpicture}[scale=0.78]
+    % Barcode (left)
+    \begin{scope}[shift={(0,0)}]
+      \draw[->] (0,0) -- (4.6,0) node[right,font=\footnotesize] {$\varepsilon$};
+      \foreach \x/\lbl in {0/0,1/1,2/2,3.46/{2\sqrt3},4/4}{
+        \draw (\x,0.05)--(\x,-0.05) node[below,font=\tiny] {$\lbl$};
+      }
+      % H0 bars: 5 finite [0,2), 1 infinite
+      \foreach \y in {5.4,5.0,4.6,4.2,3.8}{
+        \draw[accent,thick] (0,\y) -- (2,\y);
+      }
+      \draw[accent,thick,->] (0,3.4) -- (4.4,3.4);
+      \node[left,font=\tiny] at (0,4.6) {$H_0$};
+      % H1 bar [2, 3.46)
+      \draw[accent2,thick] (2,2.4) -- (3.46,2.4);
+      \node[left,font=\tiny] at (0,2.4) {$H_1$};
+      % H2 bar [3.46,4)
+      \draw[Green!50!black,thick] (3.46,1.4) -- (4,1.4);
+      \node[left,font=\tiny] at (0,1.4) {$H_2$};
+      \node[below,font=\footnotesize] at (2.2,-0.9) {código de barras};
+    \end{scope}
+    % Diagram (right)
+    \begin{scope}[shift={(7.4,-0.3)}]
+      \draw[->] (0,0) -- (4.4,0) node[right,font=\footnotesize] {nacimiento};
+      \draw[->] (0,0) -- (0,4.4) node[above,font=\footnotesize] {muerte};
+      \draw[muted,dashed] (0,0) -- (4.2,4.2);
+      \filldraw[accent2] (2,3.46) circle (2.2pt) node[right,font=\tiny] {$H_1$};
+      \filldraw[Green!50!black] (3.46,4) circle (2.2pt) node[right,font=\tiny] {$H_2$};
+      \node[below,font=\footnotesize] at (2.2,-0.6) {diagrama de persistencia};
+    \end{scope}
+  \end{tikzpicture}
+  \end{center}
+  \footnotesize
+  Ambos puntos $H_1$ y $H_2$ están lejos de la diagonal: en este ejemplo
+  \emph{ambos} son ``persistentes'', aunque ya vimos que uno de los dos
+  ($H_2$) es un artefacto de muestreo --- la persistencia mide duración
+  en la escala, no ``realidad''. Ese vocabulario es el que ahora
+  traducimos al lenguaje del actuario.
+\end{frame}
+
+% ======================================================================
+\section{Diccionario}
+\begin{frame}{Diccionario actuarial--topológico}
+  \begin{center}
+  \small
+  \begin{tabular}{@{}p{4.7cm}p{6.8cm}@{}}
+    \toprule
+    \textbf{Objeto topológico} & \textbf{Lectura actuarial} \\
+    \midrule
+    Punto de la nube & Observación: póliza, celda edad--año, ventana temporal \\
+    Métrica $d$ & Disimilitud actuarial: Mahalanobis, $1-$correlación, distancia en log-retornos \\
+    Componente conexa ($\beta_0$) & Segmento o subpoblación homogénea \\
+    Ciclo 1D ($\beta_1$) & Régimen cíclico, recurrencia, co-movimiento antes de un choque \\
+    Persistencia (longitud de barra) & Robustez de la estructura frente a la escala de agregación \\
+    Cerca de la diagonal & Ruido de muestreo, no evidencia de estructura \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  \vspace{0.8em}
+  \begin{center}
+  {\small\itshape\color{muted}
+  Veamos este diccionario funcionando en dos terrenos donde ya hay
+  literatura publicada: mortalidad y mercados financieros.}
+  \end{center}
+\end{frame}
+
+% ======================================================================
+\section{Mortalidad}
+\begin{frame}{Caso de estudio: superficies de mortalidad}
+  \small
+  \begin{itemize}
+    \item Existe trabajo publicado reciente que aplica homología
+      persistente y el algoritmo \defterm{Mapper} a datos semanales de
+      mortalidad de los CDC (EE.\,UU.), de enero de 2020 a septiembre de
+      2023, para estudiar la pandemia de COVID-19
+      (\textit{Topological Data Analysis of Mortality Patterns During the
+      COVID-19 Pandemic}, arXiv:2510.15066, 2025).
+    \item La idea metodológica común (compartida con el caso financiero
+      que sigue): construir una nube de puntos vía \defterm{embedding de
+      retraso} (Takens) de la serie de mortalidad, y seguir su diagrama de
+      persistencia ventana por ventana en el tiempo.
+    \item Lectura para nuestra práctica: un cambio topológico persistente
+      (aparición de un ciclo, cambio brusco en el diagrama) es candidato a
+      señal de \textbf{cambio de régimen de mortalidad}, en el mismo
+      espíritu que Lee--Carter detecta cambios de tendencia, pero sin
+      suponer de entrada una forma funcional.
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{block}{Honestidad metodológica}
+    Esta es un área de investigación activa. No es (todavía) un método
+    estándar de la práctica biométrica actuarial.
+  \end{block}
+\end{frame}
+
+% ======================================================================
+\section{Mercado y crédito}
+\begin{frame}{Caso de estudio: riesgo de mercado}
+  \begin{block}{Gidea--Katz (2018), \textit{Physica A}, arXiv:1703.04385}
+    Con ventanas deslizantes sobre los log-retornos diarios de cuatro
+    índices (S\&P 500, DJIA, NASDAQ, Russell 2000), construyen una nube de
+    puntos por ventana y calculan su \defterm{paisaje de persistencia}
+    (Bubenik, 2015).
+  \end{block}
+  \begin{itemize}
+    \item Hallazgo: la norma $L^p$ del paisaje de persistencia muestra un
+      \textbf{ascenso sostenido} en los $\sim 250$ días de bolsa previos a
+      la quiebra de Lehman Brothers (2008).
+    \item Lectura actuarial: relevante para pruebas de estrés y gestión de
+      riesgo de mercado en reservas ligadas a inversión (seguros de vida
+      con componente de inversión, \textit{unit-linked}), donde el interés
+      no es predecir el nivel del mercado sino detectar un cambio de
+      \emph{régimen} en su estructura de co-movimiento.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Caso de estudio: riesgo de crédito}
+  \begin{itemize}
+    \item Trabajo exploratorio de Oxford (\textit{Topological Analysis of
+      Credit Data: Preliminary Findings}) usa homología persistente para
+      describir la estructura de similitud entre deudores en datos de
+      crédito.
+    \item Es, como dice su propio título, un resultado \textbf{preliminar}:
+      no un método ya validado en producción.
+    \item Relevancia para el actuario de fianzas o de riesgo de crédito de
+      cartera de inversión: una alternativa exploratoria a la segmentación
+      por \textit{scoring} tradicional, útil para \textbf{detectar
+      subgrupos} que la segmentación lineal no separa.
+  \end{itemize}
+  \vspace{0.8em}
+  {\small\itshape\color{muted}
+  Estos tres casos son reales, pero no agotan el mapa. Falta decir, con
+  la misma honestidad, dónde termina lo publicado y dónde empieza el
+  terreno abierto.}
+\end{frame}
+
+% ======================================================================
+\section{Panorama}
+\begin{frame}{Un panorama honesto: qué existe y qué no}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+    \textbf{\color{accent}Ya hay literatura}
+    \begin{itemize}
+      \item Mortalidad y COVID-19
+      \item Crisis de mercado (Gidea--Katz)
+      \item Similitud de crédito (exploratorio)
+      \item Reclamaciones de salud negadas indebidamente,
+        vía Mapper (mencionado en revisiones del algoritmo Mapper,
+        arXiv:2504.09042)
+    \end{itemize}
+    \column{0.5\textwidth}
+    \textbf{\color{accent2}Todavía abierto}
+    \begin{itemize}
+      \item Reservas de siniestros (\textit{loss reserving}) vía
+        homología persistente: no encontré literatura arbitrada
+        específica.
+      \item Detección de fraude en seguros de daños o de vida por esta
+        vía: igual, dirección abierta, no método establecido.
+    \end{itemize}
+  \end{columns}
+  \vspace{0.8em}
+  {\small\itshape\color{muted}
+  Un hueco en la literatura no es una debilidad del método: es, más bien,
+  la lista de proyectos piloto que todavía nadie ha corrido.}
+\end{frame}
+
+\begin{frame}{Retos genuinos}
+  \begin{itemize}
+    \item \textbf{Costo computacional}: el número de símplices de
+      $\mathrm{VR}_\varepsilon$ crece exponencialmente con el tamaño de la
+      nube y con $\varepsilon$; en la práctica se trunca la dimensión
+      homológica calculada (usualmente $H_0,H_1,H_2$).
+    \item \textbf{Elección de métrica}: la distancia actuarial correcta
+      (Mahalanobis, correlación, alguna cópula) no es única y cambia el
+      diagrama resultante.
+    \item \textbf{Artefactos de muestreo}: ya lo vimos en el ejemplo del
+      hexágono --- una cavidad ``fantasma'' puede nacer solo por la
+      geometría del muestreo, no por señal real.
+    \item \textbf{Interpretabilidad regulatoria}: ante un regulador (CNSF,
+      Solvencia II), un diagrama de persistencia por sí solo no es una
+      explicación; hay que traducirlo a una covariable o una prueba de
+      hipótesis explícita.
+  \end{itemize}
+  \vspace{0.6em}
+  {\small\itshape\color{muted}
+  Ninguno de estos retos es motivo para no empezar: son, más bien, la
+  lista de precauciones para el primer piloto.}
+\end{frame}
+
+% ======================================================================
+\section{Herramientas}
+\begin{frame}{Herramientas y cómo empezar un piloto}
+  \textbf{Software}
+  \begin{itemize}
+    \item R: paquetes \texttt{TDA} (Fasy et al.) y \texttt{TDAstats}.
+    \item Python: \texttt{ripser.py}, \texttt{GUDHI}, \texttt{giotto-tda}.
+  \end{itemize}
+  \vspace{0.4em}
+  \textbf{Flujo sugerido para un piloto}
+  \begin{enumerate}
+    \setlength{\itemsep}{0.4em}
+    \item Elegir la variable y la métrica de disimilitud actuarial.
+    \item Construir la nube de puntos (observaciones directas, o
+      embedding de retraso si es serie de tiempo).
+    \item Calcular el diagrama de persistencia ($H_0,H_1$, quizá $H_2$).
+    \item Comparar contra una nube nula (permutación o \textit{bootstrap})
+      para descartar artefactos como el del hexágono.
+    \item Vectorizar los rasgos robustos (paisajes de persistencia) y
+      usarlos como covariable dentro de un GLM o un modelo de aprendizaje
+      supervisado ya establecido.
+  \end{enumerate}
+\end{frame}
+
+% ======================================================================
+\section{Conclusiones}
+\begin{frame}{Conclusiones}
+  \begin{itemize}
+    \item La homología persistente no reemplaza el arsenal actuarial: le
+      añade un lente sobre la \textbf{forma global} de los datos.
+    \item Viene con una garantía matemática poco común en herramientas
+      exploratorias: el \textbf{teorema de estabilidad}.
+    \item Ya existe evidencia publicada en mortalidad y en riesgo de
+      mercado; en reservas y fraude, el terreno está abierto.
+    \item El paso natural siguiente no es ``sustituir'' nada, sino correr
+      un piloto acotado, contrastado contra un modelo nulo, sobre una
+      pregunta actuarial concreta.
+  \end{itemize}
+  \vspace{1em}
+  \begin{center}
+    \Large\color{accent}\textbf{Gracias.}
+  \end{center}
+\end{frame}
+
+% ======================================================================
+\begin{frame}{Referencias (I)}
+  \footnotesize
+  \begin{itemize}
+    \item Carlsson, G. (2009). Topology and data. \textit{Bull. Amer. Math. Soc.}, 46(2), 255--308.
+    \item Zomorodian, A., Carlsson, G. (2005). Computing persistent homology. \textit{Discrete Comput. Geom.}, 33(2), 249--274.
+    \item Cohen-Steiner, D., Edelsbrunner, H., Harer, J. (2007). Stability of persistence diagrams. \textit{Discrete Comput. Geom.}, 37(1), 103--120.
+    \item Chazal, F., Cohen-Steiner, D., Guibas, L., Mémoli, F., Oudot, S. (2009). Gromov--Hausdorff stable signatures for shapes using persistence. \textit{Comput. Graph. Forum}, 28(5), 1393--1403.
+    \item Ghrist, R. (2008). Barcodes: The persistent topology of data. \textit{Bull. Amer. Math. Soc.}, 45(1), 61--75.
+    \item Bubenik, P. (2015). Statistical topological data analysis using persistence landscapes. \textit{J. Mach. Learn. Res.}, 16(1), 77--102.
+    \item Edelsbrunner, H., Harer, J. (2010). \textit{Computational Topology: An Introduction}. AMS.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Referencias (II)}
+  \footnotesize
+  \begin{itemize}
+    \item Gidea, M., Katz, Y. (2018). Topological data analysis of financial time series: Landscapes of crashes. \textit{Physica A}, 491, 820--834. arXiv:1703.04385.
+    \item Topological Data Analysis of Mortality Patterns During the COVID-19 Pandemic. arXiv:2510.15066 (2025).
+    \item Topological Analysis of Credit Data: Preliminary Findings. University of Oxford (working paper).
+    \item A Comprehensive Review of the Mapper Algorithm, a Topological Data Analysis Technique, and Its Applications Across Various Fields (2007--2025). arXiv:2504.09042.
+    \item Chazal, F., Michel, B. (2021). An introduction to topological data analysis: fundamental and practical aspects for data scientists. \textit{Front. Artif. Intell.}, 4, 667963.
+  \end{itemize}
+\end{frame}
+
+\end{document}
