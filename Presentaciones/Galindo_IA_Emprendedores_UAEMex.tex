@@ -1,0 +1,659 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ------------------------------------------------------------
+% Presentación: IA como aliada del emprendedor
+% XXVII Semana de la Facultad de Economía, UAEMéx
+% ------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{hyperref}
+
+% --- Paleta sobria ---
+\definecolor{ink}{HTML}{18211D}
+\definecolor{forest}{HTML}{123D31}
+\definecolor{gold}{HTML}{A8843F}
+\definecolor{warm}{HTML}{F7F5EF}
+\definecolor{muted}{HTML}{6D746F}
+\definecolor{soft}{HTML}{E8EAE4}
+\definecolor{rust}{HTML}{8C493A}
+
+\setbeamercolor{normal text}{fg=ink,bg=warm}
+\setbeamercolor{structure}{fg=forest}
+\setbeamercolor{frametitle}{fg=ink,bg=warm}
+\setbeamercolor{title}{fg=ink,bg=warm}
+\setbeamercolor{subtitle}{fg=muted,bg=warm}
+\setbeamercolor{footline}{fg=muted,bg=warm}
+\setbeamercolor{alerted text}{fg=rust}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\raise0.18ex\hbox{\scriptsize$\bullet$}}
+\setbeamertemplate{itemize subitem}{\raise0.18ex\hbox{\tiny$\circ$}}
+\setbeamertemplate{enumerate item}{\color{forest}\insertenumlabel.}
+\setbeamersize{text margin left=0.78cm,text margin right=0.78cm}
+
+% --- Tipografía ---
+\setbeamerfont{title}{size=\fontsize{28}{31}\selectfont,series=\bfseries}
+\setbeamerfont{subtitle}{size=\fontsize{14}{17}\selectfont}
+\setbeamerfont{frametitle}{size=\fontsize{20}{23}\selectfont,series=\bfseries}
+\setbeamerfont{normal text}{size=\fontsize{11}{14}\selectfont}
+
+% --- Frametitle: aire + línea fina ---
+\setbeamertemplate{frametitle}{%
+  \vspace{0.28cm}
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth,leftskip=0.78cm,rightskip=0.78cm,sep=0pt]{frametitle}
+    \usebeamerfont{frametitle}\insertframetitle\par
+    \vspace{0.10cm}
+    {\color{gold}\rule{1.65cm}{0.65pt}}\par
+  \end{beamercolorbox}
+  \vspace{0.12cm}
+}
+
+% --- Pie ---
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.82\paperwidth,ht=2.8ex,dp=1.2ex,leftskip=.78cm]{footline}%
+      \scriptsize XXVII Semana de la Facultad de Economía · UAEMéx
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.18\paperwidth,ht=2.8ex,dp=1.2ex,rightskip=.78cm plus1fil]{footline}%
+      \scriptsize\hfill \insertframenumber
+    \end{beamercolorbox}%
+  }%
+}
+
+% --- Macros de composición ---
+\newcommand{\kicker}[1]{{\color{gold}\scriptsize\bfseries\MakeUppercase{#1}}}
+\newcommand{\muted}[1]{{\color{muted}#1}}
+\newcommand{\source}[1]{\vfill{\tiny\color{muted}Fuente: #1}}
+\newcommand{\bignum}[2]{%
+  {\fontsize{31}{33}\selectfont\bfseries\color{forest}#1}\par
+  \vspace{0.05cm}{\small\color{muted}#2}}
+\newcommand{\ruleline}{\par\vspace{0.18cm}\noindent{\color{soft}\rule{\linewidth}{0.55pt}}\par\vspace{0.18cm}}
+\newcommand{\prompt}[1]{\texttt{\small #1}}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=forest,
+  urlcolor=forest
+}
+
+% --- Datos ---
+\title{La Inteligencia Artificial\\como aliada del emprendedor}
+\subtitle{Herramientas prácticas para la nueva economía}
+\author{Julio César Galindo}
+\institute{XXVII Semana de la Facultad de Economía · Universidad Autónoma del Estado de México}
+\date{26--30 de octubre de 2026}
+
+\begin{document}
+
+% ============================================================
+% 1. PORTADA
+% ============================================================
+\begin{frame}[plain]
+\vspace{0.45cm}
+\kicker{Conferencia}
+\vspace{0.65cm}
+
+{\usebeamerfont{title}\color{ink}\inserttitle\par}
+\vspace{0.36cm}
+{\usebeamerfont{subtitle}\color{muted}\insertsubtitle\par}
+
+\vfill
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{0.68\textwidth}
+    {\small\bfseries \insertauthor}\par
+    \vspace{0.10cm}
+    {\small\color{muted} \insertinstitute}
+  \end{column}
+  \begin{column}{0.32\textwidth}
+    \raggedleft
+    {\small\color{muted}\insertdate}\par
+    \vspace{0.18cm}
+    {\color{gold}\rule{2.55cm}{1.0pt}}
+  \end{column}
+\end{columns}
+\vspace{0.25cm}
+\end{frame}
+
+% ============================================================
+% 2. APERTURA INTERACTIVA
+% ============================================================
+\begin{frame}{Antes de hablar de IA, hablemos de tiempo}
+\kicker{Interacción 01 · 60 segundos}
+\vspace{0.35cm}
+
+{\Large\bfseries ¿Qué tarea te roba más tiempo en tu negocio?}\par
+\vspace{0.55cm}
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.23\textwidth}
+\textbf{Clientes}\ruleline
+\small Responder mensajes, cotizaciones y seguimiento.
+\end{column}
+\begin{column}{0.23\textwidth}
+\textbf{Contenido}\ruleline
+\small Redes, campañas, fotografías, textos y anuncios.
+\end{column}
+\begin{column}{0.23\textwidth}
+\textbf{Administración}\ruleline
+\small Facturas, gastos, reportes, minutas y archivos.
+\end{column}
+\begin{column}{0.23\textwidth}
+\textbf{Decisiones}\ruleline
+\small Precios, inventario, prioridades y planeación.
+\end{column}
+\end{columns}
+
+\vfill
+{\color{forest}\bfseries Levanta la mano por una sola opción.}\par\vspace{0.1cm}
+\muted{La respuesta será nuestro mapa para la demostración.}
+\end{frame}
+
+% ============================================================
+% 3. TESIS
+% ============================================================
+\begin{frame}{La tesis de esta charla}
+\vspace{0.20cm}
+\begin{center}
+{\fontsize{25}{30}\selectfont\bfseries
+La IA no sustituye un negocio.\\[0.12cm]
+\color{forest}Reduce fricción alrededor del negocio.}
+\end{center}
+
+\vspace{0.65cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.31\textwidth}
+\kicker{Entrada}\par\vspace{0.18cm}
+\textbf{Información}\par
+\small\muted{mensajes, hojas de cálculo, documentos, imágenes, datos}
+\end{column}
+\begin{column}{0.06\textwidth}
+\centering\vspace{0.45cm}{\Large\color{gold}$\longrightarrow$}
+\end{column}
+\begin{column}{0.26\textwidth}
+\kicker{IA}\par\vspace{0.18cm}
+\textbf{Transformación}\par
+\small\muted{resumir, clasificar, redactar, comparar, proponer}
+\end{column}
+\begin{column}{0.06\textwidth}
+\centering\vspace{0.45cm}{\Large\color{gold}$\longrightarrow$}
+\end{column}
+\begin{column}{0.31\textwidth}
+\kicker{Salida}\par\vspace{0.18cm}
+\textbf{Acción humana}\par
+\small\muted{decidir, verificar, autorizar, negociar, crear confianza}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ============================================================
+% 4. QUÉ ES / NO ES
+% ============================================================
+\begin{frame}{IA generativa: una definición útil para negocios}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\kicker{Sí es}\par\vspace{0.25cm}
+{\large\bfseries Un sistema que produce una respuesta a partir de contexto e instrucciones.}\par
+\vspace{0.35cm}
+\small Puede redactar, sintetizar, estructurar, clasificar, explicar y proponer alternativas.
+\end{column}
+\begin{column}{0.04\textwidth}
+\centering{\color{soft}\rule{0.6pt}{4.7cm}}
+\end{column}
+\begin{column}{0.48\textwidth}
+\kicker{No es}\par\vspace{0.25cm}
+{\large\bfseries Una fuente infalible de verdad ni un responsable de tus decisiones.}\par
+\vspace{0.35cm}
+\small Puede equivocarse, completar huecos de forma plausible o perder contexto relevante.
+\end{column}
+\end{columns}
+
+\vfill
+{\color{forest}\bfseries Regla de oro:}\quad
+\muted{delegar la primera versión; conservar el juicio final.}
+\end{frame}
+
+% ============================================================
+% 5. MÉXICO
+% ============================================================
+\begin{frame}{La escala importa}
+\kicker{México · Censos Económicos 2024}
+\vspace{0.35cm}
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.38\textwidth}
+\bignum{7.09 millones}{establecimientos en el país en 2024}
+\end{column}
+\begin{column}{0.38\textwidth}
+\bignum{36.59 millones}{personas ocupadas en esos establecimientos}
+\end{column}
+\begin{column}{0.24\textwidth}
+\vspace{0.10cm}
+{\large\bfseries La pregunta no es solo}\par
+\vspace{0.16cm}
+{\large\color{forest}\bfseries “¿qué puede hacer la IA?”}\par
+\vspace{0.16cm}
+{\large\bfseries sino “¿dónde ahorra minutos cada día?”}
+\end{column}
+\end{columns}
+
+\vfill
+\small\muted{Los CE 2024 describen establecimientos y personal ocupado; la información económica corresponde principalmente a 2023.}
+\source{INEGI, Resultados definitivos de los Censos Económicos 2024 (publicados en 2025).}
+\end{frame}
+
+% ============================================================
+% 6. MAPA DE VALOR
+% ============================================================
+\begin{frame}{Cuatro lugares donde la IA puede crear valor}
+\vspace{0.10cm}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[soft,line width=.7pt] (-5.6,0) -- (5.6,0);
+  \draw[soft,line width=.7pt] (0,-2.2) -- (0,2.2);
+  \node[align=left,text width=4.8cm] at (-3.05,1.15) {\kicker{01 · Ingresos}\\[-1mm]\Large\bfseries Vender mejor\\[1mm]\small\color{muted}propuestas, mensajes, ofertas, seguimiento};
+  \node[align=left,text width=4.8cm] at (3.05,1.15) {\kicker{02 · Costos}\\[-1mm]\Large\bfseries Trabajar más rápido\\[1mm]\small\color{muted}documentos, reportes, clasificación, minutas};
+  \node[align=left,text width=4.8cm] at (-3.05,-1.15) {\kicker{03 · Decisión}\\[-1mm]\Large\bfseries Ver patrones\\[1mm]\small\color{muted}comparaciones, escenarios, anomalías, prioridades};
+  \node[align=left,text width=4.8cm] at (3.05,-1.15) {\kicker{04 · Experiencia}\\[-1mm]\Large\bfseries Atender mejor\\[1mm]\small\color{muted}respuestas consistentes, FAQ, personalización};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 7. FINANZAS
+% ============================================================
+\begin{frame}{Caso 1 · Finanzas: de datos a decisiones}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.47\textwidth}
+\kicker{Flujo de trabajo}\par\vspace{0.25cm}
+\begin{enumerate}
+\item Exportar movimientos de banco o ventas.
+\item Quitar datos sensibles innecesarios.
+\item Pedir clasificación y resumen semanal.
+\item Revisar excepciones y confirmar cifras.
+\item Convertir el resultado en una decisión.
+\end{enumerate}
+\end{column}
+\begin{column}{0.06\textwidth}
+\centering{\color{soft}\rule{0.6pt}{5.2cm}}
+\end{column}
+\begin{column}{0.47\textwidth}
+\kicker{Ejemplo de instrucción}\par\vspace{0.25cm}
+\prompt{Analiza esta tabla de ingresos y gastos.}\par
+\prompt{1) clasifica por categoría;}\par
+\prompt{2) señala variaciones >20\%;}\par
+\prompt{3) detecta cargos atípicos;}\par
+\prompt{4) no inventes datos faltantes;}\par
+\prompt{5) termina con 3 preguntas de control.}
+\vspace{0.40cm}
+
+{\small\color{rust}\bfseries Nunca confundas una explicación convincente con una conciliación contable.}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ============================================================
+% 8. PROMPT INTERACTIVO
+% ============================================================
+\begin{frame}{El prompt importa menos que el contexto bien puesto}
+\kicker{Interacción 02 · Mejoremos una instrucción}
+\vspace{0.30cm}
+
+\only<1>{
+{\large\bfseries Prompt débil}\par\vspace{0.22cm}
+\prompt{“Hazme una campaña para vender más.”}
+\vspace{0.65cm}
+
+{\large\bfseries ¿Qué información falta?}\par
+\small\muted{Pide al público tres datos antes de avanzar.}
+}
+
+\only<2>{
+{\large\bfseries Una versión mucho más útil}\par\vspace{0.25cm}
+\prompt{“Tengo una cafetería independiente en Toluca.}\par
+\prompt{Mi ticket promedio es de \$115 y quiero aumentar visitas}\par
+\prompt{de lunes a jueves entre 16:00 y 19:00. Mi público}\par
+\prompt{principal son estudiantes y profesionistas de 20–35 años.}\par
+\prompt{Propón 3 campañas de bajo costo, cada una con oferta,}\par
+\prompt{mensaje, canal, métrica y riesgo. No uses descuentos >15\%.”}
+\vspace{0.45cm}
+
+{\color{forest}\bfseries Mejor contexto $\rightarrow$ mejores alternativas $\rightarrow$ mejor juicio humano.}
+}
+\end{frame}
+
+% ============================================================
+% 9. MARKETING
+% ============================================================
+\begin{frame}{Caso 2 · Marketing: del “publica algo” al experimento}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.32\textwidth}
+\kicker{Hipótesis}\par\vspace{0.15cm}
+\textbf{Una audiencia}\par
+\small\muted{¿Para quién es? ¿Qué problema intenta resolver?}
+\end{column}
+\begin{column}{0.32\textwidth}
+\kicker{Mensaje}\par\vspace{0.15cm}
+\textbf{Una promesa verificable}\par
+\small\muted{¿Qué cambia para el cliente? ¿Qué evidencia la sostiene?}
+\end{column}
+\begin{column}{0.32\textwidth}
+\kicker{Medición}\par\vspace{0.15cm}
+\textbf{Una métrica}\par
+\small\muted{clics, citas, ventas, recompra, tiempo de respuesta}
+\end{column}
+\end{columns}
+
+\vspace{0.65cm}
+{\Large\bfseries La IA puede multiplicar variantes.}\par
+\vspace{0.10cm}
+{\Large\color{forest}\bfseries El emprendedor decide cuál merece una prueba real.}
+\end{frame}
+
+% ============================================================
+% 10. OPERACIONES
+% ============================================================
+\begin{frame}{Caso 3 · Operaciones: de experiencia a proceso}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.41\textwidth}
+\kicker{Antes}\par\vspace{0.20cm}
+{\large\bfseries “Solo Ana sabe cómo se hace.”}\par
+\vspace{0.24cm}
+\small La operación depende de memoria, mensajes dispersos y correcciones repetidas.
+\end{column}
+\begin{column}{0.18\textwidth}
+\centering\vspace{0.65cm}
+{\fontsize{25}{25}\selectfont\color{gold}$\longrightarrow$}\par
+\small\muted{documentar}
+\end{column}
+\begin{column}{0.41\textwidth}
+\kicker{Después}\par\vspace{0.20cm}
+{\large\bfseries “Existe un procedimiento revisable.”}\par
+\vspace{0.24cm}
+\small La IA ayuda a ordenar notas, crear checklist, detectar ambigüedades y preparar capacitación.
+\end{column}
+\end{columns}
+
+\vfill
+{\color{forest}\bfseries Uso ideal:}\quad \muted{primera versión del procedimiento + revisión de quien realmente hace el trabajo.}
+\end{frame}
+
+% ============================================================
+% 11. AUTOMATIZACIÓN
+% ============================================================
+\begin{frame}{Automatizar no significa quitar al humano}
+\vspace{0.15cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.22\textwidth}
+\centering\kicker{Disparador}\par\vspace{0.10cm}\bfseries llega un correo
+\end{column}
+\begin{column}{0.04\textwidth}
+\centering\vspace{0.18cm}{\Large\color{gold}$\rightarrow$}
+\end{column}
+\begin{column}{0.22\textwidth}
+\centering\kicker{IA}\par\vspace{0.10cm}\bfseries clasifica y resume
+\end{column}
+\begin{column}{0.04\textwidth}
+\centering\vspace{0.18cm}{\Large\color{gold}$\rightarrow$}
+\end{column}
+\begin{column}{0.22\textwidth}
+\centering\kicker{Regla}\par\vspace{0.10cm}\bfseries decide la ruta
+\end{column}
+\begin{column}{0.04\textwidth}
+\centering\vspace{0.18cm}{\Large\color{gold}$\rightarrow$}
+\end{column}
+\begin{column}{0.22\textwidth}
+\centering\kicker{Acción}\par\vspace{0.10cm}\bfseries crea borrador
+\end{column}
+\end{columns}
+
+\vspace{0.75cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+{\large\bfseries Automático}\par
+\small\muted{clasificar, extraer, resumir, preparar, registrar}
+\end{column}
+\begin{column}{0.48\textwidth}
+{\large\bfseries Bajo autorización}\par
+\small\muted{enviar, pagar, publicar, comprometer precio, tratar datos sensibles}
+\end{column}
+\end{columns}
+
+\vfill
+{\color{rust}\bfseries El punto de control humano debe estar antes de la acción irreversible.}
+\end{frame}
+
+% ============================================================
+% 12. DEMO
+% ============================================================
+\begin{frame}[label=demo]{Demostración: del problema al prototipo}
+\kicker{Interacción 03 · 8 minutos}
+\vspace{0.25cm}
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.56\textwidth}
+{\large\bfseries El público elige un negocio:}\par
+\small cafetería · consultorio · tienda · despacho · taller
+\vspace{0.32cm}
+
+{\large\bfseries Y una tarea:}\par
+\small responder clientes · cotizar · resumir ventas · crear campaña · documentar proceso
+\vspace{0.42cm}
+
+{\color{forest}\bfseries En vivo construimos:}\par
+\small contexto $\rightarrow$ instrucción $\rightarrow$ primera salida $\rightarrow$ crítica $\rightarrow$ versión útil
+\end{column}
+\begin{column}{0.44\textwidth}
+\kicker{Pregunta al público}\par\vspace{0.18cm}
+{\large\bfseries “¿Qué dato cambiaría por completo la respuesta?”}\par
+\vspace{0.38cm}
+\small\muted{La interacción enseña algo central: usar IA es diseñar una conversación, no presionar un botón.}
+\end{column}
+\end{columns}
+
+\vfill
+{\scriptsize\href{https://chatgpt.com/}{Abrir ChatGPT para la demostración} \quad·\quad Llevar un ejemplo alternativo preparado por si falla la conexión.}
+\vspace{0.35cm}
+\end{frame}
+
+% ============================================================
+% 13. ARQUITECTURA DE PROMPT
+% ============================================================
+\begin{frame}{Una arquitectura mejor que los “prompts mágicos”}
+\vspace{0.10cm}
+\begin{enumerate}
+\item \textbf{Contexto}\;— negocio, público, objetivo, datos disponibles.
+\item \textbf{Tarea}\;— qué debe producir exactamente.
+\item \textbf{Restricciones}\;— presupuesto, tono, límites, políticas, fechas.
+\item \textbf{Formato}\;— tabla, correo, checklist, guion, JSON, pasos.
+\item \textbf{Verificación}\;— qué debe marcar como incierto o revisar antes de concluir.
+\end{enumerate}
+
+\vspace{0.55cm}
+{\small\prompt{“Cuando falte información, no la inventes: indícala como ‘dato no disponible’ y formula la pregunta necesaria.”}}
+
+\vfill
+{\color{forest}\bfseries No busques una frase perfecta. Diseña un proceso reproducible.}
+\end{frame}
+
+% ============================================================
+% 14. DATOS Y PRIVACIDAD
+% ============================================================
+\begin{frame}{Antes de copiar y pegar: una pausa de 10 segundos}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.49\textwidth}
+\kicker{Evita introducir sin necesidad}\par\vspace{0.20cm}
+\small
+\begin{itemize}
+\item contraseñas, llaves y credenciales;
+\item datos bancarios completos;
+\item expedientes o datos personales sensibles;
+\item información confidencial de clientes o proveedores;
+\item secretos comerciales no autorizados.
+\end{itemize}
+\end{column}
+\begin{column}{0.02\textwidth}
+\centering{\color{soft}\rule{0.6pt}{5.0cm}}
+\end{column}
+\begin{column}{0.49\textwidth}
+\kicker{Mejor práctica}\par\vspace{0.20cm}
+\small
+\begin{itemize}
+\item anonimiza nombres e identificadores;
+\item comparte solo lo necesario;
+\item revisa políticas y configuración del servicio;
+\item usa cuentas y herramientas aprobadas por la organización;
+\item conserva control de documentos originales.
+\end{itemize}
+\end{column}
+\end{columns}
+
+\vfill
+{\color{rust}\bfseries Conveniencia no equivale a autorización.}
+\end{frame}
+
+% ============================================================
+% 15. ERRORES
+% ============================================================
+\begin{frame}{Una respuesta convincente puede ser incorrecta}
+\kicker{Control de calidad}
+\vspace{0.25cm}
+
+\begin{center}
+\begin{tikzpicture}
+\node[anchor=north west,align=left,text width=3.75cm] at (-5.55,1.15) {\textbf{1. Hechos}\\[2mm]\small Contrastar nombres, cifras, fechas y normas con una fuente primaria.};
+\node[anchor=north west,align=left,text width=3.75cm] at (-1.80,1.15) {\textbf{2. Cálculos}\\[2mm]\small Reproducir la cuenta en Excel, Python o una calculadora.};
+\node[anchor=north west,align=left,text width=3.75cm] at (1.95,1.15) {\textbf{3. Decisión}\\[2mm]\small Definir quién asume la responsabilidad si la recomendación falla.};
+\draw[soft,line width=.6pt] (-5.55,0.72)--(-2.05,0.72);
+\draw[soft,line width=.6pt] (-1.80,0.72)--(1.70,0.72);
+\draw[soft,line width=.6pt] (1.95,0.72)--(5.45,0.72);
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.72cm}
+{\Large\bfseries Flujo seguro:}\quad
+{\Large\color{forest}\bfseries generar $\rightarrow$ comprobar $\rightarrow$ decidir.}
+\end{frame}
+
+% ============================================================
+% 16. ROI
+% ============================================================
+\begin{frame}{¿Vale la pena? Midámoslo}
+\vspace{0.15cm}
+\begin{center}
+{\fontsize{20}{24}\selectfont
+$\displaystyle \text{Valor mensual} \approx
+(\text{horas ahorradas})(\text{valor por hora})
++ \text{margen incremental}
+- \text{costo de herramientas}
+- \text{costo de revisión}$}
+\end{center}
+
+\vspace{0.65cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.30\textwidth}
+\kicker{Mide}\par\vspace{0.12cm}
+\textbf{Tiempo}\par
+\small\muted{minutos antes vs. después}
+\end{column}
+\begin{column}{0.30\textwidth}
+\kicker{Mide}\par\vspace{0.12cm}
+\textbf{Calidad}\par
+\small\muted{errores, retrabajo, respuesta}
+\end{column}
+\begin{column}{0.30\textwidth}
+\kicker{Mide}\par\vspace{0.12cm}
+\textbf{Resultado}\par
+\small\muted{ventas, citas, cobranza, recompra}
+\end{column}
+\end{columns}
+
+\vfill
+{\color{forest}\bfseries Una automatización que no se mide se convierte fácilmente en entretenimiento tecnológico.}
+\end{frame}
+
+% ============================================================
+% 17. PLAN 30 DÍAS
+% ============================================================
+\begin{frame}{Un plan de 30 días: pequeño, medible y reversible}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.23\textwidth}
+\kicker{Semana 1}\par\vspace{0.15cm}
+\textbf{Elegir}\par
+\small una tarea repetitiva, frecuente y de bajo riesgo.
+\end{column}
+\begin{column}{0.23\textwidth}
+\kicker{Semana 2}\par\vspace{0.15cm}
+\textbf{Prototipar}\par
+\small un flujo simple con ejemplos reales anonimizados.
+\end{column}
+\begin{column}{0.23\textwidth}
+\kicker{Semana 3}\par\vspace{0.15cm}
+\textbf{Medir}\par
+\small tiempo, calidad, errores y efecto en clientes.
+\end{column}
+\begin{column}{0.23\textwidth}
+\kicker{Semana 4}\par\vspace{0.15cm}
+\textbf{Decidir}\par
+\small mantener, ajustar, automatizar más o descartar.
+\end{column}
+\end{columns}
+
+\vspace{0.80cm}
+{\Large\bfseries Empieza donde el error sea barato}\par
+\vspace{0.08cm}
+{\Large\color{forest}\bfseries y donde aprender sea valioso.}
+\end{frame}
+
+% ============================================================
+% 18. HUMANO
+% ============================================================
+\begin{frame}{Lo que se vuelve más valioso cuando la IA abarata la producción}
+\vspace{0.20cm}
+\begin{center}
+\begin{tikzpicture}
+\node[align=center] at (-4.6,1.1) {\kicker{Juicio}\\\Large\bfseries decidir};
+\node[align=center] at (-1.55,1.1) {\kicker{Contexto}\\\Large\bfseries entender};
+\node[align=center] at (1.55,1.1) {\kicker{Confianza}\\\Large\bfseries relacionar};
+\node[align=center] at (4.6,1.1) {\kicker{Responsabilidad}\\\Large\bfseries responder};
+\draw[gold,line width=.8pt] (-5.3,0.25) -- (5.3,0.25);
+\node[align=center,text width=10.8cm] at (0,-1.05) {\Large\color{forest}\bfseries La ventaja no será “tener IA”.\\[-1mm]\Large\bfseries Será integrarla a un negocio que ya sabe qué problema quiere resolver.};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ============================================================
+% 19. CIERRE
+% ============================================================
+\begin{frame}{Una última pregunta}
+\kicker{Interacción final}
+\vspace{0.45cm}
+
+\begin{center}
+{\fontsize{24}{29}\selectfont\bfseries
+¿Qué tarea de tu próximo lunes\\
+\color{forest}no debería seguir haciéndose igual?}
+\end{center}
+
+\vspace{0.50cm}
+\begin{center}
+\small\muted{Escríbela en una frase. Esa frase puede convertirse en tu primer experimento de IA.}
+\end{center}
+
+\vspace{0.42cm}
+{\color{gold}\rule{\linewidth}{0.8pt}}\par
+\vspace{0.22cm}
+{\large\bfseries Gracias.}\quad
+\muted{Preguntas, objeciones y casos reales.}\hfill
+{\small jcgalindo@up.edu.mx · ivlicaesar.github.io}
+\end{frame}
+
+\end{document}
