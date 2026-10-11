@@ -1,0 +1,583 @@
+
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=blue}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{proposicion}[teorema]{Proposición}
+\theoremstyle{definition}
+\newtheorem{definicion}[teorema]{Definición}
+\newtheorem{ejemplo}[teorema]{Ejemplo}
+\newcommand{\R}{\mathbb R}
+\newcommand{\D}{\frac{d}{dx}}
+\pagestyle{fancy}\fancyhf{}\lhead{\small Ecuaciones diferenciales de orden superior}\rhead{\small\thepage}
+\title{\textsc{Ecuaciones Diferenciales I}\\[4pt]\Large Ecuaciones diferenciales de orden superior\\[5pt]\large Una guía de ejemplos y métodos}
+\author{}\date{}
+\begin{document}
+\maketitle
+\begin{center}\emph{Métodos, ejemplos resueltos y práctica.}\end{center}
+
+\section*{Introducción}
+Una ecuación diferencial de orden superior relaciona una función desconocida con sus
+derivadas hasta un orden $n\geq2$. En la práctica, la pregunta fundamental es:
+\emph{¿qué estructura tiene la ecuación y qué método permite encontrar sus soluciones?}
+
+Estas notas están organizadas alrededor de esa pregunta. Se introducen las herramientas
+mínimas y, de inmediato, se aplican a ejemplos de dificultad creciente. La teoría aparece
+sólo en la medida necesaria para entender por qué funciona cada procedimiento.
+
+\tableofcontents
+
+\section{La forma general}
+Una ecuación de orden $n$ puede escribirse como
+\[
+F(x,y,y',\ldots,y^{(n)})=0.
+\]
+En el caso lineal:
+\[
+a_n(x)y^{(n)}+\cdots+a_1(x)y'+a_0(x)y=g(x).
+\]
+Si $g=0$ es homogénea; si $g\ne0$, no homogénea.
+
+\begin{ejemplo}
+Clasifica:
+\[
+y''-3y'+2y=0,\qquad x^2y''+xy'-4y=x^3,\qquad y''+\sin y=0.
+\]
+Las dos primeras son lineales; la primera es homogénea, la segunda no homogénea.
+La tercera es no lineal.
+\end{ejemplo}
+
+\section{Problemas de valores iniciales}
+Para orden $n$ se prescriben normalmente
+\[
+y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
+\]
+
+\begin{teorema}[Existencia y unicidad]
+Si los coeficientes de una ecuación lineal son continuos en un intervalo $I$ y el coeficiente principal no se anula en $I$, el problema de valores iniciales tiene una única solución en $I$ para datos iniciales dados.
+\end{teorema}
+
+\begin{ejemplo}[PVI completo]
+Resolver
+\[
+y''-4y=12x,\qquad y(0)=4,\quad y'(0)=1.
+\]
+La homogénea da $y_h=c_1e^{2x}+c_2e^{-2x}$. Probamos $y_p=Ax+B$ y obtenemos
+$A=-3$, $B=0$. Por tanto
+\[
+y=c_1e^{2x}+c_2e^{-2x}-3x.
+\]
+Las condiciones iniciales producen
+\[
+c_1+c_2=4,\qquad 2c_1-2c_2-3=1,
+\]
+de donde $c_1=3$, $c_2=1$. Así,
+\[
+\boxed{y=3e^{2x}+e^{-2x}-3x}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Oscilador armónico]
+Resolver
+\[
+x''+\omega^2x=0,\qquad x(0)=x_0,\quad x'(0)=v_0.
+\]
+Como $x=C_1\cos(\omega t)+C_2\sin(\omega t)$,
+\[
+\boxed{x(t)=x_0\cos(\omega t)+\frac{v_0}{\omega}\sin(\omega t)}.
+\]
+\end{ejemplo}
+
+\section{Problemas de valores en la frontera}
+Se prescriben condiciones en puntos distintos, por ejemplo
+\[
+y(a)=\alpha,\qquad y(b)=\beta.
+\]
+Puede haber cero, una o infinitas soluciones.
+
+\begin{ejemplo}[Las tres posibilidades]
+Sea
+\[
+y=c_1x^2+c_2x^4+3.
+\]
+Para $y(-1)=0$, $y(1)=4$ se obtienen $c_1+c_2=-3$ y $c_1+c_2=1$: no existe solución.
+
+Para $y(0)=3$, $y(1)=0$ sólo se exige $c_1+c_2=-3$: hay infinitas soluciones.
+
+Para $y(1)=3$, $y(2)=15$:
+\[
+c_1+c_2=0,\qquad 4c_1+16c_2=12,
+\]
+de donde $c_1=-1$, $c_2=1$ y
+\[
+\boxed{y=x^4-x^2+3}.
+\]
+\end{ejemplo}
+
+\section{El operador diferencial}
+Definimos
+\[
+D=\frac{d}{dx}.
+\]
+Entonces $D^2y=y''$, $D^3y=y'''$, etc. Por ejemplo,
+\[
+y''-2y'+5y=0
+\quad\Longleftrightarrow\quad
+(D^2-2D+5)y=0.
+\]
+
+\begin{ejemplo}[Factorización]
+\[
+y''-5y'+6y=0
+\quad\Longleftrightarrow\quad
+(D-2)(D-3)y=0.
+\]
+Por tanto
+\[
+\boxed{y=c_1e^{2x}+c_2e^{3x}}.
+\]
+\end{ejemplo}
+
+\section{Superposición}
+\begin{teorema}[Principio de superposición]
+Si $y_1,\ldots,y_k$ son soluciones de una ecuación lineal homogénea, entonces
+\[
+y=c_1y_1+\cdots+c_ky_k
+\]
+también es solución.
+\end{teorema}
+
+\begin{ejemplo}
+Para
+\[
+y''+2y'+y=0
+\]
+son soluciones $e^{-x}$ y $xe^{-x}$. Luego
+\[
+\boxed{y=c_1e^{-x}+c_2xe^{-x}}.
+\]
+\end{ejemplo}
+
+\section{Independencia lineal y Wronskiano}
+Las funciones $f_1,\ldots,f_n$ son linealmente independientes si
+\[
+c_1f_1+\cdots+c_nf_n=0
+\]
+implica $c_1=\cdots=c_n=0$.
+
+Para dos funciones:
+\[
+W(f_1,f_2)=
+\begin{vmatrix}f_1&f_2\\f_1'&f_2'\end{vmatrix}
+=f_1f_2'-f_1'f_2.
+\]
+Si $W(x_0)\ne0$, son independientes.
+
+\begin{ejemplo}
+Para $f_1=e^{2x}$ y $f_2=e^{-x}$,
+\[
+W=-3e^x\ne0.
+\]
+Luego son linealmente independientes en $\R$.
+\end{ejemplo}
+
+\begin{ejemplo}
+\[
+f_1=4x^3,\quad f_2=2x^2,\quad f_3=8x^3+12x^2.
+\]
+Como
+\[
+f_3=2f_1+6f_2,
+\]
+el conjunto es dependiente.
+\end{ejemplo}
+
+\section{Conjuntos fundamentales}
+Un conjunto de $n$ soluciones linealmente independientes de una ecuación homogénea de orden $n$ es un conjunto fundamental. Si $\{y_1,\ldots,y_n\}$ es fundamental,
+\[
+\boxed{y=c_1y_1+\cdots+c_ny_n}.
+\]
+
+\section{Coeficientes constantes}
+Para
+\[
+a_ny^{(n)}+\cdots+a_1y'+a_0y=0
+\]
+probamos $y=e^{rx}$. Aparece el polinomio característico
+\[
+p(r)=a_nr^n+\cdots+a_1r+a_0.
+\]
+
+\subsection{Raíces reales distintas}
+\begin{ejemplo}
+\[
+y''-5y'+6y=0.
+\]
+Como $(r-2)(r-3)=0$,
+\[
+\boxed{y=c_1e^{2x}+c_2e^{3x}}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}
+\[
+y'''-y''-6y'+6y=0.
+\]
+El polinomio es $(r-1)(r^2-6)$, así que
+\[
+\boxed{y=c_1e^x+c_2e^{\sqrt6x}+c_3e^{-\sqrt6x}}.
+\]
+\end{ejemplo}
+
+\subsection{Raíces repetidas}
+Si $r$ tiene multiplicidad $m$, aparecen
+\[
+e^{rx},xe^{rx},\ldots,x^{m-1}e^{rx}.
+\]
+
+\begin{ejemplo}
+\[
+y''-4y'+4y=0
+\quad\Longrightarrow\quad
+(r-2)^2=0.
+\]
+Por tanto
+\[
+\boxed{y=(c_1+c_2x)e^{2x}}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}
+\[
+y'''-3y''+3y'-y=0.
+\]
+Como el polinomio es $(r-1)^3$,
+\[
+\boxed{y=e^x(c_1+c_2x+c_3x^2)}.
+\]
+\end{ejemplo}
+
+\subsection{Raíces complejas}
+Si $r=\alpha\pm i\beta$, las soluciones reales son
+\[
+e^{\alpha x}\cos(\beta x),\qquad
+e^{\alpha x}\sin(\beta x).
+\]
+
+\begin{ejemplo}
+\[
+y''-2y'+5y=0.
+\]
+Las raíces son $1\pm2i$. Entonces
+\[
+\boxed{y=e^x(c_1\cos2x+c_2\sin2x)}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[PVI]
+Resolver
+\[
+y''-2y'+5y=0,\qquad y(0)=1,\quad y'(0)=0.
+\]
+De $y(0)=1$ resulta $c_1=1$ y de $y'(0)=0$ resulta $c_2=-1/2$. Así,
+\[
+\boxed{y=e^x\left(\cos2x-\frac12\sin2x\right)}.
+\]
+\end{ejemplo}
+
+\section{Ecuaciones no homogéneas}
+Para
+\[
+\mathcal L(y)=g(x)
+\]
+la estructura es
+\[
+\boxed{y=y_h+y_p}.
+\]
+
+\subsection{Coeficientes indeterminados}
+\begin{ejemplo}[Término polinomial]
+\[
+y''-3y'+2y=x.
+\]
+La homogénea es $c_1e^x+c_2e^{2x}$. Con $y_p=Ax+B$:
+\[
+2Ax+2B-3A=x,
+\]
+de donde $A=1/2$, $B=3/4$. Por tanto
+\[
+\boxed{y=c_1e^x+c_2e^{2x}+\frac{x}{2}+\frac34}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Exponencial]
+\[
+y''-3y'+2y=e^{3x}.
+\]
+Con $y_p=Ae^{3x}$:
+\[
+(9-9+2)A=1,
+\]
+por lo que $A=1/2$. Así,
+\[
+\boxed{y=c_1e^x+c_2e^{2x}+\frac12e^{3x}}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Resonancia]
+\[
+y''-3y'+2y=e^x.
+\]
+Como $e^x$ ya aparece en $y_h$, probamos $y_p=Axe^x$. Se obtiene $A=-1$, luego
+\[
+\boxed{y=c_1e^x+c_2e^{2x}-xe^x}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Forzamiento trigonométrico]
+\[
+y''+y=\cos2x.
+\]
+Tomando $y_p=A\cos2x+B\sin2x$:
+\[
+-3A\cos2x-3B\sin2x=\cos2x.
+\]
+Así $A=-1/3$, $B=0$, y
+\[
+\boxed{y=c_1\cos x+c_2\sin x-\frac13\cos2x}.
+\]
+\end{ejemplo}
+
+\section{Cauchy--Euler}
+Para
+\[
+ax^2y''+bxy'+cy=0,\qquad x>0,
+\]
+se prueba $y=x^r$. La ecuación indicial es
+\[
+ar(r-1)+br+c=0.
+\]
+
+\begin{ejemplo}
+\[
+x^2y''-3xy'+4y=0.
+\]
+La ecuación indicial es $(r-2)^2=0$, así que
+\[
+\boxed{y=x^2(c_1+c_2\ln x)}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}
+\[
+x^2y''+xy'+y=0.
+\]
+La ecuación indicial es $r^2+1=0$. Por tanto
+\[
+\boxed{y=c_1\cos(\ln x)+c_2\sin(\ln x)}.
+\]
+\end{ejemplo}
+
+\section{Cómo elegir el método}
+\begin{enumerate}
+\item ¿Es homogénea? Resuelve primero la homogénea.
+\item ¿Los coeficientes son constantes? Usa el polinomio característico.
+\item ¿Aparecen $x^2y''$, $xy'$ y $y$? Prueba Cauchy--Euler.
+\item ¿El término derecho es polinómico, exponencial o trigonométrico? Prueba coeficientes indeterminados.
+\item ¿Hay resonancia? Multiplica el ensayo particular por una potencia de $x$.
+\item ¿Hay datos iniciales? Determina las constantes al final.
+\item ¿Hay datos en dos extremos? Resuelve el sistema de condiciones de frontera.
+\end{enumerate}
+
+\begin{center}
+\begin{tabular}{>{\raggedright}p{0.30\textwidth}p{0.52\textwidth}}
+\toprule
+\textbf{Lo que ves} & \textbf{Qué probar primero}\\
+\midrule
+Coeficientes constantes & ecuación característica $p(r)=0$\\
+Raíz $r$ de multiplicidad $m$ & $e^{rx},xe^{rx},\ldots,x^{m-1}e^{rx}$\\
+Raíces $\alpha\pm i\beta$ & $e^{\alpha x}\cos\beta x,\ e^{\alpha x}\sin\beta x$\\
+$ax^2y''+bxy'+cy$ & sustitución $y=x^r$\\
+Polinomio en $x$ & ensayo polinomial\\
+$e^{ax}$ & ensayo $Ae^{ax}$\\
+$\cos bx,\sin bx$ & ensayo $A\cos bx+B\sin bx$\\
+Resonancia & multiplicar el ensayo por $x^s$\\
+Datos en un punto & problema de valores iniciales\\
+Datos en dos puntos & problema de frontera\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+\section{Un ejemplo completo}
+
+Consideremos
+\[
+y''-4y'+13y=e^{2x}\cos(3x).
+\]
+
+\textbf{Paso 1. Homogénea.}
+\[
+r^2-4r+13=(r-2)^2+9,
+\]
+por lo que
+\[
+y_h=e^{2x}(c_1\cos3x+c_2\sin3x).
+\]
+
+\textbf{Paso 2. Particular.}
+El término derecho tiene la misma frecuencia y el mismo factor exponencial que
+la solución homogénea. Hay resonancia. El ensayo correcto es
+\[
+y_p=xe^{2x}(A\cos3x+B\sin3x).
+\]
+Al sustituir se obtiene
+\[
+A=0,\qquad B=\frac16.
+\]
+Por tanto
+\[
+\boxed{
+y=e^{2x}(c_1\cos3x+c_2\sin3x)
++\frac{x}{6}e^{2x}\sin3x}.
+\]
+
+Este ejemplo resume el procedimiento: resolver la homogénea, identificar el tipo
+del término forzante, detectar resonancia, construir $y_p$ y comprobar.
+
+\section{Errores frecuentes}
+
+\begin{enumerate}
+\item \textbf{Raíz repetida.} Si $r$ tiene multiplicidad $m$, aparecen
+$e^{rx},xe^{rx},\ldots,x^{m-1}e^{rx}$.
+
+\item \textbf{Raíces complejas.} Para $r=\alpha\pm i\beta$, una base real es
+\[
+e^{\alpha x}\cos\beta x,\qquad e^{\alpha x}\sin\beta x.
+\]
+
+\item \textbf{Resonancia.} Si el ensayo particular pertenece a la solución
+homogénea, hay que multiplicarlo por una potencia adecuada de $x$.
+
+\item \textbf{Constantes prematuras.} Conviene obtener primero la solución general
+y aplicar después las condiciones iniciales o de frontera.
+
+\item \textbf{Sustitución automática.} $y=x^r$ es especialmente natural para
+Cauchy--Euler; no es un método universal.
+
+\item \textbf{No comprobar.} Sustituir la solución final en la ecuación original
+es una verificación rápida y muy eficaz.
+\end{enumerate}
+
+\section{Mini--colección de ejemplos}
+
+\begin{ejemplo}
+\[
+y''+9y=0
+\quad\Longrightarrow\quad
+\boxed{y=c_1\cos3x+c_2\sin3x}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}
+\[
+y''-8y'+16y=0
+\quad\Longrightarrow\quad
+\boxed{y=(c_1+c_2x)e^{4x}}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}
+\[
+y''+4y'+13y=0
+\quad\Longrightarrow\quad
+\boxed{y=e^{-2x}(c_1\cos3x+c_2\sin3x)}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}
+\[
+y''-y=e^{2x}
+\quad\Longrightarrow\quad
+\boxed{y=c_1e^x+c_2e^{-x}+\frac13e^{2x}}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}
+\[
+x^2y''+xy'-4y=0
+\quad\Longrightarrow\quad
+r^2-4=0,
+\]
+por lo que
+\[
+\boxed{y=c_1x^2+c_2x^{-2}}.
+\]
+\end{ejemplo}
+
+\section{Ejercicios}
+\begin{enumerate}
+\item Resolver $y''-7y'+12y=0$.
+\item Resolver $y''+6y'+9y=0$.
+\item Resolver $y''+4y=0$ con $y(0)=2$, $y'(0)=-1$.
+\item Resolver $y''-2y'+5y=0$ con $y(0)=0$, $y'(0)=1$.
+\item Resolver $y''-y=x^2$.
+\item Resolver $y''+4y=8\cos2x$.
+\item Resolver $y''-4y'+4y=e^{2x}$.
+\item Resolver $x^2y''-xy'-3y=0$ para $x>0$.
+\item Determinar si $\{1,x,x^2\}$ es linealmente independiente.
+\item Determinar si $\{e^x,xe^x,e^{2x}\}$ es linealmente independiente.
+\item Hallar el Wronskiano de $\{\cos x,\sin x\}$.
+\item Resolver $y''-5y'+6y=0$ con $y(0)=1$, $y(1)=0$.
+\item Estudiar el PVF $y''+\pi^2y=0$, $y(0)=0$, $y(1)=0$.
+\item Resolver $y'''-6y''+11y'-6y=0$.
+\item Para $y''+2y'+y=0$, construir una base de soluciones y verificar su independencia.
+\end{enumerate}
+
+\section*{Resumen de fórmulas}
+
+Para una ecuación lineal homogénea con coeficientes constantes,
+\[
+a_ny^{(n)}+\cdots+a_1y'+a_0y=0,
+\]
+se busca $y=e^{rx}$ y se resuelve $p(r)=0$.
+
+\[
+\begin{array}{c|c}
+\text{raíces} & \text{soluciones}\\
+\hline
+r_1,\ldots,r_n\text{ distintas} & e^{r_1x},\ldots,e^{r_nx}\\
+r\text{ de multiplicidad }m & e^{rx},xe^{rx},\ldots,x^{m-1}e^{rx}\\
+\alpha\pm i\beta & e^{\alpha x}\cos\beta x,\ e^{\alpha x}\sin\beta x
+\end{array}
+\]
+
+Para una ecuación no homogénea,
+\[
+\boxed{y=y_h+y_p}.
+\]
+La dificultad principal está en elegir correctamente $y_p$ y detectar resonancia.
+
+\[
+\boxed{
+\text{clasificar}
+\longrightarrow
+\text{resolver la homogénea}
+\longrightarrow
+\text{buscar una particular}
+\longrightarrow
+\text{aplicar condiciones}
+\longrightarrow
+\text{comprobar}
+}
+\]
+\end{document}

@@ -1,0 +1,745 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.8cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+
+% Paleta institucional UP
+\definecolor{upgold}{HTML}{B9975B}
+\definecolor{upblue}{HTML}{1F3864}
+\definecolor{upwine}{HTML}{6E1423}
+\definecolor{upgreen}{HTML}{3B5B40}
+
+\hypersetup{colorlinks=true,linkcolor=upblue,urlcolor=upblue,citecolor=upblue}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}
+
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{proposicion}[teorema]{Proposición}
+\theoremstyle{definition}
+\newtheorem{definicion}[teorema]{Definición}
+\newtheorem{ejemplo}[teorema]{Ejemplo}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\D}{\frac{d}{dx}}
+
+% Caja de "Lectura financiera" para conectar cada método con su uso en finanzas cuantitativas
+\newtcolorbox{finanzas}[1][]{%
+  colback=upgold!8, colframe=upgold!70!black,
+  boxrule=0.6pt, arc=1.5pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  fonttitle=\bfseries\color{upblue}, title={Lectura financiera},#1
+}
+
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}\fancyhf{}
+\lhead{\small\color{upblue} EDO de orden superior en finanzas cuantitativas}
+\rhead{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{upgold}\hrule width\headwidth height\headrulewidth}
+
+\title{\textsc{\color{upblue}Ecuaciones Diferenciales Aplicadas}\\[4pt]
+\Large Ecuaciones diferenciales de orden superior en finanzas cuantitativas\\[5pt]
+\large Modelos de bonos, tasas, ciclos económicos y opciones perpetuas}
+\author{Julio César Galindo López\\[2pt]\small Facultad de Ciencias Económicas y Empresariales, Universidad Panamericana}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center}\emph{Métodos, ejemplos resueltos y aplicaciones a finanzas cuantitativas.}\end{center}
+
+\section*{Introducción}
+Muchos modelos centrales de finanzas cuantitativas son, en el fondo, ecuaciones diferenciales
+lineales de orden superior. La dinámica de precios de bonos cupón cero bajo tasas
+deterministas, los modelos de ciclo económico tipo multiplicador--acelerador, la
+reducción de la ecuación de Black--Scholes para reclamos perpetuos, y los ajustes
+de precio hacia el equilibrio con corrección de error, comparten la misma pregunta:
+\emph{¿qué estructura tiene la ecuación y qué método permite encontrar sus soluciones?}
+
+Estas notas están organizadas alrededor de esa pregunta. Se introducen las herramientas
+mínimas y, de inmediato, se aplican a ejemplos financieros de dificultad creciente. La
+teoría aparece sólo en la medida necesaria para entender por qué funciona cada
+procedimiento, y cada método se cierra con una caja de \textbf{lectura financiera} que
+explica dónde aparece en la práctica.
+
+\tableofcontents
+
+\section{La forma general}
+Una ecuación de orden $n$ puede escribirse como
+\[
+F(t,y,y',\ldots,y^{(n)})=0.
+\]
+En el caso lineal:
+\[
+a_n(t)y^{(n)}+\cdots+a_1(t)y'+a_0(t)y=g(t).
+\]
+Si $g=0$ es homogénea; si $g\ne0$, no homogénea.
+
+\begin{ejemplo}
+Clasifica los siguientes modelos, donde $P(t)$ es el precio de un activo y $t$ es tiempo:
+\[
+P''-3P'+2P=0,\qquad t^2P''+tP'-4P=t^3,\qquad P''+\sin P=0.
+\]
+Las dos primeras son lineales; la primera es homogénea (dinámica libre de precio),
+la segunda no homogénea (con un forzamiento exógeno $t^3$).
+La tercera es no lineal y aparece típicamente en modelos con fricciones o restricciones
+de arbitraje no lineales.
+\end{ejemplo}
+
+\begin{finanzas}
+En un mercado sin fricciones, muchas cantidades financieras (precio de un bono, valor
+presente de un flujo, desviación del PIB respecto de su tendencia) obedecen ecuaciones
+lineales: la superposición de estrategias sigue siendo una estrategia válida. La parte
+no homogénea $g(t)$ representa siempre un \emph{insumo exógeno}: cupones, dividendos,
+gasto público o choques de política monetaria.
+\end{finanzas}
+
+\section{Problemas de valores iniciales}
+Para orden $n$ se prescriben normalmente
+\[
+y(t_0)=y_0,\quad y'(t_0)=y_1,\quad\ldots,\quad y^{(n-1)}(t_0)=y_{n-1}.
+\]
+
+\begin{teorema}[Existencia y unicidad]
+Si los coeficientes de una ecuación lineal son continuos en un intervalo $I$ y el
+coeficiente principal no se anula en $I$, el problema de valores iniciales tiene una
+única solución en $I$ para datos iniciales dados.
+\end{teorema}
+
+\begin{ejemplo}[Capital de un fondo con aportaciones lineales]
+Un fondo de inversión tiene un capital $K(t)$ que crece por rendimiento compuesto y
+recibe aportaciones que aumentan linealmente en el tiempo. El modelo es
+\[
+K''-4K=12t,\qquad K(0)=4,\quad K'(0)=1.
+\]
+La homogénea da $K_h=c_1e^{2t}+c_2e^{-2t}$. Probamos $K_p=At+B$ y obtenemos
+$A=-3$, $B=0$. Por tanto
+\[
+K=c_1e^{2t}+c_2e^{-2t}-3t.
+\]
+Las condiciones iniciales producen
+\[
+c_1+c_2=4,\qquad 2c_1-2c_2-3=1,
+\]
+de donde $c_1=3$, $c_2=1$. Así,
+\[
+\boxed{K(t)=3e^{2t}+e^{-2t}-3t}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Ciclo de negocios sin fricción]
+En una versión simplificada del modelo multiplicador--acelerador de Samuelson, la
+desviación del ingreso $x(t)$ respecto de su nivel de equilibrio, sin amortiguamiento,
+satisface
+\[
+x''+\omega^2x=0,\qquad x(0)=x_0,\quad x'(0)=v_0.
+\]
+Como $x=C_1\cos(\omega t)+C_2\sin(\omega t)$,
+\[
+\boxed{x(t)=x_0\cos(\omega t)+\frac{v_0}{\omega}\sin(\omega t)}.
+\]
+\end{ejemplo}
+
+\begin{finanzas}
+Todo problema de valores iniciales corresponde a un modelo donde se conoce el
+\emph{estado presente} (precio hoy, velocidad de cambio hoy) y se pide proyectar hacia
+adelante: es la estructura natural de cualquier simulación de trayectoria de precio o
+de forecasting de una serie macroeconómica a partir de sus condiciones actuales.
+\end{finanzas}
+
+\section{Problemas de valores en la frontera}
+Se prescriben condiciones en puntos distintos, por ejemplo
+\[
+y(a)=\alpha,\qquad y(b)=\beta.
+\]
+Puede haber cero, una o infinitas soluciones.
+
+\begin{ejemplo}[Precio de un bono entre emisión y vencimiento]
+Sea el precio de un instrumento
+\[
+P(t)=c_1t^2+c_2t^4+3.
+\]
+Si se exige $P(-1)=0$ y $P(1)=4$ (una condición inconsistente con la simetría del
+modelo), se obtiene $c_1+c_2=-3$ y $c_1+c_2=1$: \textbf{no existe solución} —el
+instrumento no puede satisfacer ambos precios simultáneamente.
+
+Si se exige $P(0)=3$, $P(1)=0$, sólo aparece la condición $c_1+c_2=-3$: hay
+\textbf{infinitas soluciones} —el precio en fronteras no identifica de forma única la
+trayectoria.
+
+Si se fija el precio de emisión $P(1)=3$ y el precio a un año $P(2)=15$:
+\[
+c_1+c_2=0,\qquad 4c_1+16c_2=12,
+\]
+de donde $c_1=-1$, $c_2=1$ y
+\[
+\boxed{P(t)=t^4-t^2+3}.
+\]
+\end{ejemplo}
+
+\begin{finanzas}
+Los problemas de frontera son el marco natural de la valuación de derivados: en la
+ecuación de Black--Scholes se fija el valor terminal (el \emph{payoff} en $T$) y, según
+el instrumento, una condición en la frontera del dominio de precios (por ejemplo, el
+valor de una opción cuando el subyacente vale cero). Que el problema tenga cero, una o
+infinitas soluciones es exactamente la pregunta de si el instrumento está bien
+especificado.
+\end{finanzas}
+
+\section{El operador diferencial}
+Definimos
+\[
+D=\frac{d}{dt}.
+\]
+Entonces $D^2y=y''$, $D^3y=y'''$, etc. Por ejemplo,
+\[
+y''-2y'+5y=0
+\quad\Longleftrightarrow\quad
+(D^2-2D+5)y=0.
+\]
+
+\begin{ejemplo}[Factorización de un modelo de ajuste de precio]
+\[
+P''-5P'+6P=0
+\quad\Longleftrightarrow\quad
+(D-2)(D-3)P=0.
+\]
+Por tanto
+\[
+\boxed{P=c_1e^{2t}+c_2e^{3t}}.
+\]
+\end{ejemplo}
+
+\section{Superposición}
+\begin{teorema}[Principio de superposición]
+Si $y_1,\ldots,y_k$ son soluciones de una ecuación lineal homogénea, entonces
+\[
+y=c_1y_1+\cdots+c_ky_k
+\]
+también es solución.
+\end{teorema}
+
+\begin{ejemplo}[Combinación de estrategias]
+Para el modelo de precio
+\[
+P''+2P'+P=0
+\]
+son soluciones $e^{-t}$ y $te^{-t}$. Luego cualquier combinación lineal de ambas
+trayectorias también es una trayectoria admisible:
+\[
+\boxed{P=c_1e^{-t}+c_2te^{-t}}.
+\]
+\end{ejemplo}
+
+\begin{finanzas}
+La superposición es la base matemática de la construcción de un portafolio: si dos
+trayectorias de valor son consistentes con la misma ecuación de valuación lineal,
+cualquier combinación —cualquier ponderación entre dos activos o dos estrategias
+replicantes— también lo es. Esto es lo que permite construir portafolios réplica en
+mercados completos.
+\end{finanzas}
+
+\section{Independencia lineal y Wronskiano}
+Las funciones $f_1,\ldots,f_n$ son linealmente independientes si
+\[
+c_1f_1+\cdots+c_nf_n=0
+\]
+implica $c_1=\cdots=c_n=0$.
+
+Para dos funciones:
+\[
+W(f_1,f_2)=
+\begin{vmatrix}f_1&f_2\\f_1'&f_2'\end{vmatrix}
+=f_1f_2'-f_1'f_2.
+\]
+Si $W(t_0)\ne0$, son independientes.
+
+\begin{ejemplo}[Dos factores de descuento independientes]
+Para $f_1=e^{2t}$ y $f_2=e^{-t}$ (dos factores de descuento con tasas distintas),
+\[
+W=-3e^t\ne0.
+\]
+Luego son linealmente independientes en $\R$: ninguno es múltiplo redundante del otro.
+\end{ejemplo}
+
+\begin{ejemplo}[Factores redundantes]
+\[
+f_1=4t^3,\quad f_2=2t^2,\quad f_3=8t^3+12t^2.
+\]
+Como
+\[
+f_3=2f_1+6f_2,
+\]
+el conjunto es dependiente: $f_3$ no aporta información nueva a la base de riesgo.
+\end{ejemplo}
+
+\begin{finanzas}
+En la descomposición de la curva de tasas o de un modelo factorial de retornos, el
+Wronskiano es la prueba formal de que un conjunto de factores propuesto (por ejemplo,
+nivel, pendiente y curvatura de la curva de tasas) es genuinamente independiente y no
+contiene una combinación redundante de los otros.
+\end{finanzas}
+
+\section{Conjuntos fundamentales}
+Un conjunto de $n$ soluciones linealmente independientes de una ecuación homogénea de
+orden $n$ es un conjunto fundamental. Si $\{y_1,\ldots,y_n\}$ es fundamental,
+\[
+\boxed{y=c_1y_1+\cdots+c_ny_n}.
+\]
+
+\section{Coeficientes constantes}
+Para
+\[
+a_ny^{(n)}+\cdots+a_1y'+a_0y=0
+\]
+probamos $y=e^{rt}$. Aparece el polinomio característico
+\[
+p(r)=a_nr^n+\cdots+a_1r+a_0.
+\]
+En un modelo de precio o de tasa, las raíces $r$ son \textbf{tasas de crecimiento o
+decaimiento propias del sistema}: qué tan rápido el precio regresa a su equilibrio,
+crece o oscila sin intervención externa.
+
+\subsection{Raíces reales distintas}
+\begin{ejemplo}[Dos componentes de reversión a la media]
+\[
+P''-5P'+6P=0.
+\]
+Como $(r-2)(r-3)=0$,
+\[
+\boxed{P=c_1e^{2t}+c_2e^{3t}}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}
+\[
+y'''-y''-6y'+6y=0.
+\]
+El polinomio es $(r-1)(r^2-6)$, así que
+\[
+\boxed{y=c_1e^t+c_2e^{\sqrt6t}+c_3e^{-\sqrt6t}}.
+\]
+\end{ejemplo}
+
+\begin{finanzas}
+Raíces reales distintas describen un instrumento cuyo comportamiento es una mezcla de
+crecimientos exponenciales puros —típico de la descomposición espectral de una curva
+de tasas o de un modelo de reversión a la media con más de un factor de velocidad de
+ajuste.
+\end{finanzas}
+
+\subsection{Raíces repetidas}
+Si $r$ tiene multiplicidad $m$, aparecen
+\[
+e^{rt},te^{rt},\ldots,t^{m-1}e^{rt}.
+\]
+
+\begin{ejemplo}[Ajuste críticamente amortiguado hacia el equilibrio]
+\[
+P''-4P'+4P=0
+\quad\Longrightarrow\quad
+(r-2)^2=0.
+\]
+Por tanto
+\[
+\boxed{P=(c_1+c_2t)e^{2t}}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}
+\[
+y'''-3y''+3y'-y=0.
+\]
+Como el polinomio es $(r-1)^3$,
+\[
+\boxed{y=e^t(c_1+c_2t+c_3t^2)}.
+\]
+\end{ejemplo}
+
+\begin{finanzas}
+Una raíz repetida corresponde al caso límite entre el ajuste oscilatorio y el
+puramente exponencial: el llamado \emph{amortiguamiento crítico}, el punto de
+transición más rápido posible sin sobre--corrección de precio hacia el equilibrio, un
+caso de referencia en modelos de corrección de error.
+\end{finanzas}
+
+\subsection{Raíces complejas}
+Si $r=\alpha\pm i\beta$, las soluciones reales son
+\[
+e^{\alpha t}\cos(\beta t),\qquad
+e^{\alpha t}\sin(\beta t).
+\]
+
+\begin{ejemplo}[Oscilación amortiguada del precio alrededor del equilibrio]
+\[
+P''-2P'+5P=0.
+\]
+Las raíces son $1\pm2i$. Entonces
+\[
+\boxed{P=e^t(c_1\cos2t+c_2\sin2t)}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[PVI]
+Resolver
+\[
+y''-2y'+5y=0,\qquad y(0)=1,\quad y'(0)=0.
+\]
+De $y(0)=1$ resulta $c_1=1$ y de $y'(0)=0$ resulta $c_2=-1/2$. Así,
+\[
+\boxed{y=e^t\left(\cos2t-\frac12\sin2t\right)}.
+\]
+\end{ejemplo}
+
+\begin{finanzas}
+Las raíces complejas son la firma matemática de los \textbf{ciclos económicos}: el
+sistema oscila alrededor de su equilibrio con una frecuencia $\beta$ (periodicidad del
+ciclo) y una envolvente $e^{\alpha t}$ que indica si el ciclo se amortigua ($\alpha<0$,
+mercado estable), se mantiene ($\alpha=0$, ciclo persistente) o se amplifica
+($\alpha>0$, inestabilidad creciente).
+\end{finanzas}
+
+\section{Ecuaciones no homogéneas}
+Para
+\[
+\mathcal L(y)=g(t)
+\]
+la estructura es
+\[
+\boxed{y=y_h+y_p}.
+\]
+La parte $y_h$ es la dinámica libre del sistema financiero; $y_p$ es la respuesta al
+insumo exógeno $g(t)$: un choque de política, un flujo de dividendos, un estímulo
+fiscal.
+
+\subsection{Coeficientes indeterminados}
+\begin{ejemplo}[Tendencia de dividendos creciente linealmente]
+\[
+y''-3y'+2y=t.
+\]
+La homogénea es $c_1e^t+c_2e^{2t}$. Con $y_p=At+B$:
+\[
+2At+2B-3A=t,
+\]
+de donde $A=1/2$, $B=3/4$. Por tanto
+\[
+\boxed{y=c_1e^t+c_2e^{2t}+\frac{t}{2}+\frac34}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Estímulo exógeno con tasa propia distinta]
+\[
+y''-3y'+2y=e^{3t}.
+\]
+Con $y_p=Ae^{3t}$:
+\[
+(9-9+2)A=1,
+\]
+por lo que $A=1/2$. Así,
+\[
+\boxed{y=c_1e^t+c_2e^{2t}+\frac12e^{3t}}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Resonancia: burbuja de precio]
+\[
+y''-3y'+2y=e^t.
+\]
+Como $e^t$ ya aparece en $y_h$, probamos $y_p=Ate^t$. Se obtiene $A=-1$, luego
+\[
+\boxed{y=c_1e^t+c_2e^{2t}-te^t}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Demanda estacional]
+\[
+y''+y=\cos2t.
+\]
+Tomando $y_p=A\cos2t+B\sin2t$:
+\[
+-3A\cos2t-3B\sin2t=\cos2t.
+\]
+Así $A=-1/3$, $B=0$, y
+\[
+\boxed{y=c_1\cos t+c_2\sin t-\frac13\cos2t}.
+\]
+\end{ejemplo}
+
+\begin{finanzas}
+El caso de resonancia —cuando el insumo exógeno crece exactamente a la tasa natural
+del sistema— es el análogo matemático de una \textbf{burbuja o una espiral
+inflacionaria}: un estímulo que refuerza en lugar de contrarrestar la dinámica propia
+del sistema produce una respuesta $y_p$ que crece más rápido que cualquiera de los dos
+factores por separado (aparece el término extra $t\cdot e^{rt}$), en vez de estabilizarse.
+\end{finanzas}
+
+\section{Cauchy--Euler: la ecuación detrás de Black--Scholes}
+Para
+\[
+at^2y''+bty'+cy=0,\qquad t>0,
+\]
+se prueba $y=t^r$. La ecuación indicial es
+\[
+ar(r-1)+br+c=0.
+\]
+
+\begin{ejemplo}
+\[
+S^2y''-3Sy'+4y=0.
+\]
+La ecuación indicial es $(r-2)^2=0$, así que
+\[
+\boxed{y=S^2(c_1+c_2\ln S)}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}
+\[
+S^2y''+Sy'+y=0.
+\]
+La ecuación indicial es $r^2+1=0$. Por tanto
+\[
+\boxed{y=c_1\cos(\ln S)+c_2\sin(\ln S)}.
+\]
+\end{ejemplo}
+
+\begin{finanzas}
+Esta sección no es una analogía: es la ecuación real detrás de la valuación de
+\textbf{reclamos perpetuos} (opciones americanas perpetuas, valuación de proyectos con
+opción real de espera indefinida). Para un derivado independiente del tiempo
+$V(S)$ sobre un subyacente con precio $S$, la ecuación de Black--Scholes
+\[
+\tfrac12\sigma^2S^2V''+(r_f-\delta)SV'-r_fV=0
+\]
+es exactamente de tipo Cauchy--Euler en la variable $S$. Al sustituir $V=S^r$ se
+obtiene una ecuación indicial cuadrática en $r$ cuyas raíces determinan el exponente
+de la solución de \emph{barrera libre óptima} en el ejercicio de una opción americana
+perpetua. Es el mismo procedimiento que en los ejemplos anteriores, con $t$ reemplazado
+por el precio del subyacente $S$.
+\end{finanzas}
+
+\section{Cómo elegir el método}
+\begin{enumerate}
+\item ¿Es homogénea? Resuelve primero la dinámica libre (homogénea).
+\item ¿Los coeficientes son constantes? Usa el polinomio característico.
+\item ¿Aparecen $S^2y''$, $Sy'$ y $y$ (variable en el subyacente)? Prueba Cauchy--Euler.
+\item ¿El insumo exógeno es polinómico, exponencial o trigonométrico? Prueba
+coeficientes indeterminados.
+\item ¿Hay resonancia (riesgo de burbuja)? Multiplica el ensayo particular por una
+potencia de $t$.
+\item ¿Hay datos iniciales (precio y velocidad hoy)? Determina las constantes al final.
+\item ¿Hay datos en dos extremos (emisión y vencimiento)? Resuelve el sistema de
+condiciones de frontera.
+\end{enumerate}
+
+\begin{center}
+\begin{tabular}{>{\raggedright}p{0.32\textwidth}p{0.55\textwidth}}
+\toprule
+\rowcolor{upgold!15}
+\textbf{Lo que ves} & \textbf{Qué probar primero}\\
+\midrule
+Coeficientes constantes & ecuación característica $p(r)=0$\\
+Raíz $r$ de multiplicidad $m$ & $e^{rt},te^{rt},\ldots,t^{m-1}e^{rt}$\\
+Raíces $\alpha\pm i\beta$ & ciclo amortiguado $e^{\alpha t}\cos\beta t,\ e^{\alpha t}\sin\beta t$\\
+$aS^2y''+bSy'+cy$ (var.\ en el subyacente) & sustitución $y=S^r$ (Cauchy--Euler / Black--Scholes)\\
+Insumo polinomial en $t$ & ensayo polinomial\\
+Insumo exponencial $e^{at}$ & ensayo $Ae^{at}$\\
+Insumo estacional $\cos bt,\sin bt$ & ensayo $A\cos bt+B\sin bt$\\
+Resonancia (burbuja) & multiplicar el ensayo por $t^s$\\
+Datos en un punto & problema de valores iniciales\\
+Datos en dos puntos & problema de frontera (emisión/vencimiento)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Un ejemplo completo: reinversión de cupones en resonancia}
+
+Consideremos el precio de un instrumento con reinversión continua de cupones sujeta a
+un choque de tasa a la misma frecuencia natural del sistema:
+\[
+y''-4y'+13y=e^{2t}\cos(3t).
+\]
+
+\textbf{Paso 1. Dinámica libre.}
+\[
+r^2-4r+13=(r-2)^2+9,
+\]
+por lo que
+\[
+y_h=e^{2t}(c_1\cos3t+c_2\sin3t).
+\]
+
+\textbf{Paso 2. Respuesta al choque.}
+El insumo exógeno tiene la misma frecuencia y el mismo factor exponencial que la
+dinámica libre. Hay resonancia. El ensayo correcto es
+\[
+y_p=te^{2t}(A\cos3t+B\sin3t).
+\]
+Al sustituir se obtiene
+\[
+A=0,\qquad B=\frac16.
+\]
+Por tanto
+\[
+\boxed{
+y=e^{2t}(c_1\cos3t+c_2\sin3t)
++\frac{t}{6}e^{2t}\sin3t}.
+\]
+
+\begin{finanzas}
+El término $t\cdot e^{2t}\sin3t$ crece más rápido que cualquier componente de la
+dinámica libre por sí sola: un choque perfectamente sincronizado con la frecuencia
+natural del sistema amplifica la trayectoria en lugar de sólo desplazarla —la firma
+matemática de un episodio de inestabilidad autoalimentada.
+\end{finanzas}
+
+Este ejemplo resume el procedimiento: resolver la dinámica libre, identificar el tipo
+de insumo exógeno, detectar resonancia, construir $y_p$ y comprobar.
+
+\section{Errores frecuentes}
+
+\begin{enumerate}
+\item \textbf{Raíz repetida.} Si $r$ tiene multiplicidad $m$, aparecen
+$e^{rt},te^{rt},\ldots,t^{m-1}e^{rt}$.
+
+\item \textbf{Raíces complejas.} Para $r=\alpha\pm i\beta$, una base real es
+\[
+e^{\alpha t}\cos\beta t,\qquad e^{\alpha t}\sin\beta t.
+\]
+
+\item \textbf{Resonancia.} Si el ensayo particular pertenece a la dinámica libre, hay
+que multiplicarlo por una potencia adecuada de $t$ —de lo contrario se subestima el
+riesgo de una respuesta amplificada (burbuja).
+
+\item \textbf{Constantes prematuras.} Conviene obtener primero la solución general y
+aplicar después las condiciones iniciales o de frontera.
+
+\item \textbf{Sustitución automática.} $y=S^r$ es especialmente natural para
+Cauchy--Euler (variable en el precio del subyacente); no es un método universal para
+ecuaciones en el tiempo.
+
+\item \textbf{No comprobar.} Sustituir la solución final en la ecuación original es una
+verificación rápida y muy eficaz antes de reportar un resultado de valuación.
+\end{enumerate}
+
+\section{Mini--colección de ejemplos}
+
+\begin{ejemplo}[Ciclo puro sin amortiguamiento]
+\[
+y''+9y=0
+\quad\Longrightarrow\quad
+\boxed{y=c_1\cos3t+c_2\sin3t}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Ajuste crítico]
+\[
+y''-8y'+16y=0
+\quad\Longrightarrow\quad
+\boxed{y=(c_1+c_2t)e^{4t}}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Ciclo amortiguado]
+\[
+y''+4y'+13y=0
+\quad\Longrightarrow\quad
+\boxed{y=e^{-2t}(c_1\cos3t+c_2\sin3t)}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Estímulo con tasa distinta a la propia]
+\[
+y''-y=e^{2t}
+\quad\Longrightarrow\quad
+\boxed{y=c_1e^t+c_2e^{-t}+\frac13e^{2t}}.
+\]
+\end{ejemplo}
+
+\begin{ejemplo}[Cauchy--Euler en el subyacente]
+\[
+S^2y''+Sy'-4y=0
+\quad\Longrightarrow\quad
+r^2-4=0,
+\]
+por lo que
+\[
+\boxed{y=c_1S^2+c_2S^{-2}}.
+\]
+\end{ejemplo}
+
+\section{Ejercicios}
+\begin{enumerate}
+\item Un fondo tiene dinámica libre $P''-7P'+12P=0$. Resolverla.
+\item Resolver $P''+6P'+9P=0$ (ajuste crítico de precio).
+\item Un ciclo económico satisface $x''+4x=0$ con $x(0)=2$, $x'(0)=-1$. Encontrar $x(t)$.
+\item Resolver $y''-2y'+5y=0$ con $y(0)=0$, $y'(0)=1$ (oscilación amortiguada de precio).
+\item Un fondo recibe aportaciones cuadráticas: resolver $y''-y=t^2$.
+\item Demanda estacional: resolver $y''+4y=8\cos2t$ e identificar si hay resonancia.
+\item Resolver $y''-4y'+4y=e^{2t}$ (¿hay resonancia?).
+\item Reclamo perpetuo tipo Cauchy--Euler: resolver $S^2y''-Sy'-3y=0$ para $S>0$.
+\item Determinar si $\{1,t,t^2\}$ —una base polinomial de la curva de tasas— es
+linealmente independiente.
+\item Determinar si $\{e^t,te^t,e^{2t}\}$ es linealmente independiente.
+\item Hallar el Wronskiano de $\{\cos t,\sin t\}$ (dos componentes de un ciclo).
+\item Bono con precio de emisión y vencimiento fijos: resolver $y''-5y'+6y=0$ con
+$y(0)=1$, $y(1)=0$.
+\item Estudiar el problema de frontera $y''+\pi^2y=0$, $y(0)=0$, $y(1)=0$: ¿cuántas
+soluciones tiene y qué significa para la especificación del instrumento?
+\item Resolver $y'''-6y''+11y'-6y=0$ (tres factores de descuento).
+\item Para $y''+2y'+y=0$ (ajuste crítico de precio), construir una base de soluciones
+y verificar su independencia con el Wronskiano.
+\end{enumerate}
+
+\section*{Resumen de fórmulas}
+
+Para una ecuación lineal homogénea con coeficientes constantes,
+\[
+a_ny^{(n)}+\cdots+a_1y'+a_0y=0,
+\]
+se busca $y=e^{rt}$ y se resuelve $p(r)=0$.
+
+\[
+\begin{array}{c|c}
+\text{raíces} & \text{soluciones}\\
+\hline
+r_1,\ldots,r_n\text{ distintas} & e^{r_1t},\ldots,e^{r_nt}\\
+r\text{ de multiplicidad }m & e^{rt},te^{rt},\ldots,t^{m-1}e^{rt}\\
+\alpha\pm i\beta & e^{\alpha t}\cos\beta t,\ e^{\alpha t}\sin\beta t
+\end{array}
+\]
+
+Para una ecuación no homogénea,
+\[
+\boxed{y=y_h+y_p}.
+\]
+La dificultad principal está en elegir correctamente $y_p$ y detectar resonancia
+(riesgo de amplificación tipo burbuja).
+
+\[
+\boxed{
+\text{clasificar}
+\longrightarrow
+\text{resolver la dinámica libre}
+\longrightarrow
+\text{buscar la respuesta al insumo exógeno}
+\longrightarrow
+\text{aplicar condiciones}
+\longrightarrow
+\text{comprobar}
+}
+\]
+
+\vspace{8pt}
+{\small\color{upblue}\emph{Nota:} las ecuaciones de Cauchy--Euler de la Sección~10
+son la base algebraica de la ecuación de Black--Scholes para reclamos independientes
+del tiempo; los demás modelos (ciclo económico, reversión a la media, resonancia como
+burbuja) son analogías pedagógicas estándar en macro-finanzas para dar intuición
+económica a cada tipo de raíz.}
+
+\end{document}
