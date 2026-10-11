@@ -1,0 +1,684 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{booktabs,array,enumitem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepgfplotslibrary{fillbetween}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=NavyBlue,urlcolor=NavyBlue}
+
+\tcbuselibrary{skins,breakable}
+\newtcolorbox{formula}[1]{colback=NavyBlue!4,colframe=NavyBlue!70,fonttitle=\bfseries,title={#1},breakable}
+\newtcolorbox{nota}[1]{colback=OliveGreen!5,colframe=OliveGreen!70,fonttitle=\bfseries,title={#1},breakable}
+\newtcolorbox{paso}[1]{colback=white,colframe=gray!60,fonttitle=\bfseries\small,coltitle=black,colbacktitle=gray!15,title={#1},breakable}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\renewcommand{\arraystretch}{1.15}
+\newcommand{\SSR}{\mathrm{SSR}}
+\newcommand{\SSE}{\mathrm{SSE}}
+\newcommand{\SST}{\mathrm{SST}}
+
+\title{\textbf{Las pruebas $t$ y $F$ paso a paso}\\[4pt]
+\large Tres ejercicios resueltos con datos sintéticos\\[2pt]
+\normalsize Fundamentos de Econometría -- Universidad Panamericana -- Otoño 2026}
+\author{Dr. César Galindo}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{nota}{Objetivo de la guía}
+Resolver dos pruebas $F$ en regresión lineal múltiple y una prueba $t$ individual (tema 4.3 de
+las notas del segundo parcial). Se presentan las propiedades y usos de ambas distribuciones, los
+cálculos de los estadísticos, las reglas de decisión y la relación entre las pruebas. Los cálculos
+se muestran con fórmulas y números intermedios para que puedan reproducirse con calculadora.
+\end{nota}
+
+\section{Recetario}
+
+\subsection{Notación}
+
+El modelo poblacional con $k$ regresoras y $n$ observaciones es
+\[
+Y_i=\beta_0+\beta_1X_{1i}+\cdots+\beta_kX_{ki}+\varepsilon_i,\qquad i=1,\dots,n,
+\qquad\text{o bien}\qquad \mathbf y=X\boldsymbol\beta+\boldsymbol\varepsilon .
+\]
+El estimador de MCO es $\hat{\boldsymbol\beta}=(X'X)^{-1}X'\mathbf y$, los valores ajustados son
+$\hat Y_i$ y los residuos $\hat e_i=Y_i-\hat Y_i$. Se usan tres sumas de cuadrados:
+\[
+\SST=\sum_{i=1}^n (Y_i-\bar Y)^2,\qquad
+\SSE=\sum_{i=1}^n (\hat Y_i-\bar Y)^2,\qquad
+\SSR=\sum_{i=1}^n \hat e_i^{\,2},\qquad \SST=\SSE+\SSR .
+\]
+\textbf{Convención:} $\SSR$ es la suma de cuadrados de los \emph{residuos} (lo que el modelo no
+explica) y $\SSE$ la suma de cuadrados \emph{explicada}, como en las notas. Algunos libros usan las
+letras al revés; lo que importa es que en la prueba $F$ entra siempre la suma de cuadrados
+\emph{residual}. Además $R^2=1-\SSR/\SST=\SSE/\SST$.
+
+\subsection{Modelo restringido y no restringido}
+
+\begin{itemize}[leftmargin=1.3em]
+\item \textbf{No restringido (NR):} se estiman libremente los $k+1$ parámetros. Su suma de cuadrados
+residual es $\SSR_{NR}$.
+\item \textbf{Restringido (R):} se imponen las $q$ restricciones de $H_0$ (por ejemplo
+$\beta_2=\beta_3=0$, lo que equivale a quitar $X_2$ y $X_3$) y se vuelve a estimar. Su suma de
+cuadrados residual es $\SSR_R$.
+\end{itemize}
+Como el modelo restringido tiene menos libertad para ajustar los datos, siempre
+$\SSR_R\ge \SSR_{NR}$. La pregunta de la prueba es si el aumento $\SSR_R-\SSR_{NR}$ es grande en
+comparación con el ruido residual del modelo no restringido.
+
+\begin{formula}{Estadístico $F$}
+\[
+F=\frac{(\SSR_R-\SSR_{NR})/q}{\SSR_{NR}/(n-k-1)}
+\;\overset{H_0}{\sim}\;F_{q,\;n-k-1},
+\]
+donde $q$ es el número de restricciones, $n$ el tamaño de muestra y $k$ el número de regresoras
+del modelo \emph{no restringido} (sin contar la constante). Si ambos modelos tienen la misma
+variable dependiente, la forma equivalente con $R^2$ es
+\[
+F=\frac{(R^2_{NR}-R^2_{R})/q}{(1-R^2_{NR})/(n-k-1)} .
+\]
+\textbf{Caso particular (prueba global):} si $H_0:\beta_1=\cdots=\beta_k=0$, el modelo restringido
+es $Y_i=\beta_0+\varepsilon_i$, su residual es $\SSR_R=\SST$ y $R^2_R=0$:
+\[
+F=\frac{\SSE/k}{\SSR/(n-k-1)}=\frac{R^2/k}{(1-R^2)/(n-k-1)} .
+\]
+\end{formula}
+
+\subsection{Distribuciones $t$ de Student y $F$: propiedades y uso}
+
+\subsubsection*{Distribución $t$ de Student}
+Si $Z\sim N(0,1)$ y $U\sim\chi^2_{\nu}$ son independientes, entonces
+\[
+T=\frac{Z}{\sqrt{U/\nu}}\sim t_{\nu}.
+\]
+La distribución $t_{\nu}$ tiene soporte en toda la recta real y es simétrica alrededor de cero.
+Su forma es parecida a la normal estándar, pero sus colas son más pesadas: con pocos grados de
+libertad asigna más probabilidad a valores extremos. Al aumentar $\nu$, se aproxima a $N(0,1)$.
+Su media es cero si $\nu>1$ y no existe si $\nu\le1$; su varianza es $\nu/(\nu-2)$ si $\nu>2$
+y no existe si $\nu\le2$.
+
+\textbf{¿Por qué se usa en regresión?} Para probar una hipótesis individual como
+$H_0:\beta_j=\beta_{j,0}$ cuando la varianza de los errores es desconocida. Se estima esa varianza
+con los residuos y se divide la diferencia entre el estimador y el valor hipotético por su error
+estándar:
+\[
+t=\frac{\hat\beta_j-\beta_{j,0}}{\operatorname{se}(\hat\beta_j)}.
+\]
+Bajo los supuestos clásicos de errores normales, independientes y homocedásticos, bajo $H_0$ esta
+estadística sigue una $t$ con $n-k-1$ grados de libertad. Para una alternativa bilateral se compara
+$|t|$ con el valor crítico $t_{\alpha/2;\,n-k-1}$; valores grandes en cualquiera de las dos colas
+son evidencia contra $H_0$. La misma distribución se usa para construir intervalos de confianza
+individuales para los coeficientes.
+
+\subsubsection*{Distribución $F$}
+Si $U_1\sim\chi^2_{\nu_1}$ y $U_2\sim\chi^2_{\nu_2}$ son independientes, entonces
+\[
+F=\frac{U_1/\nu_1}{U_2/\nu_2}\sim F_{\nu_1,\nu_2}.
+\]
+La distribución $F$ sólo toma valores no negativos, suele ser asimétrica hacia la derecha y queda
+determinada por sus dos grados de libertad: $\nu_1$ (numerador) y $\nu_2$ (denominador). Se usa en
+la prueba de este apunte porque compara el aumento promedio en la suma de cuadrados residual al
+imponer las restricciones con la varianza residual estimada en el modelo no restringido. Bajo
+$H_0$ y los mismos supuestos clásicos, esa razón sigue una $F_{q,n-k-1}$. Por ello, la región de
+rechazo está en la cola derecha: un valor $F$ grande indica que las restricciones empeoran el
+ajuste más de lo que cabría atribuir al ruido residual.
+
+\begin{nota}{Cómo elegir entre $t$ y $F$}
+La prueba $t$ evalúa una restricción sobre un coeficiente; la prueba $F$ evalúa una o varias
+restricciones lineales de manera conjunta. Si se prueba una sola restricción bilateral en el mismo
+modelo, ambas pruebas son equivalentes:
+\[
+F_{1,\nu}=t_{\nu}^{\,2},\qquad
+F_{\text{observado}}=t_{\text{observado}}^{\,2}.
+\]
+El cuadrado elimina el signo de $t$, por eso la equivalencia corresponde a la prueba $t$ bilateral,
+no a una prueba unilateral. Con varias restricciones no basta con mirar las pruebas $t$ por
+separado: la prueba $F$ también toma en cuenta cómo se estiman conjuntamente los coeficientes.
+\end{nota}
+
+\subsection{Los seis pasos de toda prueba $F$}
+
+\begin{enumerate}[leftmargin=1.5em,itemsep=1pt]
+\item \textbf{Hipótesis.} Escribir $H_0$ (las $q$ restricciones) y $H_1$ (al menos una no se cumple).
+\item \textbf{Modelo no restringido.} Estimar por MCO y calcular $\SSR_{NR}$.
+\item \textbf{Modelo restringido.} Imponer $H_0$, estimar y calcular $\SSR_R$.
+\item \textbf{Estadístico.} Sustituir en la fórmula de $F$.
+\item \textbf{Distribución de referencia y regla de decisión.} Bajo $H_0$ y los supuestos clásicos
+(incluida normalidad de los errores), $F\sim F_{q,n-k-1}$. Se rechaza $H_0$ al nivel $\alpha$ si
+$F>F_{\alpha;\,q,\,n-k-1}$. La prueba es de una sola cola (derecha): sólo valores grandes de $F$
+contradicen $H_0$.
+\item \textbf{Conclusión en contexto}, en el lenguaje del problema.
+\end{enumerate}
+
+\begin{nota}{Valores críticos que se usan en esta guía}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Distribución & $\alpha=0.10$ & $\alpha=0.05$ & $\alpha=0.01$\\
+\midrule
+$F_{2,7}$ & 3.257 & 4.737 & 9.547\\
+$F_{1,7}$ & 3.589 & 5.591 & 12.246\\
+$F_{2,8}$ & 3.113 & 4.459 & 8.649\\
+$F_{3,8}$ & 2.924 & 4.066 & 7.591\\
+$t_7$ (bilateral) & 1.895 & 2.365 & 3.499\\
+\bottomrule
+\end{tabular}
+\end{nota}
+
+% =====================================================================
+\section{Ejercicio 1: rendimiento de un fondo (prueba de significancia global)}
+
+\textbf{Contexto.} Como en el ejemplo 1.2 de las notas, un analista explica el rendimiento mensual de
+un fondo de inversión, $Y_i$ (\%), con el rendimiento del mercado, $X_{1i}$ (\%), y la tasa de
+interés, $X_{2i}$ (\%):
+\[
+Y_i=\beta_0+\beta_1X_{1i}+\beta_2X_{2i}+\varepsilon_i,\qquad n=10,\quad k=2.
+\]
+\begin{center}
+\begin{tabular}{c*{10}{r}}
+\toprule
+Mes $i$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10\\
+\midrule
+$X_1$: mercado (\%) & 1.2 & $-0.8$ & 2.0 & 0.5 & $-1.5$ & 1.0 & 2.5 & $-0.3$ & 0.0 & 1.4\\
+$X_2$: tasa (\%)    & 7.0 & 7.5 & 6.5 & 7.0 & 8.0 & 7.5 & 6.0 & 7.5 & 7.0 & 6.0\\
+$Y$: fondo (\%)     & 1.0 & 0.2 & 1.6 & 1.1 & $-1.2$ & 0.2 & 2.4 & $-0.7$ & 0.9 & 1.5\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Se pide.}
+(a) Estimar el modelo por MCO.
+(b) Probar al 5\,\% la significancia global $H_0:\beta_1=\beta_2=0$.
+(c) Probar al 5\,\% $H_0:\beta_1=0$ con una prueba $F$ y comparar con la prueba $t$.
+
+\subsection*{Solución}
+
+\begin{paso}{Paso 1. Hipótesis del inciso (b)}
+\[
+H_0:\ \beta_1=\beta_2=0\qquad\text{vs.}\qquad H_1:\ \beta_1\neq0\ \text{o}\ \beta_2\neq0 .
+\]
+Hay $q=2$ restricciones. Bajo $H_0$ ni el mercado ni la tasa ayudan a explicar el rendimiento del fondo.
+\end{paso}
+
+\begin{paso}{Paso 2. Modelo no restringido: medias y desviaciones}
+Medias:
+\[
+\bar X_1=\frac{6.0}{10}=0.6,\qquad \bar X_2=\frac{70.0}{10}=7.0,\qquad \bar Y=\frac{7.0}{10}=0.7 .
+\]
+Con las desviaciones $x_{1i}=X_{1i}-\bar X_1$, $x_{2i}=X_{2i}-\bar X_2$, $y_i=Y_i-\bar Y$ se arma la tabla:
+
+\begin{center}
+\small
+\begin{tabular}{c|rrr|rrrrrr}
+\toprule
+$i$ & $x_1$ & $x_2$ & $y$ & $x_1^2$ & $x_2^2$ & $x_1x_2$ & $x_1y$ & $x_2y$ & $y^2$\\
+\midrule
+1  & 0.6  & 0.0  & 0.3  & 0.36 & 0.00 & 0.00  & 0.18  & 0.00  & 0.09\\
+2  & $-1.4$ & 0.5  & $-0.5$ & 1.96 & 0.25 & $-0.70$ & 0.70  & $-0.25$ & 0.25\\
+3  & 1.4  & $-0.5$ & 0.9  & 1.96 & 0.25 & $-0.70$ & 1.26  & $-0.45$ & 0.81\\
+4  & $-0.1$ & 0.0  & 0.4  & 0.01 & 0.00 & 0.00  & $-0.04$ & 0.00  & 0.16\\
+5  & $-2.1$ & 1.0  & $-1.9$ & 4.41 & 1.00 & $-2.10$ & 3.99  & $-1.90$ & 3.61\\
+6  & 0.4  & 0.5  & $-0.5$ & 0.16 & 0.25 & 0.20  & $-0.20$ & $-0.25$ & 0.25\\
+7  & 1.9  & $-1.0$ & 1.7  & 3.61 & 1.00 & $-1.90$ & 3.23  & $-1.70$ & 2.89\\
+8  & $-0.9$ & 0.5  & $-1.4$ & 0.81 & 0.25 & $-0.45$ & 1.26  & $-0.70$ & 1.96\\
+9  & $-0.6$ & 0.0  & 0.2  & 0.36 & 0.00 & 0.00  & $-0.12$ & 0.00  & 0.04\\
+10 & 0.8  & $-1.0$ & 0.8  & 0.64 & 1.00 & $-0.80$ & 0.64  & $-0.80$ & 0.64\\
+\midrule
+$\Sigma$ & 0 & 0 & 0 & 14.28 & 4.00 & $-6.45$ & 10.90 & $-6.05$ & 10.70\\
+\bottomrule
+\end{tabular}
+\end{center}
+Es decir: $S_{11}=14.28$, $S_{22}=4.00$, $S_{12}=-6.45$, $S_{1y}=10.90$, $S_{2y}=-6.05$ y
+$\SST=S_{yy}=10.70$.
+\end{paso}
+
+\begin{paso}{Paso 2 (cont.). Coeficientes de MCO con dos regresoras}
+Las ecuaciones normales en desviaciones,
+\[
+\begin{pmatrix}S_{11}&S_{12}\\ S_{12}&S_{22}\end{pmatrix}
+\begin{pmatrix}\hat\beta_1\\ \hat\beta_2\end{pmatrix}
+=\begin{pmatrix}S_{1y}\\ S_{2y}\end{pmatrix},
+\]
+se resuelven con la regla de Cramer. El determinante es
+\[
+D=S_{11}S_{22}-S_{12}^2=(14.28)(4.00)-(-6.45)^2=57.12-41.6025=15.5175 .
+\]
+Entonces
+\[
+\hat\beta_1=\frac{S_{22}S_{1y}-S_{12}S_{2y}}{D}
+=\frac{(4.00)(10.90)-(-6.45)(-6.05)}{15.5175}
+=\frac{4.5775}{15.5175}=0.2950,
+\]
+\[
+\hat\beta_2=\frac{S_{11}S_{2y}-S_{12}S_{1y}}{D}
+=\frac{(14.28)(-6.05)-(-6.45)(10.90)}{15.5175}
+=\frac{-16.089}{15.5175}=-1.0368,
+\]
+\[
+\hat\beta_0=\bar Y-\hat\beta_1\bar X_1-\hat\beta_2\bar X_2
+=0.7-(0.2950)(0.6)-(-1.0368)(7.0)=7.7808 .
+\]
+\[
+\boxed{\ \hat Y_i=7.7808+0.2950\,X_{1i}-1.0368\,X_{2i}\ }
+\]
+\textbf{Lectura:} manteniendo fija la tasa, un punto porcentual más de rendimiento de mercado se asocia
+con 0.295 puntos más de rendimiento del fondo; manteniendo fijo el mercado, un punto más de tasa se
+asocia con 1.037 puntos menos.
+\end{paso}
+
+\begin{paso}{Paso 2 (cont.). Suma de cuadrados residual $\SSR_{NR}$}
+Atajo con las sumas ya calculadas:
+\[
+\SSE=\hat\beta_1S_{1y}+\hat\beta_2S_{2y}=(0.29499)(10.90)+(-1.03683)(-6.05)=3.2154+6.2728=9.4882,
+\]
+\[
+\SSR_{NR}=\SST-\SSE=10.70-9.4882=1.2118,\qquad R^2_{NR}=\frac{9.4882}{10.70}=0.8867 .
+\]
+Comprobación directa con los residuos $\hat e_i=Y_i-\hat Y_i$:
+\begin{center}
+\small
+\footnotesize\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{c*{10}{r}|r}
+\toprule
+$i$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & $\Sigma$\\
+\midrule
+$\hat Y_i$ & 0.8770 & $-0.2314$ & 1.6314 & 0.6705 & $-0.9563$ & 0.2996 & 2.2973 & $-0.0839$ & 0.5230 & 1.9728 & 7.0000\\
+$\hat e_i$ & 0.1230 & 0.4314 & $-0.0314$ & 0.4295 & $-0.2437$ & $-0.0996$ & 0.1027 & $-0.6161$ & 0.3770 & $-0.4728$ & 0.0000\\
+$\hat e_i^{\,2}$ & 0.0151 & 0.1861 & 0.0010 & 0.1845 & 0.0594 & 0.0099 & 0.0105 & 0.3796 & 0.1421 & 0.2236 & 1.2118\\
+\bottomrule
+\end{tabular}
+\end{center}
+Los residuos suman cero (el modelo tiene constante) y $\sum\hat e_i^{\,2}=1.2118$, igual que con el atajo.
+\end{paso}
+
+\begin{paso}{Paso 3. Modelo restringido}
+Bajo $H_0:\beta_1=\beta_2=0$ el modelo es $Y_i=\beta_0+\varepsilon_i$, cuyo estimador de MCO es
+$\hat\beta_0=\bar Y=0.7$. Sus residuos son $Y_i-\bar Y$, así que
+\[
+\SSR_R=\sum_{i=1}^{10}(Y_i-\bar Y)^2=\SST=10.70 .
+\]
+\end{paso}
+
+\begin{paso}{Paso 4. Estadístico $F$}
+Con $q=2$, $n=10$, $k=2$ y $n-k-1=7$:
+\[
+F=\frac{(\SSR_R-\SSR_{NR})/q}{\SSR_{NR}/(n-k-1)}
+=\frac{(10.70-1.2118)/2}{1.2118/7}
+=\frac{4.7441}{0.17311}=27.40 .
+\]
+Con $R^2$: $\;F=\dfrac{0.8867/2}{(1-0.8867)/7}=\dfrac{0.44337}{0.016179}=27.40$. Coinciden.
+\end{paso}
+
+\begin{paso}{Pasos 5 y 6. Decisión y conclusión}
+Bajo $H_0$, $F\sim F_{2,7}$ y el valor crítico al 5\,\% es $F_{0.05;\,2,7}=4.737$.
+\[
+F=27.40>4.737\ \Longrightarrow\ \text{se rechaza }H_0 .
+\]
+También $27.40>9.547=F_{0.01;\,2,7}$: se rechaza incluso al 1\,\% (valor $p\approx0.0005$).
+
+\textbf{Conclusión:} el rendimiento del mercado y la tasa de interés, considerados conjuntamente,
+explican una parte significativa de la variación del rendimiento del fondo.
+\end{paso}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=12cm,height=5cm,domain=0:9,samples=200,xmin=0,xmax=9,ymin=0,ymax=1.1,
+  axis lines=left,xlabel={$f$},ylabel={densidad $F_{2,7}$},
+  xtick={0,2,4.737,6,8},xticklabels={0,2,4.737,6,8},ytick=\empty,
+  title={\small Región de rechazo al 5\,\%: el estadístico observado $F=27.40$ queda muy a la derecha}]
+\addplot[name path=f,thick,NavyBlue] {(1+2*x/7)^(-4.5)};
+\addplot[draw=none,name path=ax,domain=4.737:9] {0};
+\addplot[fill=BrickRed!75,draw=none] fill between[of=f and ax,soft clip={domain=4.737:9}];
+\draw[dashed] (axis cs:4.737,0) -- (axis cs:4.737,0.2);
+\node[BrickRed,font=\small] at (axis cs:6.6,0.09) {$\alpha=0.05$};
+\node[font=\small,anchor=east] at (axis cs:8.9,0.2) {$F=27.40\ \longrightarrow$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{paso}{Inciso (c). Una sola restricción: $H_0:\beta_1=0$}
+\textbf{Hipótesis:} $H_0:\beta_1=0$ vs.\ $H_1:\beta_1\neq0$; ahora $q=1$.
+
+\textbf{Modelo restringido:} quitar $X_1$ y estimar $Y_i=\gamma_0+\gamma_2X_{2i}+\varepsilon_i$
+(regresión simple):
+\[
+\hat\gamma_2=\frac{S_{2y}}{S_{22}}=\frac{-6.05}{4.00}=-1.5125,\qquad
+\hat\gamma_0=\bar Y-\hat\gamma_2\bar X_2=0.7+1.5125(7.0)=11.2875,
+\]
+\[
+\SSR_R=S_{yy}-\hat\gamma_2S_{2y}=10.70-(-1.5125)(-6.05)=10.70-9.1506=1.5494 .
+\]
+\textbf{Estadístico:}
+\[
+F=\frac{(1.5494-1.2118)/1}{1.2118/7}=\frac{0.3376}{0.17311}=1.950 .
+\]
+\textbf{Decisión:} $F_{0.05;\,1,7}=5.591$ y $1.950<5.591$: no se rechaza $H_0$ (valor $p\approx0.21$).
+
+\textbf{Relación con la prueba $t$.} Con $\hat\sigma^2=\SSR_{NR}/(n-k-1)=0.17311$,
+\[
+\operatorname{se}(\hat\beta_1)=\sqrt{\frac{\hat\sigma^2\,S_{22}}{D}}
+=\sqrt{\frac{(0.17311)(4.00)}{15.5175}}=0.2112,\qquad
+t=\frac{0.2950}{0.2112}=1.396,
+\]
+y $t^2=(1.396)^2=1.950=F$. Lo mismo ocurre con los valores críticos:
+$t_{0.025;7}^2\approx5.591=F_{0.05;1,7}$ (el valor crítico $t$ redondeado es $2.365$). Con una sola restricción, la prueba $F$ y la prueba $t$
+bilateral son la misma prueba.
+\end{paso}
+
+\begin{nota}{Lección del ejercicio 1}
+El mercado no es significativo \emph{individualmente} ($F=1.95$), pero las dos regresoras sí lo son
+\emph{conjuntamente} ($F=27.40$). No hay contradicción: el mercado y la tasa están fuertemente
+correlacionados en la muestra (correlación $-0.85$; observe que $S_{12}=-6.45$), de modo que los datos
+apenas permiten separar el efecto de cada una, aunque dejan claro que el bloque explica al fondo. Por
+eso una prueba conjunta no se reemplaza por varias pruebas $t$ por separado.
+\end{nota}
+
+% =====================================================================
+\section{Ejercicio 2: Size, Value y Momentum (prueba de exclusión de un bloque)}
+
+\textbf{Contexto.} Como en el ejemplo 3.2 de las notas, se explica el rendimiento anual en exceso de
+una acción, $R_i$ (\%), con tres características: tamaño $S_i$ (\emph{Size}, escala 1--5), valor $V_i$
+(\emph{Value}, escala 0--2) y momento $M_i$ (\emph{Momentum}, escala $-2$ a 3):
+\[
+R_i=\beta_0+\beta_1S_i+\beta_2V_i+\beta_3M_i+\varepsilon_i,\qquad n=12,\quad k=3 .
+\]
+\begin{center}
+\begin{tabular}{c*{12}{r}}
+\toprule
+Acción $i$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12\\
+\midrule
+$S$ & 2 & 4 & 1 & 3 & 5 & 2 & 4 & 3 & 1 & 5 & 3 & 4\\
+$V$ & 1 & 0 & 2 & 1 & 0 & 2 & 1 & 0 & 2 & 1 & 1 & 0\\
+$M$ & 3 & 1 & 2 & $-1$ & 0 & 1 & 2 & $-2$ & 0 & 1 & $-1$ & 2\\
+$R$ (\%) & 3.0 & 1.5 & 4.0 & 1.0 & $-0.5$ & 2.5 & 1.0 & 0.5 & 2.5 & 0.0 & 2.5 & 1.0\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Se pide.} Probar al 5\,\% si Value y Momentum, como bloque, aportan información sobre el
+rendimiento una vez que se controla por tamaño: $H_0:\beta_2=\beta_3=0$.
+
+\subsection*{Solución}
+
+\begin{paso}{Paso 1. Hipótesis}
+\[
+H_0:\ \beta_2=\beta_3=0\qquad\text{vs.}\qquad H_1:\ \beta_2\neq0\ \text{o}\ \beta_3\neq0,
+\qquad q=2 .
+\]
+\end{paso}
+
+\begin{paso}{Paso 2. Modelo no restringido en forma matricial}
+La matriz de diseño $X$ tiene una columna de unos y las columnas $S$, $V$, $M$. Sus productos cruzados
+son sumas que se obtienen directamente de la tabla de datos:
+\[
+X'X=\begin{pmatrix}
+n & \sum S & \sum V & \sum M\\
+\sum S & \sum S^2 & \sum SV & \sum SM\\
+\sum V & \sum SV & \sum V^2 & \sum VM\\
+\sum M & \sum SM & \sum VM & \sum M^2
+\end{pmatrix}
+=\begin{pmatrix}
+12 & 37 & 11 & 8\\
+37 & 135 & 25 & 23\\
+11 & 25 & 17 & 10\\
+8 & 23 & 10 & 30
+\end{pmatrix},
+\]
+\[
+X'\mathbf y=\begin{pmatrix}\sum R\\ \sum SR\\ \sum VR\\ \sum MR\end{pmatrix}
+=\begin{pmatrix}19.0\\ 41.0\\ 25.5\\ 20.5\end{pmatrix}.
+\]
+Por ejemplo, $\sum SV=2(1)+4(0)+1(2)+\cdots+4(0)=25$ y $\sum MR=3(3.0)+1(1.5)+\cdots+2(1.0)=20.5$.
+El determinante es $\det(X'X)=18\,225\neq0$ (no hay colinealidad perfecta) y la inversa es
+\[
+(X'X)^{-1}=\begin{pmatrix}
+\phantom{-}2.14579 & -0.45663 & -0.72927 & \phantom{-}0.02096\\
+-0.45663 & \phantom{-}0.10765 & \phantom{-}0.14189 & -0.00807\\
+-0.72927 & \phantom{-}0.14189 & \phantom{-}0.33789 & -0.02694\\
+\phantom{-}0.02096 & -0.00807 & -0.02694 & \phantom{-}0.04291
+\end{pmatrix}.
+\]
+(Verifique, por ejemplo, que la primera fila de $X'X$ por la primera columna de la inversa da 1.)
+Entonces $\hat{\boldsymbol\beta}=(X'X)^{-1}X'\mathbf y$; la primera pendiente es
+\[
+\hat\beta_1=(-0.45663)(19.0)+(0.10765)(41.0)+(0.14189)(25.5)+(-0.00807)(20.5)=-0.8091,
+\]
+y del mismo modo se obtienen las demás:
+\[
+\boxed{\ \hat R_i=3.8816-0.8091\,S_i+0.0253\,V_i+0.2602\,M_i\ }
+\]
+\end{paso}
+
+\begin{paso}{Paso 2 (cont.). Suma de cuadrados residual $\SSR_{NR}$}
+Atajo matricial: $\SSR=\mathbf y'\mathbf y-\hat{\boldsymbol\beta}'X'\mathbf y$, con
+$\mathbf y'\mathbf y=\sum R_i^2=49.50$ y
+\[
+\hat{\boldsymbol\beta}'X'\mathbf y=(3.88156)(19.0)+(-0.80914)(41.0)+(0.02527)(25.5)+(0.26016)(20.5)=46.5528,
+\]
+\[
+\SSR_{NR}=49.50-46.5528=2.9472 .
+\]
+Comprobación con los residuos:
+\begin{center}
+\small
+\footnotesize\setlength{\tabcolsep}{2pt}
+\begin{tabular}{c*{12}{r}|r}
+\toprule
+$i$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & $\Sigma$\\
+\midrule
+$\hat R_i$ & 3.069 & 0.905 & 3.643 & 1.219 & $-0.164$ & 2.574 & 1.191 & 0.934 & 3.123 & 0.121 & 1.219 & 1.165 & 19.000\\
+$\hat e_i$ & $-0.069$ & 0.595 & 0.357 & $-0.219$ & $-0.336$ & $-0.074$ & $-0.191$ & $-0.434$ & $-0.623$ & $-0.121$ & 1.281 & $-0.165$ & 0.000\\
+$\hat e_i^{\,2}$ & 0.005 & 0.354 & 0.127 & 0.048 & 0.113 & 0.005 & 0.036 & 0.188 & 0.388 & 0.015 & 1.640 & 0.027 & 2.947\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{paso}
+
+\begin{paso}{Paso 3. Modelo restringido: regresión simple sobre $S$}
+Imponer $\beta_2=\beta_3=0$ equivale a estimar $R_i=\gamma_0+\gamma_1S_i+\varepsilon_i$. Con las
+fórmulas de cálculo (que usan las mismas sumas de $X'X$ y $X'\mathbf y$):
+\[
+S_{SS}=\sum S^2-\frac{(\sum S)^2}{n}=135-\frac{37^2}{12}=135-114.0833=20.9167,
+\]
+\[
+S_{SR}=\sum SR-\frac{(\sum S)(\sum R)}{n}=41.0-\frac{(37)(19.0)}{12}=41.0-58.5833=-17.5833,
+\]
+\[
+S_{RR}=\sum R^2-\frac{(\sum R)^2}{n}=49.50-\frac{19.0^2}{12}=49.50-30.0833=19.4167=\SST .
+\]
+Coeficientes:
+\[
+\hat\gamma_1=\frac{S_{SR}}{S_{SS}}=\frac{-17.5833}{20.9167}=-0.8406,
+\]
+\[
+\hat\gamma_0=\bar R-\hat\gamma_1\bar S=\frac{19}{12}+0.8406\Big(\frac{37}{12}\Big)=1.5833+2.5920=4.1753 .
+\]
+Suma de cuadrados residual:
+\[
+\SSR_R=S_{RR}-\hat\gamma_1S_{SR}=19.4167-(-0.8406)(-17.5833)=19.4167-14.7812=4.6355 .
+\]
+\end{paso}
+
+\begin{paso}{Paso 4. Estadístico $F$}
+Con $q=2$, $n=12$, $k=3$ y $n-k-1=8$:
+\[
+F=\frac{(\SSR_R-\SSR_{NR})/q}{\SSR_{NR}/(n-k-1)}
+=\frac{(4.6355-2.9472)/2}{2.9472/8}
+=\frac{0.84415}{0.36840}=2.291 .
+\]
+Con $R^2$: $R^2_{NR}=1-2.9472/19.4167=0.8482$ y $R^2_R=1-4.6355/19.4167=0.7613$, de modo que
+\[
+F=\frac{(0.8482-0.7613)/2}{(1-0.8482)/8}=\frac{0.043476}{0.018974}=2.291 .
+\]
+\end{paso}
+
+\begin{paso}{Pasos 5 y 6. Decisión y conclusión}
+Bajo $H_0$, $F\sim F_{2,8}$ y $F_{0.05;\,2,8}=4.459$.
+\[
+F=2.291<4.459\ \Longrightarrow\ \text{no se rechaza }H_0\quad(\text{valor }p\approx0.16).
+\]
+Ni siquiera al 10\,\% se rechaza, pues $2.291<3.113=F_{0.10;\,2,8}$.
+
+\textbf{Conclusión:} una vez que se controla por tamaño, Value y Momentum, como bloque, no aportan
+información estadísticamente significativa sobre el rendimiento en esta muestra. Quitarlas eleva la
+suma de cuadrados residual de 2.947 a 4.636, pero ese aumento es compatible con el ruido residual.
+\end{paso}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[width=12cm,height=5cm,domain=0:9,samples=200,xmin=0,xmax=9,ymin=0,ymax=1.1,
+  axis lines=left,xlabel={$f$},ylabel={densidad $F_{2,8}$},
+  xtick={0,2.291,4.459,6,8},xticklabels={0,2.291,4.459,6,8},ytick=\empty,
+  title={\small El estadístico observado $F=2.291$ cae en la región de no rechazo}]
+\addplot[name path=f,thick,NavyBlue] {(1+x/4)^(-5)};
+\addplot[draw=none,name path=ax,domain=4.459:9] {0};
+\addplot[fill=BrickRed!75,draw=none] fill between[of=f and ax,soft clip={domain=4.459:9}];
+\draw[dashed] (axis cs:4.459,0) -- (axis cs:4.459,0.2);
+\draw[very thick,OliveGreen] (axis cs:2.291,0) -- (axis cs:2.291,0.17);
+\node[OliveGreen,font=\small,anchor=south] at (axis cs:2.291,0.17) {$F$ observado};
+\node[BrickRed,font=\small] at (axis cs:6.4,0.09) {$\alpha=0.05$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{nota}{Lección del ejercicio 2}
+Que el bloque $\{V,M\}$ no sea significativo no significa que el modelo completo sea inútil. La
+prueba global del mismo modelo, $H_0:\beta_1=\beta_2=\beta_3=0$, da
+\[
+F=\frac{\SSE/k}{\SSR/(n-k-1)}=\frac{(19.4167-2.9472)/3}{2.9472/8}=14.90>4.066=F_{0.05;\,3,8},
+\]
+así que el modelo sí explica el rendimiento; lo que explica proviene esencialmente del tamaño. Cada
+prueba $F$ responde a la pregunta que fija su $H_0$: hay que leer siempre \emph{qué} restricciones se
+están probando.
+\end{nota}
+
+\section{Ejercicio 3: prueba $t$ individual e intervalo de confianza}
+
+\textbf{Contexto.} Retomamos la regresión del ejercicio 1, que explica el rendimiento del fondo
+con el rendimiento del mercado y la tasa de interés. La pendiente estimada de la tasa y su error
+estándar fueron $\hat\beta_2=-1.0368$ y
+$\operatorname{se}(\hat\beta_2)=0.3991$, respectivamente.
+Con $n=10$ observaciones y $k=2$ regresoras, los grados de libertad residuales son
+$\nu=n-k-1=7$.
+
+\textbf{Se pide.} (a) Probar al 5\,\% $H_0:\beta_2=0$ contra $H_1:\beta_2\neq0$ con una prueba
+$t$. (b) Construir el intervalo de confianza del 95\,\% para $\beta_2$. (c) Representar la regla
+de decisión en la distribución $t_7$.
+
+\subsection*{Solución}
+
+\begin{paso}{Paso 1. Hipótesis y estadístico}
+La prueba es bilateral porque la alternativa permite que la pendiente sea positiva o negativa:
+\[
+H_0:\beta_2=0,\qquad H_1:\beta_2\neq0,\qquad \alpha=0.05.
+\]
+El estadístico compara la estimación con el valor indicado por $H_0$, medido en errores estándar:
+\[
+t=\frac{\hat\beta_2-0}{\operatorname{se}(\hat\beta_2)}
+=\frac{-1.0368}{0.3991}=-2.598,\qquad \nu=7.
+\]
+Bajo $H_0$ y los supuestos clásicos, $T\sim t_7$.
+\end{paso}
+
+\begin{paso}{Paso 2. Valor crítico y decisión}
+Al ser bilateral, se asigna $\alpha/2=0.025$ a cada cola. El valor crítico es
+$t_{0.025;\,7}=2.365$:
+\[
+|t|=2.598>2.365\ \Longrightarrow\ \text{se rechaza }H_0.
+\]
+La muestra aporta evidencia al nivel del 5\,\% de que la pendiente de la tasa de interés difiere
+de cero. Su signo negativo indica una asociación inversa con el rendimiento del fondo, manteniendo
+fijo el rendimiento del mercado.
+\end{paso}
+
+\begin{paso}{Paso 3. Intervalo de confianza del 95\,\%}
+El intervalo es la estimación más y menos el valor crítico multiplicado por su error estándar:
+\[
+\hat\beta_2\pm t_{0.025;\,7}\operatorname{se}(\hat\beta_2)
+=-1.0368\pm(2.365)(0.3991)
+=-1.0368\pm0.9439,
+\]
+\[
+\boxed{\ \beta_2\in[-1.9807,\;-0.0929]\quad\text{(intervalo de confianza del 95\,\%)}\ }.
+\]
+El intervalo no contiene cero, en concordancia con la decisión de rechazar $H_0$.
+\end{paso}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  width=12cm,height=5.5cm,domain=-4:4,samples=250,
+  xmin=-4,xmax=4,ymin=0,ymax=0.42,
+  axis lines=left,xlabel={$t$},ylabel={densidad $t_7$},
+  xtick={-2.598,-2.365,0,2.365},
+  xticklabels={$-2.598$,$-2.365$,0,2.365},ytick=\empty,
+  title={\small Prueba bilateral al 5\,\%: el estadístico observado cae en la región de rechazo}]
+\addplot[name path=student,thick,NavyBlue]
+  {0.389108*(1+x^2/7)^(-4)};
+\addplot[draw=none,name path=axisleft,domain=-4:-2.365] {0};
+\addplot[fill=BrickRed!75,draw=none]
+  fill between[of=student and axisleft,soft clip={domain=-4:-2.365}];
+\addplot[draw=none,name path=axisright,domain=2.365:4] {0};
+\addplot[fill=BrickRed!75,draw=none]
+  fill between[of=student and axisright,soft clip={domain=2.365:4}];
+\draw[dashed,BrickRed] (axis cs:-2.365,0) -- (axis cs:-2.365,0.12);
+\draw[dashed,BrickRed] (axis cs:2.365,0) -- (axis cs:2.365,0.12);
+\draw[very thick,OliveGreen] (axis cs:-2.598,0) -- (axis cs:-2.598,0.32);
+\node[OliveGreen,font=\small,anchor=south] at (axis cs:-2.598,0.32) {$t=-2.598$};
+\node[BrickRed,font=\small] at (axis cs:3.1,0.10) {$\alpha/2=0.025$};
+\node[BrickRed,font=\small] at (axis cs:-3.1,0.10) {$\alpha/2=0.025$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{nota}{Comprobación con la prueba $F$}
+Para una sola restricción bilateral, la prueba $F$ equivalente da
+$F_{1,7}=t^2\approx6.748$. Como $6.748>F_{0.05;\,1,7}=5.591$, también se rechaza $H_0$.
+Esto ilustra que $F=t^2$ conserva la decisión de la prueba $t$ bilateral, aunque no conserva el
+signo del efecto.
+\end{nota}
+
+\section{Resumen de los tres ejercicios}
+
+\begin{center}
+\small
+\begin{tabular}{llcccc}
+\toprule
+Ejercicio & Hipótesis & Distribución & Estadístico & Valor crítico (5\,\%) & Decisión\\
+\midrule
+E1(b) & $\beta_1=\beta_2=0$ & $F_{2,7}$ & 27.40 & 4.737 & Rechazar\\
+E1(c) & $\beta_1=0$ & $F_{1,7}$ & 1.950 & 5.591 & No rechazar\\
+E2 & $\beta_2=\beta_3=0$ & $F_{2,8}$ & 2.291 & 4.459 & No rechazar\\
+E2 global & $\beta_1=\beta_2=\beta_3=0$ & $F_{3,8}$ & 14.90 & 4.066 & Rechazar\\
+E3 & $\beta_2=0$ & $t_7$ bilateral & $-2.598$ & $\pm2.365$ & Rechazar\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textit{Nota:} para una prueba bilateral, la regla $|t|>t_{\alpha/2;\nu}$ equivale a
+$t^2>F_{\alpha;1,\nu}$.
+
+\begin{nota}{Errores frecuentes}
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt]
+\item Usar la suma de cuadrados explicada en lugar de la \emph{residual} en la fórmula de $F$.
+\item Tomar $k$ del modelo restringido: los grados de libertad del denominador son $n-k-1$ del modelo
+\emph{no restringido}.
+\item Contar mal $q$: es el número de signos ``$=$'' en $H_0$, no el número de regresoras del modelo.
+\item Usar la forma con $R^2$ cuando los modelos tienen distinta variable dependiente (por ejemplo
+$Y$ en uno y $\ln Y$ en el otro); en ese caso sólo vale la forma con $\SSR$.
+\item Concluir que ``cada coeficiente es significativo'' cuando se rechaza una $H_0$ conjunta: el
+rechazo dice que \emph{al menos una} restricción falla.
+\end{itemize}
+\end{nota}
+
+\end{document}
