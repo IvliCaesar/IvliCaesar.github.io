@@ -1,0 +1,469 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot,es-noshorthands]{babel}
+\usepackage[top=2.2cm,bottom=2.2cm,left=2.4cm,right=2.4cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\definecolor{azul}{HTML}{174A70}
+\definecolor{fondo}{HTML}{F3F6FA}
+\hypersetup{colorlinks=true,linkcolor=azul,urlcolor=azul}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist{itemsep=3pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textsc{Investigación de Operaciones}}
+\chead{\small Unidad II}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtcolorbox{idea}[1][Idea clave]{enhanced,breakable,colback=fondo,colframe=azul,boxrule=0.5pt,arc=2pt,
+  fonttitle=\bfseries\small,title={#1}}
+\theoremstyle{plain}
+\newtheorem{teorema}{Teorema}[section]
+\theoremstyle{definition}
+\newtheorem{definicion}[teorema]{Definición}
+\newtheorem{ejemplo}[teorema]{Ejemplo}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+\lstset{basicstyle=\ttfamily\small,backgroundcolor=\color{fondo},frame=single,rulecolor=\color{azul!40},
+  columns=fullflexible,keepspaces=true,literate={á}{{\'a}}1{é}{{\'e}}1{í}{{\'i}}1{ó}{{\'o}}1{ú}{{\'u}}1{ñ}{{\~n}}1}
+
+\newcommand{\fr}[2]{\tfrac{#1}{#2}}
+
+\title{\textcolor{azul}{\Huge Investigación de Operaciones}\\[6pt]
+\Large Unidad II: dualidad, precios sombra y análisis de sensibilidad\\[4pt]
+\large Apuntes guiados, ejemplos y ejercicios}
+\author{Julio César Galindo López}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Motivación}
+En la Unidad I aprendimos a responder la pregunta \emph{¿cuánto producir?} La solución óptima, sin
+embargo, contiene una segunda respuesta que la empresa necesita tanto como la primera: \emph{¿cuánto vale
+cada recurso?} Si una hora adicional de máquina permite ganar más, ¿cuánto conviene pagar por ella? Si un
+proveedor ofrece materia prima extra, ¿a qué precio deja de ser buen negocio? Si se propone un producto
+nuevo, ¿vale la pena fabricarlo sin resolver todo el problema otra vez?
+
+Las tres preguntas tienen la misma respuesta matemática: cada programa lineal tiene asociado otro programa
+lineal, su \emph{dual}, cuyas variables son precios de los recursos. Esta unidad construye el dual, demuestra
+por qué su valor óptimo coincide con el del problema original y enseña a leer en la tabla óptima del
+simplex los precios sombra y los rangos dentro de los cuales la solución sigue siendo válida.
+
+\section*{Cómo estudiar esta unidad}
+Toda la unidad gira alrededor del ejemplo de producción resuelto en la Unidad I, de modo que cada concepto
+nuevo se aplica a números ya conocidos. Se recomienda tener a la vista su tabla óptima. Las secciones 2 y 3
+construyen el dual; la 4 demuestra los teoremas que lo justifican; las 5 y 6 interpretan la solución; la 7
+estudia la sensibilidad, y la 8 muestra cómo comprobar todo en Python.
+
+\tableofcontents
+\newpage
+
+%=====================================================================
+\section{El problema de referencia}
+
+Una empresa fabrica dos productos, A y B, con utilidades de $4$ y $6$ (miles de pesos por lote). Cada lote
+de A requiere $0.5$ horas de máquina y $12.5$ kg de materia prima; cada lote de B, $1$ hora y $10$ kg. Se
+dispone de $600$ horas y $10\,000$ kg, y el mercado absorbe a lo más $700$ lotes de A. El modelo es
+\[
+\begin{aligned}
+\max\ Z&=4x_1+6x_2\\
+\text{s.a.}\quad 0.5x_1+x_2&\le600 &&\text{(horas de máquina)}\\
+12.5x_1+10x_2&\le10\,000 &&\text{(materia prima)}\\
+x_1&\le700 &&\text{(mercado de A)}\\
+x_1,x_2&\ge0.
+\end{aligned}
+\]
+En la Unidad I el simplex terminó con las variables básicas $x_1,x_2,s_3$ y
+\[
+x_1=\fr{1600}{3}\approx533.33,\qquad x_2=\fr{1000}{3}\approx333.33,\qquad s_3=\fr{500}{3}\approx166.67,
+\qquad s_1=s_2=0,\qquad Z^*=\fr{12\,400}{3}\approx4133.33.
+\]
+Las horas y la materia prima se agotan; sobra capacidad de mercado de A.
+
+%=====================================================================
+\section{El problema dual}
+
+\subsection{La pregunta del comprador}
+Imagine que un competidor quiere comprar \emph{todos} los recursos de la empresa: las $600$ horas, los
+$10\,000$ kg y los $700$ ``derechos de mercado'' de A. Ofrece un precio $y_1$ por hora, $y_2$ por kilogramo y
+$y_3$ por derecho. ¿Qué precios mínimos debe ofrecer para que la empresa acepte vender en lugar de
+producir?
+
+Un lote de A usa $0.5$ horas, $12.5$ kg y un derecho de mercado, y deja $4$ de utilidad. La empresa solo
+vende si lo que recibe por esos recursos es al menos lo que ganaría produciendo:
+$0.5y_1+12.5y_2+y_3\ge4$. Lo mismo con B: $y_1+10y_2\ge6$. El comprador quiere pagar lo menos posible:
+\[
+\begin{aligned}
+\min\ W&=600y_1+10\,000y_2+700y_3\\
+\text{s.a.}\quad 0.5y_1+12.5y_2+y_3&\ge4 &&\text{(producto A)}\\
+y_1+10y_2&\ge6 &&\text{(producto B)}\\
+y_1,y_2,y_3&\ge0.
+\end{aligned}
+\]
+Este es el \textbf{dual} del problema de producción, que llamamos \textbf{primal}.
+
+\subsection{Reglas de construcción}
+
+\begin{definicion}[Par primal--dual en forma canónica]
+Si el primal es $\max\ \mathbf c^\top\mathbf x$ sujeto a $A\mathbf x\le\mathbf b$, $\mathbf x\ge\mathbf 0$, su dual es
+$\min\ \mathbf b^\top\mathbf y$ sujeto a $A^\top\mathbf y\ge\mathbf c$, $\mathbf y\ge\mathbf 0$.
+\end{definicion}
+
+En palabras: la matriz se transpone, los lados derechos del primal pasan a ser los coeficientes del objetivo
+dual y viceversa, y hay una variable dual por cada restricción del primal.
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}\toprule
+Primal (máx.) & Dual (mín.)\\\midrule
+restricción $i$ de tipo $\le$ & variable $y_i\ge0$\\
+restricción $i$ de tipo $\ge$ & variable $y_i\le0$\\
+restricción $i$ de tipo $=$ & variable $y_i$ libre\\
+variable $x_j\ge0$ & restricción $j$ de tipo $\ge$\\
+variable $x_j\le0$ & restricción $j$ de tipo $\le$\\
+variable $x_j$ libre & restricción $j$ de tipo $=$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{idea}
+El dual del dual es el primal. Por eso da lo mismo cuál de los dos llamamos primal: la tabla se lee en
+ambos sentidos.
+\end{idea}
+
+\begin{ejemplo}[Dual de un problema de minimización]
+El problema de dieta $\min\ 3x_1+2x_2$ s.a.\ $x_1+x_2\ge4$, $2x_1+x_2\ge6$, $x_1,x_2\ge0$ tiene por dual
+$\max\ 4y_1+6y_2$ s.a.\ $y_1+2y_2\le3$, $y_1+y_2\le2$, $y_1,y_2\ge0$. Aquí $y_i$ es el precio que un
+fabricante de suplementos podría cobrar por cada unidad del nutriente $i$ sin que convenga comprar los
+alimentos.
+\end{ejemplo}
+
+\begin{ejemplo}[Restricción de igualdad]
+Si al problema de referencia se le exige usar exactamente las $600$ horas, la primera restricción es
+$0.5x_1+x_2=600$ y la variable dual $y_1$ queda libre de signo: una hora puede tener valor negativo si
+obliga a producir algo que no conviene.
+\end{ejemplo}
+
+%=====================================================================
+\section{Resolver el dual del ejemplo}
+
+El dual tiene tres variables, pero la Sección 4 mostrará que podemos adivinar su solución a partir del
+primal. Como sobra mercado de A ($s_3>0$), ese recurso no tiene valor marginal: $y_3=0$. Como $x_1>0$ y
+$x_2>0$, las dos restricciones duales se cumplen con igualdad:
+\[
+0.5y_1+12.5y_2=4,\qquad y_1+10y_2=6.
+\]
+De la segunda, $y_1=6-10y_2$; sustituyendo, $3-5y_2+12.5y_2=4$, es decir $7.5y_2=1$. Entonces
+\[
+y_2=\fr{2}{15}\approx0.133,\qquad y_1=6-\fr{4}{3}=\fr{14}{3}\approx4.667,\qquad y_3=0,
+\]
+y
+\[
+W^*=600\cdot\fr{14}{3}+10\,000\cdot\fr{2}{15}+0=2800+\fr{4000}{3}=\fr{12\,400}{3}=Z^*.
+\]
+Los dos óptimos coinciden. No es casualidad.
+
+%=====================================================================
+\section{Los teoremas de dualidad}
+
+En lo que sigue el primal es $\max\ \mathbf c^\top\mathbf x$ s.a.\ $A\mathbf x\le\mathbf b$, $\mathbf x\ge0$, y el dual es
+$\min\ \mathbf b^\top\mathbf y$ s.a.\ $A^\top\mathbf y\ge\mathbf c$, $\mathbf y\ge0$.
+
+\begin{teorema}[Dualidad débil]
+Si $\mathbf x$ es factible para el primal y $\mathbf y$ es factible para el dual, entonces
+$\mathbf c^\top\mathbf x\le\mathbf b^\top\mathbf y$.
+\end{teorema}
+\begin{proof}
+Como $\mathbf x\ge0$ y $A^\top\mathbf y\ge\mathbf c$, se tiene $\mathbf c^\top\mathbf x\le(A^\top\mathbf y)^\top\mathbf x=\mathbf y^\top A\mathbf x$. Como
+$\mathbf y\ge0$ y $A\mathbf x\le\mathbf b$, se tiene $\mathbf y^\top A\mathbf x\le\mathbf y^\top\mathbf b$.
+\end{proof}
+
+Consecuencias inmediatas:
+\begin{enumerate}
+\item Cualquier solución factible del dual da una \emph{cota superior} para la utilidad máxima, sin resolver
+el primal. En el ejemplo, $\mathbf y=(6,0,4)$ es factible y da $W=600\cdot6+700\cdot4=6400$: la utilidad
+nunca puede pasar de $6400$.
+\item Si $\mathbf c^\top\mathbf x=\mathbf b^\top\mathbf y$ para un par factible, ambos son óptimos: ninguna $\mathbf x$ puede dar más
+que esa cota, y ninguna $\mathbf y$ puede dar menos.
+\item Si el primal es no acotado, el dual es infactible (no existe ninguna cota superior), y viceversa.
+\end{enumerate}
+
+\begin{teorema}[Dualidad fuerte]
+Si el primal tiene solución óptima $\mathbf x^*$, el dual también tiene solución óptima $\mathbf y^*$ y
+$\mathbf c^\top\mathbf x^*=\mathbf b^\top\mathbf y^*$.
+\end{teorema}
+\begin{proof}[Idea de la demostración]
+Sea $B$ la matriz básica de la tabla óptima del simplex y $\mathbf c_B$ los costos de las variables básicas.
+Defina $\mathbf y^{*\top}=\mathbf c_B^\top B^{-1}$. La optimalidad ($C_j-Z_j\le0$ para todas las columnas) dice
+exactamente que $A^\top\mathbf y^*\ge\mathbf c$ (columnas de las variables de decisión) y que $\mathbf y^*\ge0$
+(columnas de las holguras). Así $\mathbf y^*$ es factible para el dual y
+$\mathbf b^\top\mathbf y^*=\mathbf c_B^\top B^{-1}\mathbf b=\mathbf c_B^\top\mathbf x_B=Z^*$; por la dualidad débil es óptima.
+\end{proof}
+
+\begin{teorema}[Holgura complementaria]
+Sean $\mathbf x$ y $\mathbf y$ factibles. Son óptimas si y solo si
+\[
+y_i\,(b_i-(A\mathbf x)_i)=0\ \ \text{para toda } i,\qquad x_j\,((A^\top\mathbf y)_j-c_j)=0\ \ \text{para toda } j.
+\]
+\end{teorema}
+\begin{proof}
+En la demostración de la dualidad débil,
+$\mathbf b^\top\mathbf y-\mathbf c^\top\mathbf x=\mathbf y^\top(\mathbf b-A\mathbf x)+\mathbf x^\top(A^\top\mathbf y-\mathbf c)$, suma de términos no negativos.
+Es cero, es decir hay optimalidad, si y solo si cada término es cero.
+\end{proof}
+
+\begin{idea}[Lectura económica de la holgura complementaria]
+\begin{itemize}
+\item Un recurso que sobra tiene precio sombra cero: nadie paga por más de algo que ya sobra ($s_3>0\Rightarrow y_3=0$).
+\item Un recurso con precio positivo se agota ($y_1>0\Rightarrow s_1=0$).
+\item Un producto que se fabrica cubre exactamente el valor de los recursos que consume
+($x_1>0\Rightarrow0.5y_1+12.5y_2+y_3=4$).
+\item Un producto cuyo costo de oportunidad supera su utilidad no se fabrica.
+\end{itemize}
+\end{idea}
+
+%=====================================================================
+\section{El dual está escrito en la tabla óptima}
+
+No hace falta resolver el dual por separado: el simplex lo resuelve al mismo tiempo. Con la convención
+$C_j-Z_j$ de la Unidad I, en la tabla óptima de maximización
+\[
+y_i=Z_j\ \text{de la columna de la holgura } s_i,\qquad\text{es decir,}\qquad y_i=-(C_j-Z_j)_{s_i}.
+\]
+
+Para el ejemplo, la matriz básica (columnas de $x_1$, $x_2$ y $s_3$ en las tres restricciones) y su
+inversa son
+\[
+B=\begin{pmatrix}0.5&1&0\\12.5&10&0\\1&0&1\end{pmatrix},\qquad
+B^{-1}=\begin{pmatrix}-\fr43&\fr2{15}&0\\[2pt]\fr53&-\fr1{15}&0\\[2pt]\fr43&-\fr2{15}&1\end{pmatrix}.
+\]
+Las columnas de $s_1$ y $s_2$ en la tabla óptima son las dos primeras columnas de $B^{-1}$, y
+\[
+\mathbf y^{*\top}=\mathbf c_B^\top B^{-1}=(4,\ 6,\ 0)\,B^{-1}=\Big(\fr{14}{3},\ \fr{2}{15},\ 0\Big),
+\qquad
+\mathbf x_B=B^{-1}\mathbf b=\Big(\fr{1600}{3},\ \fr{1000}{3},\ \fr{500}{3}\Big).
+\]
+
+\begin{center}
+\begin{tabular}{@{}c|rrrrr|r@{}}\toprule
+Básica & $x_1$ & $x_2$ & $s_1$ & $s_2$ & $s_3$ & $b$\\\midrule
+$x_1$ & 1 & 0 & $-\fr43$ & $\fr2{15}$ & 0 & $\fr{1600}3$\\[2pt]
+$x_2$ & 0 & 1 & $\fr53$ & $-\fr1{15}$ & 0 & $\fr{1000}3$\\[2pt]
+$s_3$ & 0 & 0 & $\fr43$ & $-\fr2{15}$ & 1 & $\fr{500}3$\\\midrule
+$Z_j$ & 4 & 6 & $\fr{14}3$ & $\fr2{15}$ & 0 & $\fr{12400}3$\\[2pt]
+$C_j-Z_j$ & 0 & 0 & $-\fr{14}3$ & $-\fr2{15}$ & 0 & \\\bottomrule
+\end{tabular}
+\end{center}
+
+La fila $Z_j$ bajo las holguras contiene los precios sombra $\big(\fr{14}{3},\fr{2}{15},0\big)$, que coinciden con
+la solución del dual obtenida en la Sección 3.
+
+%=====================================================================
+\section{Precios sombra}
+
+\begin{definicion}
+El \emph{precio sombra} del recurso $i$ es el aumento del valor óptimo del objetivo por cada unidad
+adicional del recurso $i$, mientras la base óptima no cambie. Es el valor óptimo de la variable dual $y_i$.
+\end{definicion}
+
+En el ejemplo:
+\begin{itemize}
+\item \textbf{Horas de máquina:} $y_1=\fr{14}3\approx4.67$ miles de pesos por hora. La empresa debería estar
+dispuesta a pagar hasta $4\,667$ pesos por una hora extra (por ejemplo, un turno adicional).
+\item \textbf{Materia prima:} $y_2=\fr2{15}\approx0.133$ miles de pesos por kg, es decir $133$ pesos por kg
+adicional. Si un proveedor ofrece materia prima extra a menos de eso, conviene comprarla.
+\item \textbf{Mercado de A:} $y_3=0$. Ampliar el mercado de A no sirve hoy: ya sobran $166.67$ lotes.
+\end{itemize}
+
+\begin{ejemplo}[Verificación directa]
+Con $601$ horas, las restricciones activas $0.5x_1+x_2=601$ y $12.5x_1+10x_2=10\,000$ dan
+$x_1=532$ y $x_2=335$, con utilidad $4\cdot532+6\cdot335=4138$; el aumento es
+$4138-\fr{12\,400}3=\fr{14}3$. La primera columna de $B^{-1}$ explica el mecanismo: una hora más cambia
+$(x_1,x_2,s_3)$ en $\big(-\fr43,\fr53,\fr43\big)$. La hora extra se usa para producir más B y menos A,
+liberando materia prima.
+\end{ejemplo}
+
+\begin{idea}[Cuidado]
+El precio sombra es un valor \emph{marginal} y local. No dice cuánto vale comprar $1000$ horas más: solo es
+válido mientras la base óptima no cambie. La Sección 7 calcula hasta dónde.
+\end{idea}
+
+%=====================================================================
+\section{Costo reducido y productos nuevos}
+
+\begin{definicion}
+El \emph{costo de oportunidad} de una actividad $j$ es $\sum_i a_{ij}y_i$: el valor, a precios sombra, de los
+recursos que consume. Su \emph{costo reducido} es $c_j-\sum_i a_{ij}y_i$ (en maximización).
+\end{definicion}
+
+Una actividad que no está en la solución solo conviene si su costo reducido es positivo. Esto permite
+evaluar un producto nuevo \emph{sin} volver a resolver el problema.
+
+\begin{ejemplo}[¿Lanzar el producto C?]
+Se propone un producto C que requiere $0.8$ horas y $15$ kg por lote y deja $7$ de utilidad. Su costo de
+oportunidad es
+\[
+0.8\cdot\fr{14}{3}+15\cdot\fr{2}{15}=3.733+2=5.733.
+\]
+Como $7>5.733$, el costo reducido es $7-5.733=1.267>0$: conviene producir C. Al resolver de nuevo con C el
+óptimo es $x_1=0$, $x_2=\fr{1000}{7}\approx142.86$, $x_3=\fr{4000}{7}\approx571.43$, con
+$Z^*=\fr{34\,000}{7}\approx4857.14$. Si C dejara $5$ de utilidad, la prueba diría que no conviene, y la
+solución actual seguiría siendo óptima.
+\end{ejemplo}
+
+%=====================================================================
+\section{Análisis de sensibilidad}
+
+Los datos de un modelo casi nunca son exactos: utilidades, consumos y disponibilidades se estiman. El
+análisis de sensibilidad pregunta cuánto puede cambiar un dato sin que cambie la base óptima.
+
+\subsection{Coeficientes de la función objetivo}
+La solución óptima es el vértice donde se cruzan las rectas de horas ($x_2=600-0.5x_1$, pendiente $-0.5$) y
+de materia prima ($x_2=1000-1.25x_1$, pendiente $-1.25$). Ese vértice sigue siendo óptimo mientras la
+pendiente de las rectas de isoutilidad, $-c_1/c_2$, quede entre las dos:
+\[
+0.5\le\frac{c_1}{c_2}\le1.25.
+\]
+\begin{itemize}
+\item Con $c_2=6$ fijo: $3\le c_1\le7.5$. Si la utilidad de A baja de $3$, conviene producir solo B
+($x_1=0$, $x_2=600$); si sube de $7.5$, conviene llegar al tope de mercado de A ($x_1=700$, $x_2=125$).
+\item Con $c_1=4$ fijo: $3.2\le c_2\le8$.
+\end{itemize}
+Dentro de estos rangos la \emph{mezcla} de producción no cambia, pero la utilidad total sí.
+
+\subsection{Lados derechos}
+Si cambia $b_i$, la nueva solución básica es $\mathbf x_B=B^{-1}\mathbf b$; la base sigue siendo óptima mientras
+$\mathbf x_B\ge0$ (los precios sombra no dependen de $\mathbf b$). Para las horas, con $b_1=600+\Delta$:
+\[
+\mathbf x_B=\Big(\fr{1600}3-\fr43\Delta,\ \ \fr{1000}3+\fr53\Delta,\ \ \fr{500}3+\fr43\Delta\Big)\ge0
+\iff -125\le\Delta\le400.
+\]
+Es decir, el precio sombra $\fr{14}3$ es válido para $475\le b_1\le1000$ horas. Del mismo modo:
+\begin{center}
+\begin{tabular}{@{}lccc@{}}\toprule
+Recurso & Disponible & Precio sombra & Rango de validez\\\midrule
+Horas de máquina & $600$ & $\fr{14}3\approx4.667$ & $[475,\ 1000]$\\
+Materia prima (kg) & $10\,000$ & $\fr2{15}\approx0.133$ & $[6000,\ 11\,250]$\\
+Mercado de A & $700$ & $0$ & $[533.33,\ \infty)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{ejemplo}
+Un turno extra de $200$ horas cuesta $600$ (miles de pesos). Como $800$ está en el rango, la utilidad
+aumenta $200\cdot\fr{14}3=933.33$, más que el costo: el turno conviene, con ganancia neta $333.33$. Un turno de
+$500$ horas llevaría a $1100>1000$ y el precio sombra ya no aplica: hay que resolver de nuevo.
+\end{ejemplo}
+
+\subsection{Una restricción nueva}
+Si se agrega una restricción, primero se verifica si la solución actual la cumple. Si la cumple, sigue
+siendo óptima (agregar restricciones no puede mejorar el óptimo). Si no la cumple, la solución cambia y se
+reoptimiza (por ejemplo, con el simplex dual).
+
+\begin{ejemplo}
+Un límite de almacén $x_1+x_2\le900$: la solución actual da $533.33+333.33=866.67\le900$; sigue siendo
+óptima. Con un límite de $800$, la solución actual lo viola y hay que reoptimizar.
+\end{ejemplo}
+
+%=====================================================================
+\section{Comprobación en Python}
+
+\texttt{scipy.optimize.linprog} resuelve el primal y reporta los precios sombra en
+\texttt{ineqlin.marginals} (con signo negativo, porque \texttt{linprog} minimiza):
+
+\begin{lstlisting}[language=Python]
+from scipy.optimize import linprog
+
+c = [-4, -6]                       # linprog minimiza: se cambia el signo
+A = [[0.5, 1], [12.5, 10], [1, 0]]
+b = [600, 10000, 700]
+res = linprog(c, A_ub=A, b_ub=b, method="highs")
+print(res.x, -res.fun)             # [533.33 333.33] 4133.33
+print(-res.ineqlin.marginals)      # precios sombra: [4.667 0.133 0.   ]
+print(res.ineqlin.residual)        # holguras: [0. 0. 166.67]
+
+# el dual: min b'y  s.a. A'y >= c, y >= 0
+import numpy as np
+dual = linprog(b, A_ub=-np.array(A).T, b_ub=[-4, -6], method="highs")
+print(dual.x, dual.fun)            # [4.667 0.133 0.] 4133.33
+\end{lstlisting}
+
+Para comprobar un rango basta repetir el cálculo con el dato modificado: con $b_1=1001$ el precio sombra
+de las horas cae a cero, porque A deja de producirse y la base cambia.
+
+%=====================================================================
+\section{Errores frecuentes}
+\begin{itemize}
+\item Leer el precio sombra como el \emph{precio de mercado} del recurso. Es su valor para esta empresa, con
+este plan, en el margen.
+\item Usar el precio sombra fuera de su rango de validez.
+\item Olvidar que en minimización los signos de las variables duales se invierten según el tipo de restricción.
+\item Concluir que un recurso con precio sombra cero no sirve: sirve, pero hoy sobra.
+\item Redondear la solución continua y suponer que sigue siendo óptima o factible.
+\end{itemize}
+
+%=====================================================================
+\section{Ejercicios resueltos}
+
+\textbf{1.} Escriba el dual de $\max\ 3x_1+5x_2$ s.a.\ $x_1\le4$, $2x_2\le12$, $3x_1+2x_2\le18$, $x_1,x_2\ge0$.
+
+\emph{Solución.} $\min\ 4y_1+12y_2+18y_3$ s.a.\ $y_1+3y_3\ge3$, $2y_2+2y_3\ge5$, $y\ge0$. El primal tiene
+óptimo $x=(2,6)$, $Z=36$; por holgura complementaria, como sobra la primera restricción ($2<4$), $y_1=0$, y
+de $3y_3=3$, $2y_2+2y_3=5$ se obtiene $y=(0,\fr32,1)$ con $W=12\cdot\fr32+18=36$.
+
+\textbf{2.} En el problema de referencia, ¿cuánto pagaría como máximo por $500$ kg extra de materia prima?
+
+\emph{Solución.} $10\,500$ kg está en $[6000,11\,250]$, así que la utilidad sube $500\cdot\fr2{15}=66.67$ miles de
+pesos. Es el precio máximo por el lote completo, $133.33$ pesos por kg.
+
+\textbf{3.} ¿Sigue siendo óptima la mezcla actual si la utilidad de B sube a $7.5$?
+
+\emph{Solución.} Sí: $7.5\in[3.2,8]$. La nueva utilidad es $4\cdot\fr{1600}3+7.5\cdot\fr{1000}3=\fr{13\,900}3\approx4633.33$.
+
+\textbf{4.} Verifique la holgura complementaria en la solución del ejemplo.
+
+\emph{Solución.} $y_1s_1=\fr{14}3\cdot0=0$, $y_2s_2=0$, $y_3s_3=0\cdot\fr{500}3=0$; las dos restricciones duales
+se cumplen con igualdad y $x_1,x_2>0$. Todos los productos son cero.
+
+%=====================================================================
+\section{Ejercicios propuestos}
+\begin{enumerate}
+\item Escriba el dual del problema de minimización con artificiales de la Unidad I y resuélvalo por holgura complementaria.
+\item En el problema de referencia, encuentre el rango de validez del precio sombra de la materia prima y explique qué ocurre en cada extremo.
+\item Un producto D usa $0.4$ horas y $14$ kg y deja $3.5$. ¿Conviene fabricarlo? Justifique con su costo reducido y compruebe en Python.
+\item Muestre con un ejemplo de dos variables que si el primal es no acotado el dual es infactible.
+\item Demuestre que el dual del dual es el primal.
+\item El dueño propone un límite de calidad $x_2\le300$. ¿Cambia la solución? Si sí, reoptimice e interprete el nuevo precio sombra de las horas.
+\item Construya un problema en el que un recurso agotado tenga precio sombra cero (degeneración) y explique por qué no contradice la holgura complementaria.
+\end{enumerate}
+
+\section*{Lista de verificación al terminar la unidad}
+\begin{enumerate}
+\item ¿Escribo el dual de cualquier programa lineal usando la tabla de reglas?
+\item ¿Demuestro la dualidad débil y explico por qué da cotas sin resolver nada?
+\item ¿Leo los precios sombra en la tabla óptima y los interpreto con unidades?
+\item ¿Uso la holgura complementaria para obtener una solución a partir de la otra?
+\item ¿Evalúo un producto nuevo con su costo reducido?
+\item ¿Calculo rangos de validez para coeficientes del objetivo y lados derechos?
+\item ¿Compruebo todo con \texttt{linprog}?
+\end{enumerate}
+
+\section*{Referencias}
+\begin{itemize}
+\item Hillier, F.\,S. y Lieberman, G.\,J. (2021). \emph{Introduction to Operations Research}, 11.ª ed. McGraw-Hill. Caps.~6 y~7.
+\item Taha, H.\,A. (2017). \emph{Operations Research: An Introduction}, 10.ª ed. Pearson. Cap.~4.
+\item Bertsimas, D. y Tsitsiklis, J.\,N. (1997). \emph{Introduction to Linear Optimization}. Athena Scientific. Cap.~4.
+\end{itemize}
+
+\end{document}
