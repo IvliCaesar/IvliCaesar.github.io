@@ -225,7 +225,7 @@
 
       .photo-box { display: flex; justify-content: center; }
       .photo-frame {
-        width: min(320px, 100%);
+        width: min(210px, 100%);
         aspect-ratio: 4 / 5;
         overflow: hidden;
         border: 2px solid var(--gold);
@@ -345,6 +345,13 @@
       .card .card-subhead + ul li { margin-bottom: 6px; }
       .card > p.card-intro { margin: 0 0 14px; color: var(--muted); line-height: 1.85; font-size: 0.92rem; }
       .research-band .card > p.card-intro { color: rgba(255,255,255,0.78); }
+      .card > p.card-label { margin: 16px 0 6px; color: var(--navy); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+      .card > p.card-label--first { margin-top: 0; }
+      .card > p.card-label--title { text-transform: none; letter-spacing: 0; font-size: 0.95rem; line-height: 1.6; }
+      .card h2:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: 0; }
+      .card > p.card-label + ul { margin-bottom: 4px; }
+      .research-band .card > p.card-label { color: var(--gold-soft); }
+      .research-band .card ul em { color: white; font-style: italic; }
 
       /* ---------- Research band ---------- */
       .research-band {
@@ -748,7 +755,7 @@
 
             <article class="card mt-lg" style="grid-column: 1 / -1;">
               <h2>Student Supervision &amp; Service</h2>
-              <p class="card-intro" style="margin: 0 0 6px; font-weight: 700; color: var(--navy);">Thesis direction</p>
+              <p class="card-label card-label--first">Thesis direction</p>
               <ul>
                 <li>Undergraduate advisor for Fernando Flores Tiburcio (Facultad de Ciencias, UNAM): almost coherent sheaves on compact Riemann surfaces (honorable mention, 2023)</li>
                 <li>Undergraduate advisor for Mart&iacute;n Rodolfo Garc&iacute;a Barrera (UNAM, 2025&ndash;2026): optimal high-dimensional covariance-matrix estimation via random matrix theory (Marchenko&ndash;Pastur cleaning and nonlinear shrinkage) and its application to portfolio optimization</li>
@@ -756,21 +763,21 @@
                 <li>Joint work with Gabriel Villafuerte C. (Facultad de Estudios Superiores Acatl&aacute;n, UNAM, 2026): SIAMDA, a wavelet-based sentiment index for academic early warning &mdash; see <em>Other Research Programs</em>, below</li>
                 <li>Undergraduate advisor for Ximena Pacheco Zamora (Facultad de Ciencias, UNAM, 2027 tentative): disruptive-innovation diffusion (Bass model) and operations research (mixed-integer capital-budgeting optimization) applied to electronic-toll adoption, payment evasion, and value creation on toll highways, using real operational data from a concessionaire; joint paper <em>Toll Evasion, Electronic Payment and the Economics of Enforcement</em></li>
               </ul>
-              <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">Doctoral protocols (reader)</p>
+              <p class="card-label">Doctoral protocols (reader)</p>
               <ul>
                 <li>Reader for Emma Carolina Alfaro Ram&iacute;rez (Doctorado en Ciencias Empresariales, Universidad Panamericana, 2026&ndash;; director Santiago Garc&iacute;a, co-director H&eacute;ctor Ram&iacute;rez): <em>Modelo de evaluaci&oacute;n de toma de decisiones multicriterio para l&iacute;nea base pre-ejecuci&oacute;n de proyectos tecnol&oacute;gicos</em></li>
               </ul>
-              <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">Thesis committee (sinodal)</p>
+              <p class="card-label">Thesis committee (sinodal)</p>
               <ul>
                 <li>Committee member for Mart&iacute;n Guarneros Mart&iacute;nez: <em>p</em>-adic differential calculus (2024)</li>
                 <li>Committee member for Eduardo Granados Gonz&aacute;lez: development of a random-number generator based on an air lottery machine (2014)</li>
               </ul>
-              <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">Thesis reading (lectura de tesis)</p>
+              <p class="card-label">Thesis reading (lectura de tesis)</p>
               <ul>
                 <li>Thesis reader for Miguel &Aacute;ngel Rodr&iacute;guez Islas (UNAM): <em>Clases de Chern en Geometr&iacute;a Algebraica</em> (Chern classes in algebraic geometry), M.Sc., advisor Pablo Pel&aacute;ez (2025)</li>
                 <li>Thesis reader for Iv&aacute;n Hern&aacute;ndez (Ph.D. candidate), co-author with Pablo Pel&aacute;ez of &ldquo;Regular homomorphisms and mixed motives&rdquo; (arXiv:2509.15920)</li>
               </ul>
-              <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">Refereeing</p>
+              <p class="card-label">Refereeing</p>
               <ul>
                 <li>Referee for <em>Advances in Mathematics</em> (2023)</li>
               </ul>
@@ -821,7 +828,7 @@
 
             <article class="card mt-lg" id="publications">
               <h2>Work in Progress</h2>
-              <p class="card-intro" style="margin: 0 0 6px; font-weight: 700; color: var(--navy);">Pure mathematics</p>
+              <p class="card-label card-label--first">Pure mathematics</p>
               <ul>
                 <li><em>Levels of Motives of Smooth Varieties</em></li>
                 <li><em>The Orthogonal Filtration on Cycles of Abelian Varieties</em></li>
@@ -833,13 +840,13 @@
                 <li><em>Frame Functions on Riemannian Manifolds</em></li>
                 <li><em>Homotopical and Homological Shadows of Deep Computation</em></li>
               </ul>
-              <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">Lecture notes</p>
+              <p class="card-label">Lecture notes</p>
               <ul>
                 <li><em>Localization, Periodicity and Galois Symmetry: An Account of Sullivan&rsquo;s Geometric Topology</em></li>
                 <li><em>Three Problems from Sullivan&rsquo;s Geometric Topology</em></li>
                 <li><em>Arithmetic Homotopy Theory and the Adams Conjecture: Notes on Sullivan&rsquo;s Genetics</em></li>
               </ul>
-              <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">Probability, statistics and applications</p>
+              <p class="card-label">Probability, statistics and applications</p>
               <ul>
                 <li><em>D-Optimal Design under Additive Fisher Information and the Depth&ndash;Panel Trade-off for Count Data</em></li>
                 <li><em>One Market, Many Eigenvalues: Random Matrix Theory for Equity Panels with Listings and Delistings</em></li>
@@ -873,13 +880,13 @@
                     <li>Bloch&ndash;Beilinson filtrations</li>
                     <li>Abelian varieties and Chow correspondences</li>
                   </ul>
-                  <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">Cited by</p>
+                  <p class="card-label">Cited by</p>
                   <ul>
                     <li><a href="https://arxiv.org/abs/2501.19147" target="_blank" rel="noreferrer">Pel&aacute;ez &amp; Reyes, &ldquo;Incidence equivalence and the Bloch&ndash;Beilinson filtration&rdquo;</a> (arXiv:2501.19147)</li>
                     <li><a href="https://arxiv.org/abs/2602.06185" target="_blank" rel="noreferrer">Pel&aacute;ez, &ldquo;Some remarks on Chow correspondences&rdquo;</a> (arXiv:2602.06185)</li>
                     <li><a href="https://arxiv.org/abs/2509.15920" target="_blank" rel="noreferrer">Hern&aacute;ndez &amp; Pel&aacute;ez, &ldquo;Regular homomorphisms and mixed motives&rdquo;</a> (arXiv:2509.15920)</li>
                   </ul>
-                  <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">Talks</p>
+                  <p class="card-label">Talks</p>
                   <ul>
                     <li><a href="https://www.youtube.com/watch?v=otUFr_Yr7Bo" target="_blank" rel="noreferrer">&ldquo;Ciclos algebraicos y variedades abelianas&rdquo;</a> &mdash; the Bloch&ndash;Ogus cohomological framework, Quillen&rsquo;s higher K-theory, and Roitman&rsquo;s theorem on torsion in zero-cycles, Seminario de Becarios, Instituto de Matem&aacute;ticas, UNAM (2018)</li>
                     <li><a href="Bloch_Roitman_Notes.pdf" target="_blank" rel="noreferrer">&ldquo;Bloch&rsquo;s Proof for Torsion 0-Cycles&rdquo;</a> &mdash; expository notes reworking Bloch&rsquo;s 1979 argument: the construction of Bloch&rsquo;s cycle map, the Bloch&ndash;Ogus input, the Merkurjev&ndash;Suslin theorem, and the specialisation argument identifying torsion zero-cycles with torsion in the Albanese variety, Notas de exposici&oacute;n IMATE (2018)</li>
@@ -964,7 +971,7 @@
                   <ul>
                     <li>Connections to Riemann zeta zeros and L-functions (advisor: Eduardo Due&ntilde;ez)</li>
                   </ul>
-                  <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">
+                  <p class="card-label card-label--title">
                     <em>Gaussian Random Matrix Ensembles: Classical Theory and Universality</em>, based on a course taught by Eduardo Due&ntilde;ez at CIMAT
                   </p>
                   <ul>
@@ -973,10 +980,32 @@
                     <li>The local semicircle law via the Schur complement and fluctuation averaging, and eigenvalue rigidity via Helffer&ndash;Sj&ouml;strand calculus</li>
                     <li>Bulk and edge universality, with numerical simulations accompanying each theoretical development</li>
                   </ul>
-                  <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">Cited by</p>
+                  <p class="card-label">Cited by</p>
                   <ul>
                     <li><a href="https://miscelaneamatematica.org/download/tbl_articulos.pdf2.8a6882d1c57a74dc.363330322e706466.pdf" target="_blank" rel="noreferrer">Dom&iacute;nguez Molina &amp; Rocha Arteaga, &ldquo;Matrices aleatorias y la funci&oacute;n zeta&rdquo;</a>, Miscel&aacute;nea Matem&aacute;tica (SMM) 63 (2016), 29&ndash;43 &mdash; cites the thesis directly (ref.&nbsp;[14], chs.&nbsp;2 and 4) on the Katz&ndash;Sarnak philosophy and the GUE limit for the classical compact groups</li>
                     <li>Listed under Eduardo Due&ntilde;ez&rsquo;s own <a href="https://supernumero.us/cv/" target="_blank" rel="noreferrer">Mentorship record</a> (Undergraduate Theses)</li>
+                  </ul>
+                </article>
+
+                <article class="card">
+                  <h2>Number Theory
+                    <span class="h2-links">
+                      <a class="h2-link" href="Galindo_Morfismos_Drinfeld_Reciprocity.pdf" target="_blank" rel="noreferrer">&#8599; Morfismos</a>
+                      <a class="h2-link" href="Galindo_Drinfeld_Reciprocity_Extended.pdf" target="_blank" rel="noreferrer">&#8599; Extended Notes</a>
+                    </span>
+                  </h2>
+                  <p class="card-intro">
+                    Master&rsquo;s thesis, <em>La ley de reciprocidad de Drinfeld</em> (advisor: Timothy Mooney Gendron Thornton, UNAM, 2016), published in <em>Morfismos</em> (Cinvestav) Vol. 20, No. 2, pp. 1&ndash;66. Presents Drinfeld&rsquo;s proof of the Langlands correspondence for GL&#8322; over function fields via Drinfeld modules, rigid cohomology, and Eichler&ndash;Shimura theory. The extended notes reorganize Drinfeld&rsquo;s original article into a continuous narrative, from formal <em>O</em>-modules to the cohomological comparison producing automorphic and Galois realizations on the same space.
+                  </p>
+                  <ul>
+                    <li>Langlands correspondence for GL&#8322; over function fields</li>
+                    <li>Formal <em>O</em>-modules and Drinfeld modules (definition over fields, morphisms, rank, Drinfeld modules over schemes)</li>
+                    <li>The Carlitz module and explicit class field theory; torsion and the finite-level reciprocity law</li>
+                    <li>Torsion subgroup schemes, level structures, and representability of the fine moduli problem; compactification and cusps in rank two</li>
+                    <li><em>A</em>-lattices, analytic uniformization, and the converse uniformization theorem</li>
+                    <li>Elliptic sheaves: Riemann&ndash;Roch, and the equivalence with Drinfeld modules</li>
+                    <li>The Drinfeld upper half-plane, the Bruhat&ndash;Tits tree, and &#268;ech cohomology of the upper half-plane (harmonicity, the special representation)</li>
+                    <li>Adelic uniformization of the modular curve</li>
                   </ul>
                 </article>
 
@@ -990,7 +1019,7 @@
                 <article class="card">
                   <h2>Randomness vs. Market Memory: IPC &amp; Dow Jones</h2>
                   <p class="card-intro">
-                    Joint work with Claudia Cristina Reyes Montes de Oca (Maestr&iacute;a en Econom&iacute;a, FES Acatl&aacute;n, UNAM), asking whether stock prices behave as a random walk or carry memory and predictable structure, across nine equity indices including Mexico&rsquo;s IPC and the Dow Jones. Further details to follow as the work is submitted.
+                    Joint work with Claudia Cristina Reyes Montes de Oca (Maestr&iacute;a en Econom&iacute;a, FES Acatl&aacute;n, UNAM).
                   </p>
                 </article>
               </div>
@@ -998,67 +1027,26 @@
               <article class="card mt-lg">
                 <h2>Random Matrix Theory in Quantitative Finance</h2>
                 <p class="card-intro">
-                  Large-random-matrix theory to separate signal from noise in the covariance structure of equity markets, with applications to portfolio optimization.
+                  With Laura Jim&eacute;nez Casillas and Mart&iacute;n Rodolfo Garc&iacute;a Barrera.
                 </p>
-                <ul>
-                  <li>Random matrix theory for equity panels with listings and delistings (in preparation)</li>
-                  <li>Covariance estimation under long-only constraints in Mexican equities (with Laura Jim&eacute;nez Casillas): 37 BMV equities, 2011&ndash;2025, rotationally invariant cleaning against the sample covariance and 1/<em>N</em>, with block-bootstrap and HAC inference</li>
-                  <li>Optimal covariance estimation for portfolio optimization on the Mexican Stock Exchange via Marchenko&ndash;Pastur cleaning and nonlinear shrinkage (with Mart&iacute;n Rodolfo Garc&iacute;a Barrera)</li>
-                </ul>
               </article>
 
               <article class="card mt-lg">
-                <h2>Electronic-Toll Adoption and Payment Evasion: Disruptive Innovation and Operations Research</h2>
+                <h2>Electronic-Toll Adoption and Payment Evasion</h2>
                 <p class="card-intro">
-                  Joint work with Ximena Pacheco Zamora (undergraduate thesis, Facultad de Ciencias, UNAM, 2027 tentative), testing Christensen&rsquo;s theory of disruptive innovation and the Bass diffusion model against real operational data from a Mexican toll-highway concessionaire. Further details to follow as the thesis is completed.
+                  Joint work with Ximena Pacheco Zamora (undergraduate thesis, Facultad de Ciencias, UNAM).
                 </p>
               </article>
 
               <article class="card mt-lg">
                 <h2>SIAMDA: Wavelet-Based Sentiment Index for Academic Early Warning</h2>
                 <p class="card-intro">
-                  Joint work with Gabriel Villafuerte C. (Facultad de Estudios Superiores Acatl&aacute;n, UNAM, 2026). Most course-feedback dashboards turn open-ended survey text into a sentiment score without stating what, if anything, guarantees that score is statistically meaningful. SIAMDA builds a per-student sentiment index from survey responses&mdash;via token-position wavelet decomposition rather than the more common (and less justified) decomposition over embedding coordinates&mdash;and pairs it with an explicit efficiency check (Fisher information, the Cram&eacute;r&ndash;Rao bound under Gaussian and Laplacian models) that states plainly what it does and does not certify.
+                  Joint work with Gabriel Villafuerte C. (Facultad de Estudios Superiores Acatl&aacute;n, UNAM, 2026).
                 </p>
-                <ul>
-                  <li>Sentiment index built via the discrete wavelet transform over token position&mdash;an axis with genuine sequential structure&mdash;rather than the more common (and less justified) decomposition over embedding coordinates</li>
-                  <li>Explicit statistical validation layer (Fisher information, Cram&eacute;r&ndash;Rao bound) stating plainly what it does and does not certify</li>
-                </ul>
-              </article>
-
-              <article class="card mt-lg">
-                <h2>Number Theory
-                  <span class="h2-links">
-                    <a class="h2-link" href="Galindo_Morfismos_Drinfeld_Reciprocity.pdf" target="_blank" rel="noreferrer">&#8599; Morfismos</a>
-                    <a class="h2-link" href="Galindo_Drinfeld_Reciprocity_Extended.pdf" target="_blank" rel="noreferrer">&#8599; Extended Notes</a>
-                  </span>
-                </h2>
-                <p class="card-intro">
-                  Master&rsquo;s thesis, <em>La ley de reciprocidad de Drinfeld</em> (advisor: Timothy Mooney Gendron Thornton, UNAM, 2016), published in <em>Morfismos</em> (Cinvestav) Vol. 20, No. 2, pp. 1&ndash;66. Presents Drinfeld&rsquo;s proof of the Langlands correspondence for GL&#8322; over function fields via Drinfeld modules, rigid cohomology, and Eichler&ndash;Shimura theory. The extended notes reorganize Drinfeld&rsquo;s original article into a continuous narrative, from formal <em>O</em>-modules to the cohomological comparison producing automorphic and Galois realizations on the same space.
-                </p>
-                <ul>
-                  <li>Langlands correspondence for GL&#8322; over function fields</li>
-                  <li>Formal <em>O</em>-modules and Drinfeld modules (definition over fields, morphisms, rank, Drinfeld modules over schemes)</li>
-                  <li>The Carlitz module and explicit class field theory; torsion and the finite-level reciprocity law</li>
-                  <li>Torsion subgroup schemes, level structures, and representability of the fine moduli problem; compactification and cusps in rank two</li>
-                  <li><em>A</em>-lattices, analytic uniformization, and the converse uniformization theorem</li>
-                  <li>Elliptic sheaves: Riemann&ndash;Roch, and the equivalence with Drinfeld modules</li>
-                  <li>The Drinfeld upper half-plane, the Bruhat&ndash;Tits tree, and &#268;ech cohomology of the upper half-plane (harmonicity, the special representation)</li>
-                  <li>Adelic uniformization of the modular curve</li>
-                </ul>
               </article>
 
               <article class="card mt-lg">
                 <h2>Quantitative Finance &amp; Risk Consulting</h2>
-                <p class="card-intro">
-                  Applied work in mathematical finance and actuarial risk, combining stochastic simulation, time-series forecasting, and machine learning for insurance and financial-risk applications, alongside teaching and research in portfolio theory and Monte Carlo methods (BUAP, Faculty of Physics and Mathematics).
-                </p>
-                <ul>
-                  <li>Insurance portfolio optimization, pricing, and risk mitigation &mdash; Carl Zeiss Group</li>
-                  <li>Premium forecasting via time-series methods &mdash; Comisi&oacute;n Nacional de Seguros y Fianzas (CNSF)</li>
-                  <li>Sentiment analysis and boosting techniques for gender-related policy analysis &mdash; CNSF</li>
-                  <li>Portfolio theory and Monte Carlo methods in Python &mdash; BUAP</li>
-                  <li>In progress: <em>A Quantum Categorical Approach to Portfolio Theory</em></li>
-                </ul>
               </article>
 
               <article class="card mt-lg">
@@ -1071,7 +1059,7 @@
               <article class="card mt-lg">
                 <h2>Hedonic Economics in Mexico City: Urban Welfare &amp; Mobility</h2>
                 <p class="card-intro">
-                  Joint work with <a href="https://www.up.edu.mx/en/escuelas-y-facultades/escuela-de-gobierno-y-economia/akito-kamei-formando-economistas-con-pasion-y-rigor-para-transformar-la-sociedad/" target="_blank" rel="noreferrer">Akito Kamei</a> (Universidad Panamericana) on housing affordability, commuting burden, and urban welfare in Mexico City, drawing on INEGI&rsquo;s 2017 Origin&ndash;Destination Survey within a Rosen&ndash;Roback hedonic framework. Further details to follow as the work is submitted.
+                  Joint work with <a href="https://www.up.edu.mx/en/escuelas-y-facultades/escuela-de-gobierno-y-economia/akito-kamei-formando-economistas-con-pasion-y-rigor-para-transformar-la-sociedad/" target="_blank" rel="noreferrer">Akito Kamei</a> (Universidad Panamericana).
                 </p>
               </article>
 
@@ -1084,63 +1072,15 @@
 
               <article class="card mt-lg">
                 <h2>Wavelet Theory <a class="h2-link" href="Galindo_Wavelet_Theory_Notes.pdf" target="_blank" rel="noreferrer">&#8599; Lecture Notes</a></h2>
-                <p class="card-intro">
-                  Self-contained lecture notes developing wavelet theory from first principles, from <em>L</em>&sup2; Hilbert-space foundations through multiresolution analysis, the Daubechies and Cohen&ndash;Daubechies&ndash;Feauveau wavelet families, to nonlinear approximation theory and its applications.
-                </p>
-                <ul>
-                  <li><em>L</em>&sup2;(&#8477;) theory: Riesz&ndash;Fischer, the projection theorem, and the Duffin&ndash;Schaeffer frame theorem</li>
-                  <li>Multiresolution analysis: the two-scale relation, the QMF condition, and existence/uniqueness of the mother wavelet</li>
-                  <li>Daubechies <em>D</em>&#8322;&#8345; wavelets via the B&eacute;zout equation; the symmetry obstruction motivating biorthogonal (CDF) wavelets</li>
-                  <li>Continuous and discrete wavelet transforms: the Calder&oacute;n&ndash;Grossmann&ndash;Morlet theorem and Sweldens&rsquo;s lifting factorisation</li>
-                  <li>Besov/Triebel&ndash;Lizorkin spaces, Donoho&ndash;Johnstone shrinkage, and applications to JPEG&nbsp;2000, compressed sensing, and turbulence analysis</li>
-                </ul>
               </article>
 
               <article class="card mt-lg">
                 <h2>Mathematical Aesthetics</h2>
-                <p class="card-intro">
-                  An ongoing series of visually-driven mathematical expositions, each pairing a serious piece of mathematics with a generative, illustrated object.
-                </p>
-                <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">
-                  <a href="Galindo_One_Field_Five_Readings.pdf" target="_blank" rel="noreferrer">&ldquo;One Field, Five Readings: Metaballs, Haar-Wavelet Texture, and the Color Grammar of a Generative Creature&rdquo;</a> (preprint) &mdash; <a href="Galindo_One_Field_Five_Readings_Plates.pdf" target="_blank" rel="noreferrer">plates</a>
-                </p>
                 <ul>
-                  <li>A single scalar field (symmetry-broken polar contour, sigmoid interior, metaballs and Haar-wavelet texture) read through five Studio Ghibli palettes: Totoro, Shishigami, Kodama, No-Face, Catbus</li>
-                  <li>Exact geometry: the contour 1&nbsp;+&nbsp;<em>a</em>&nbsp;sin&nbsp;<em>k&theta;</em> is convex exactly when <em>a</em>&nbsp;&le;&nbsp;1/(<em>k</em>&sup2;+1), with 2<em>k</em> inflections beyond it and at least 2<em>k</em> vertices; bilateral symmetry as a parity condition</li>
-                  <li>The fusion of two metaball wells is a Thom cusp, with an explicit threshold vanishing like (&delta;&sup2;&minus;&epsilon;/3)<sup>3/2</sup>: the egg hatches along the cusp</li>
-                  <li>Roughness exponents and per-octave Haar weights as the grammar of texture; the color grammar of each palette in CIELAB, under simulated color-vision deficiency and against real film palettes</li>
-                  <li>Four plates typeset in XeLaTeX: one field in five palettes, the serpent&rsquo;s egg on the cusp, a cube in five palettes, the threshold of convexity</li>
-                </ul>
-                <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">
-                  <a href="Galindo_Rubik_Group.pdf" target="_blank" rel="noreferrer">&ldquo;El grupo de Rubik: invariantes, orientaci&oacute;n y la obstrucci&oacute;n de &iacute;ndice 12&rdquo;</a> (2026)
-                </p>
-                <ul>
-                  <li>The cube group as a subgroup of permutations of facelets; states, pieces, and the first counting argument</li>
-                  <li>Decomposition of the shuffle group: corner permutation/twist and edge permutation/flip</li>
-                  <li>The three fundamental invariants (edge permutation parity, corner-twist sum, edge-flip sum) and the index-12 obstruction: exactly one of every twelve re-assemblies of the cube is solvable by legal moves</li>
-                  <li>Full characterization theorem: legal moves preserve the invariants, and the invariants are sufficient to characterize solvability</li>
-                  <li>Extended laminated visual gallery of states and obstructions</li>
-                </ul>
-                <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">
-                  <a href="Galindo_Cronenberg_Creature.pdf" target="_blank" rel="noreferrer">&ldquo;A Cronenberg Creature: Geometric Deformation, Scalar Fields, and Generative Body-Horror&rdquo;</a> (2026)
-                </p>
-                <ul>
-                  <li>A geometric grammar for organic deformation: base geometry, symmetry breaking, and fusion of local centers through scalar fields</li>
-                  <li>Level-set (excursion-set) models and a wavelet anatomy of the rendered creature as a multiscale object</li>
-                  <li>Stochastic and genetic-algorithm interpretations of the generative pipeline, with ASCII and color renderers implemented in C</li>
-                  <li>A philosophical prelude on identity, replacement, and nihilism motivating the construction</li>
-                </ul>
-                <p class="card-intro" style="margin: 14px 0 6px; font-weight: 700; color: var(--navy);">
-                  <a href="Galindo_Huevo_Serpiente_Thom.pdf" target="_blank" rel="noreferrer">&ldquo;El huevo de la serpiente: Roma, Shakespeare, Weimar, Bergman y Dead Can Dance a trav&eacute;s de la teor&iacute;a de cat&aacute;strofes&rdquo;</a>
-                </p>
-                <p class="card-intro">
-                  Exposici&oacute;n del curso de L&oacute;gica 3, in memory of Gonzalo Zubieta Russi. Reorganizes the &ldquo;serpent&rsquo;s egg&rdquo; metaphor through Ren&eacute; Thom&rsquo;s catastrophe theory: not merely a moral omen, but a morphogenesis&mdash;a latent form stabilizing under control parameters, approaching a discriminant, and hatching as a regime shift.
-                </p>
-                <ul>
-                  <li>A genealogy of the image across Julius Caesar and the <em>Gallic Wars</em>, Shakespeare, Weimar Germany, Bergman&rsquo;s <em>The Serpent&rsquo;s Egg</em>, and Dead Can Dance, read as a succession of control surfaces, cusps, folds, and hysteresis</li>
-                  <li>Wavelets as detectors of historical singularities: multiscale resonance of the potential</li>
-                  <li>Mathematical core: potentials, critical varieties, discriminants, and hysteresis; a methodological check from sign to discriminant; and a cautionary section on the danger of overusing the catastrophe model</li>
-                  <li>A seven-layer philosophical reading: latent evil, denied visibility, the ethics of prevention, Arendt and totalitarian logic, nihilism and the desire for order, biopolitics, and cinema as memory and omen</li>
+                  <li><a href="Galindo_One_Field_Five_Readings.pdf" target="_blank" rel="noreferrer">One Field, Five Readings: Metaballs, Haar-Wavelet Texture, and the Color Grammar of a Generative Creature</a> (preprint) &mdash; <a href="Galindo_One_Field_Five_Readings_Plates.pdf" target="_blank" rel="noreferrer">plates</a></li>
+                  <li><a href="Galindo_Rubik_Group.pdf" target="_blank" rel="noreferrer">El grupo de Rubik: invariantes, orientaci&oacute;n y la obstrucci&oacute;n de &iacute;ndice 12</a> (2026)</li>
+                  <li><a href="Galindo_Cronenberg_Creature.pdf" target="_blank" rel="noreferrer">A Cronenberg Creature: Geometric Deformation, Scalar Fields, and Generative Body-Horror</a> (2026)</li>
+                  <li><a href="Galindo_Huevo_Serpiente_Thom.pdf" target="_blank" rel="noreferrer">El huevo de la serpiente: Roma, Shakespeare, Weimar, Bergman y Dead Can Dance a trav&eacute;s de la teor&iacute;a de cat&aacute;strofes</a></li>
                 </ul>
               </article>
             </section>
