@@ -394,6 +394,35 @@
       .gallery-item strong { color: var(--navy-2); font-family: var(--serif); font-size: 0.94rem; font-weight: 700; }
       .gallery-item .credit { font-size: 0.68rem; color: var(--muted); font-weight: 500; }
 
+      /* ---------- Frames (interactive) ---------- */
+      .frames-widget { grid-column: 1 / -1; align-items: stretch; text-align: left; gap: 12px; }
+      .frames-head { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+      .frames-head strong { color: var(--navy-2); font-family: var(--serif); font-size: 1.05rem; font-weight: 700; }
+      .frames-head .credit { font-size: 0.68rem; color: var(--muted); font-weight: 500; }
+      .frames-body { display: flex; gap: 22px; align-items: center; justify-content: center; flex-wrap: wrap; }
+      #frames-canvas { width: 320px; height: 320px; max-width: 100%; cursor: grab; touch-action: none; border-radius: 50%; }
+      #frames-canvas:active { cursor: grabbing; }
+      #frames-canvas:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+      .frames-side { display: flex; flex-direction: column; gap: 10px; min-width: 250px; max-width: 360px; font-size: 0.86rem; color: var(--text); }
+      .frames-modes { display: flex; flex-direction: column; gap: 4px; }
+      .frames-modes label { cursor: pointer; }
+      .frames-sliders { display: grid; grid-template-columns: 1fr; gap: 4px; }
+      .frames-sliders label { display: flex; align-items: center; gap: 8px; }
+      .frames-sliders input[type="range"] { flex: 1; accent-color: var(--navy-2); }
+      .frames-eig { font-size: 0.76rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+      .frames-readout { background: var(--panel); border: 1px solid var(--line); padding: 8px 12px; font-variant-numeric: tabular-nums; line-height: 1.6; }
+      .frames-sum { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 4px; font-weight: 700; color: var(--navy-2); }
+      .frames-sum.is-bad { color: #a23b2a; }
+      .frames-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+      .frames-dot--1 { background: #b23a48; }
+      .frames-dot--2 { background: #2e7d5b; }
+      .frames-dot--3 { background: #2b5ea7; }
+      .frames-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
+      .frames-buttons button { font: inherit; font-size: 0.78rem; padding: 5px 10px; border: 1px solid var(--navy-2); background: var(--panel); color: var(--navy-2); cursor: pointer; }
+      .frames-buttons button:hover { background: var(--navy-2); color: #fff; }
+      .frames-note { margin: 0; font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+      @media (max-width: 760px) { .frames-side { max-width: 100%; } }
+
       .banner {
         margin-top: 14px;
         background: var(--navy-tint);
@@ -831,14 +860,23 @@
               <h2>Work in Progress</h2>
               <p class="card-label card-label--first">Pure mathematics</p>
               <ul>
-                <li><em>Levels of Motives of Smooth Varieties</em></li>
+                <li><em>Levels of Motives, Dual Complexes and the Convergence of the Orthogonal Tower</em></li>
+                <li><em>A Hodge Formula for Levels of Motives</em></li>
                 <li><em>The Orthogonal Filtration on Cycles of Abelian Varieties</em></li>
-                <li><em>Divergence of the Orthogonal Tower of Algebraic K-Theory</em></li>
+                <li><em>The Ceresa Cycle and the Second Step of the Orthogonal Filtration</em></li>
                 <li><em>Weights, Koszul Duality and Galois Actions on Rational Homotopy</em></li>
                 <li><em>Motivic Formality and Non-Abelian Galois Actions on Rational Homotopy Types</em></li>
                 <li><em>Formality Loci in Families and Torsion of Normal Functions</em></li>
                 <li><em>Frame Functions as Deep Computations: Gleason&rsquo;s Theorem, Tameness, and Hidden Variables</em> (with Eduardo Due&ntilde;ez and Jos&eacute; Iovino)</li>
+                <li><em>An Integral Gleason Theorem and the Universal Group of a Hilbert Space</em></li>
+                <li><em>Gleason&rsquo;s Theorem in Characteristic p</em></li>
                 <li><em>Frame Functions on Riemannian Manifolds</em></li>
+                <li><em>Gleason&rsquo;s Theorem on Vector Bundles</em></li>
+                <li><em>The Depolarization Law for Holonomic Memories</em></li>
+                <li><em>Holonomic Memories beyond the Adiabatic Limit</em></li>
+                <li><em>Weyl Invariants on Locally Symmetric Spaces</em></li>
+                <li><em>Spectral Collapse of Homogeneous Connection Laplacians on Levi Faces</em></li>
+                <li><em>Sullivan&rsquo;s Exceptional Primes and the Integral Pontryagin Classes of Topological Manifolds</em></li>
                 <li><em>Homotopical and Homological Shadows of Deep Computation</em></li>
               </ul>
               <p class="card-label">Lecture notes</p>
@@ -874,11 +912,12 @@
                 <article class="card">
                   <h2>Algebraic Geometry <a class="h2-link" href="Tesis_Doctoral_Galindo.pdf" target="_blank" rel="noreferrer">&#8599; Thesis</a></h2>
                   <p class="card-intro">
-                    An ongoing program, joint with Pablo Pel&aacute;ez, develops further consequences of the Galindo&ndash;Pel&aacute;ez convergence theorem for Pel&aacute;ez&rsquo;s birational-cover filtration on Chow groups. Further details to follow as results are submitted.
+                    The level of a motive is the step at which Pel&aacute;ez&rsquo;s orthogonal tower stops. Building on the Galindo&ndash;Pel&aacute;ez convergence theorem, the work in progress shows that the orthogonal tower is adjoint to the slice tower; that the motive of a smooth variety has maximal level exactly when the dual complex of its boundary is not acyclic, with the top slice given by that dual complex; that the level is not an analytic invariant (de Rham and Betti moduli spaces of a curve); that the towers of algebraic K-theory and algebraic cobordism diverge in the stable motivic homotopy category; and that over the complex numbers the second step of the filtration on codimension-two cycles is cut out by the Abel&ndash;Jacobi map on the part of H<sub>3</sub> carried by curves, so that the Ceresa cycle of a very general genus-3 curve violates the Bloch&ndash;Beilinson&ndash;Murre axiom BBM4.
                   </p>
                   <ul>
                     <li>Higher Chow groups and motivic cohomology</li>
-                    <li>Bloch&ndash;Beilinson filtrations</li>
+                    <li>Levels of motives and dual complexes of boundaries</li>
+                    <li>Bloch&ndash;Beilinson filtrations and the Ceresa cycle</li>
                     <li>Abelian varieties and Chow correspondences</li>
                   </ul>
                   <p class="card-label">Cited by</p>
@@ -1099,8 +1138,41 @@
 
           <section class="institutional-panel institutional-panel--gallery" id="gallery">
             <h3>Mathematical Gallery</h3>
-            <p>Algebraic geometry, homotopy theory, motivic homotopy theory, and probability &mdash; objects at the center of the research program, including visualizations from <em>Galer&iacute;a para Aura y Luka</em>.</p>
+            <p>Algebraic geometry, homotopy theory, motivic homotopy theory, logic and probability &mdash; objects at the center of the research program, including visualizations from <em>Galer&iacute;a para Aura y Luka</em>.</p>
             <div class="math-grid">
+              <div class="formula frames-widget" id="frames-widget">
+                <div class="frames-head">
+                  <strong>Frame Functions on the Sphere</strong>
+                  <span class="credit">Gleason&rsquo;s Theorem &middot; Interactive &middot; drag the sphere to turn the frame</span>
+                </div>
+                <div class="frames-body">
+                  <canvas id="frames-canvas" width="320" height="320" tabindex="0" aria-label="Unit sphere coloured by a frame function, with an orthonormal frame that can be rotated by dragging or with the arrow keys"></canvas>
+                  <div class="frames-side">
+                    <div class="frames-modes" role="radiogroup" aria-label="Function on the sphere">
+                      <label><input type="radio" name="frames-mode" value="state" checked /> Quantum state <em>f</em>(<em>u</em>) = &lang;<em>&rho;u</em>, <em>u</em>&rang;</label>
+                      <label><input type="radio" name="frames-mode" value="colour" /> A 0/1 colouring</label>
+                    </div>
+                    <div class="frames-sliders" id="frames-sliders">
+                      <label>&lambda;<sub>1</sub> <input type="range" id="frames-p1" min="0" max="100" value="62" /></label>
+                      <label>&lambda;<sub>2</sub> <input type="range" id="frames-p2" min="0" max="100" value="28" /></label>
+                      <label>&lambda;<sub>3</sub> <input type="range" id="frames-p3" min="0" max="100" value="10" /></label>
+                      <span class="frames-eig" id="frames-eig"></span>
+                    </div>
+                    <div class="frames-readout" aria-live="polite">
+                      <div><span class="frames-dot frames-dot--1"></span><em>f</em>(<em>e</em><sub>1</sub>) = <span id="frames-v1"></span></div>
+                      <div><span class="frames-dot frames-dot--2"></span><em>f</em>(<em>e</em><sub>2</sub>) = <span id="frames-v2"></span></div>
+                      <div><span class="frames-dot frames-dot--3"></span><em>f</em>(<em>e</em><sub>3</sub>) = <span id="frames-v3"></span></div>
+                      <div class="frames-sum">Sum = <span id="frames-sum"></span></div>
+                    </div>
+                    <div class="frames-buttons">
+                      <button type="button" id="frames-random">Random frame</button>
+                      <button type="button" id="frames-pure">Pure state</button>
+                      <button type="button" id="frames-mixed">Maximally mixed</button>
+                    </div>
+                    <p class="frames-note" id="frames-note"></p>
+                  </div>
+                </div>
+              </div>
               <div class="formula gallery-item">
                 <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Clebsch_Cubic.png" alt="Clebsch cubic surface" loading="lazy" />
                 <strong>Clebsch Cubic Surface</strong>
@@ -1449,6 +1521,210 @@
         if (validTabs.indexOf(initial) !== -1) {
           activate(initial, false);
         }
+      })();
+    </script>
+    <script>
+      (function () {
+        var canvas = document.getElementById('frames-canvas');
+        if (!canvas || !canvas.getContext) { return; }
+        var ctx = canvas.getContext('2d');
+        var CSS = 320, dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = CSS * dpr; canvas.height = CSS * dpr;
+        var W = canvas.width, C = W / 2, Rpx = W * 0.44;
+
+        function mul(A, B) {
+          var M = [[0,0,0],[0,0,0],[0,0,0]];
+          for (var i = 0; i < 3; i++) for (var j = 0; j < 3; j++)
+            M[i][j] = A[i][0]*B[0][j] + A[i][1]*B[1][j] + A[i][2]*B[2][j];
+          return M;
+        }
+        function tr(A) { return [[A[0][0],A[1][0],A[2][0]],[A[0][1],A[1][1],A[2][1]],[A[0][2],A[1][2],A[2][2]]]; }
+        function ap(A, v) { return [A[0][0]*v[0]+A[0][1]*v[1]+A[0][2]*v[2], A[1][0]*v[0]+A[1][1]*v[1]+A[1][2]*v[2], A[2][0]*v[0]+A[2][1]*v[1]+A[2][2]*v[2]]; }
+        function rot(axis, t) {
+          var n = Math.hypot(axis[0], axis[1], axis[2]) || 1, x = axis[0]/n, y = axis[1]/n, z = axis[2]/n;
+          var c = Math.cos(t), s = Math.sin(t), k = 1 - c;
+          return [[c+x*x*k, x*y*k-z*s, x*z*k+y*s],[y*x*k+z*s, c+y*y*k, y*z*k-x*s],[z*x*k-y*s, z*y*k+x*s, c+z*z*k]];
+        }
+        function orth(Q) {
+          var a = [Q[0][0],Q[1][0],Q[2][0]], b = [Q[0][1],Q[1][1],Q[2][1]];
+          var na = Math.hypot(a[0],a[1],a[2]); a = [a[0]/na,a[1]/na,a[2]/na];
+          var d = a[0]*b[0]+a[1]*b[1]+a[2]*b[2]; b = [b[0]-d*a[0],b[1]-d*a[1],b[2]-d*a[2]];
+          var nb = Math.hypot(b[0],b[1],b[2]); b = [b[0]/nb,b[1]/nb,b[2]/nb];
+          var c = [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+          return [[a[0],b[0],c[0]],[a[1],b[1],c[1]],[a[2],b[2],c[2]]];
+        }
+
+        // view: world -> screen coordinates (x right, y up, z towards the viewer)
+        var V = mul(rot([1,0,0], 0.42), rot([0,1,0], -0.55));
+        var Vt = tr(V);
+        // eigenbasis of the state, fixed in the world
+        var S = mul(rot([0,0,1], 0.5), rot([1,0,0], 0.9));
+        var north = ap(S, [0,0,1]);
+        var St = tr(S);
+        // the frame: columns e1, e2, e3
+        var Q = mul(rot([1,1,0], 0.7), rot([0,0,1], 0.35));
+        var mode = 'state';
+        var lam = [0.62, 0.28, 0.10];
+
+        var p1 = document.getElementById('frames-p1'), p2 = document.getElementById('frames-p2'), p3 = document.getElementById('frames-p3');
+        var out = [document.getElementById('frames-v1'), document.getElementById('frames-v2'), document.getElementById('frames-v3')];
+        var sumEl = document.getElementById('frames-sum'), eigEl = document.getElementById('frames-eig');
+        var noteEl = document.getElementById('frames-note'), sliders = document.getElementById('frames-sliders');
+
+        function readSliders() {
+          var a = +p1.value, b = +p2.value, c = +p3.value, t = a + b + c;
+          lam = t > 0 ? [a/t, b/t, c/t] : [1/3, 1/3, 1/3];
+          eigEl.textContent = 'eigenvalues of ρ: ' + lam.map(function (x) { return x.toFixed(2); }).join(', ') + '  (trace 1)';
+        }
+        function f(u) {
+          if (mode === 'colour') {
+            var d = u[0]*north[0] + u[1]*north[1] + u[2]*north[2];
+            return d*d > 0.5 ? 1 : 0;
+          }
+          var w = ap(St, u);
+          return lam[0]*w[0]*w[0] + lam[1]*w[1]*w[1] + lam[2]*w[2]*w[2];
+        }
+        // colour ramp: pale navy tint -> navy -> gold
+        function ramp(t) {
+          var a = [238,242,247], b = [23,56,92], c = [203,178,125];
+          if (mode === 'colour') { return t > 0.5 ? c : a; }
+          if (t < 0.5) { var s = t/0.5; return [a[0]+(b[0]-a[0])*s, a[1]+(b[1]-a[1])*s, a[2]+(b[2]-a[2])*s]; }
+          var r = (t-0.5)/0.5; return [b[0]+(c[0]-b[0])*r, b[1]+(c[1]-b[1])*r, b[2]+(c[2]-b[2])*r];
+        }
+
+        var img = ctx.createImageData(W, W);
+        function drawSphere() {
+          var data = img.data, maxv = mode === 'colour' ? 1 : Math.max(lam[0], lam[1], lam[2]) || 1;
+          for (var py = 0; py < W; py++) {
+            for (var px = 0; px < W; px++) {
+              var k = 4 * (py * W + px);
+              var x = (px - C) / Rpx, y = (C - py) / Rpx, r2 = x*x + y*y;
+              if (r2 > 1) { data[k+3] = 0; continue; }
+              var z = Math.sqrt(1 - r2);
+              var u = ap(Vt, [x, y, z]);
+              var col = ramp(f(u) / maxv);
+              var shade = 0.72 + 0.28 * (0.35*x + 0.45*y + 0.82*z);
+              var edge = r2 > 0.985 ? 0.75 : 1;
+              data[k] = col[0]*shade*edge; data[k+1] = col[1]*shade*edge; data[k+2] = col[2]*shade*edge;
+              data[k+3] = 255;
+            }
+          }
+          ctx.putImageData(img, 0, 0);
+        }
+        function proj(v) { var s = ap(V, v); return [C + s[0]*Rpx, C - s[1]*Rpx, s[2]]; }
+        function drawCircle(nrm, colour) {
+          // great circle orthogonal to nrm
+          var a = Math.abs(nrm[0]) < 0.9 ? [1,0,0] : [0,1,0];
+          var p = [nrm[1]*a[2]-nrm[2]*a[1], nrm[2]*a[0]-nrm[0]*a[2], nrm[0]*a[1]-nrm[1]*a[0]];
+          var np = Math.hypot(p[0],p[1],p[2]); p = [p[0]/np,p[1]/np,p[2]/np];
+          var q = [nrm[1]*p[2]-nrm[2]*p[1], nrm[2]*p[0]-nrm[0]*p[2], nrm[0]*p[1]-nrm[1]*p[0]];
+          ctx.lineWidth = 1.2 * dpr;
+          for (var i = 0; i < 96; i++) {
+            var t0 = 2*Math.PI*i/96, t1 = 2*Math.PI*(i+1)/96;
+            var A = proj([p[0]*Math.cos(t0)+q[0]*Math.sin(t0), p[1]*Math.cos(t0)+q[1]*Math.sin(t0), p[2]*Math.cos(t0)+q[2]*Math.sin(t0)]);
+            var B = proj([p[0]*Math.cos(t1)+q[0]*Math.sin(t1), p[1]*Math.cos(t1)+q[1]*Math.sin(t1), p[2]*Math.cos(t1)+q[2]*Math.sin(t1)]);
+            ctx.globalAlpha = (A[2] + B[2]) > 0 ? 0.85 : 0.22;
+            ctx.strokeStyle = colour;
+            ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(B[0], B[1]); ctx.stroke();
+          }
+          ctx.globalAlpha = 1;
+        }
+        var COLS = ['#b23a48', '#2e7d5b', '#2b5ea7'];
+        function drawFrame() {
+          for (var i = 0; i < 3; i++) { drawCircle([Q[0][i],Q[1][i],Q[2][i]], COLS[i]); }
+          var order = [0,1,2].sort(function (i, j) { return ap(V,[Q[0][i],Q[1][i],Q[2][i]])[2] - ap(V,[Q[0][j],Q[1][j],Q[2][j]])[2]; });
+          order.forEach(function (i) {
+            var e = [Q[0][i],Q[1][i],Q[2][i]];
+            [1, -1].forEach(function (sg) {
+              var P = proj([sg*e[0], sg*e[1], sg*e[2]]);
+              var front = P[2] >= 0;
+              ctx.globalAlpha = front ? 1 : 0.35;
+              ctx.strokeStyle = COLS[i]; ctx.fillStyle = COLS[i];
+              ctx.lineWidth = (sg > 0 ? 2.6 : 1.4) * dpr;
+              ctx.beginPath(); ctx.moveTo(C, C); ctx.lineTo(P[0], P[1]); ctx.stroke();
+              ctx.beginPath(); ctx.arc(P[0], P[1], (sg > 0 ? 5.5 : 3.5) * dpr, 0, 2*Math.PI); ctx.fill();
+              if (sg > 0) {
+                ctx.fillStyle = front ? '#0b1f3a' : 'rgba(11,31,58,0.5)';
+                ctx.font = 'italic ' + (14*dpr) + 'px Georgia, serif';
+                var dx = P[0] - C, dy = P[1] - C, n = Math.hypot(dx, dy) || 1;
+                ctx.fillText('e' + '₁₂₃'[i], P[0] + 10*dpr*dx/n - 6*dpr, P[1] + 10*dpr*dy/n + 5*dpr);
+              }
+            });
+          });
+          ctx.globalAlpha = 1;
+          ctx.beginPath(); ctx.arc(C, C, 3*dpr, 0, 2*Math.PI); ctx.fillStyle = '#0b1f3a'; ctx.fill();
+        }
+        function readout() {
+          var s = 0;
+          for (var i = 0; i < 3; i++) {
+            var v = f([Q[0][i],Q[1][i],Q[2][i]]); s += v;
+            out[i].textContent = mode === 'colour' ? String(v) : v.toFixed(3);
+          }
+          sumEl.textContent = mode === 'colour' ? String(s) : s.toFixed(3);
+          var bad = Math.abs(s - 1) > 1e-9;
+          sumEl.parentNode.classList.toggle('is-bad', bad);
+          if (mode === 'state') {
+            noteEl.innerHTML = 'Turn the frame any way you like: the three values always add up to tr ρ = 1. ' +
+              'Gleason’s theorem (1957) says the converse: in dimension at least 3, every non-negative function on the unit sphere whose values on each orthonormal frame add up to 1 is <em>f</em>(<em>u</em>) = ⟨ρ<em>u</em>, <em>u</em>⟩ for a density operator ρ.';
+          } else {
+            noteEl.innerHTML = (bad ? '<strong>This frame breaks the colouring:</strong> no axis is coloured 1. ' : 'This frame has exactly one axis coloured 1. Keep turning. ') +
+              'A 0/1 frame function would have to colour exactly one axis of every frame. Gleason’s theorem forces every frame function to be continuous, so no 0/1 colouring of the sphere can work: this is the Kochen–Specker theorem.';
+          }
+        }
+        var pending = false;
+        function render() {
+          if (pending) { return; }
+          pending = true;
+          window.requestAnimationFrame(function () { pending = false; drawSphere(); drawFrame(); readout(); });
+        }
+
+        // drag to rotate the frame about axes fixed on the screen
+        var drag = null;
+        canvas.addEventListener('pointerdown', function (ev) { drag = [ev.clientX, ev.clientY]; canvas.setPointerCapture(ev.pointerId); });
+        canvas.addEventListener('pointermove', function (ev) {
+          if (!drag) { return; }
+          var dx = ev.clientX - drag[0], dy = ev.clientY - drag[1];
+          drag = [ev.clientX, ev.clientY];
+          turn(dx, dy);
+        });
+        function endDrag() { drag = null; }
+        canvas.addEventListener('pointerup', endDrag);
+        canvas.addEventListener('pointercancel', endDrag);
+        function turn(dx, dy) {
+          var ang = Math.hypot(dx, dy) / 140;
+          if (ang === 0) { return; }
+          var axisScreen = [dy, dx, 0];
+          var Rw = rot(ap(Vt, axisScreen), ang);
+          Q = orth(mul(Rw, Q));
+          render();
+        }
+        canvas.addEventListener('keydown', function (ev) {
+          var k = { ArrowLeft: [-12, 0], ArrowRight: [12, 0], ArrowUp: [0, -12], ArrowDown: [0, 12] }[ev.key];
+          if (k) { ev.preventDefault(); turn(k[0], k[1]); }
+        });
+
+        [p1, p2, p3].forEach(function (el) { el.addEventListener('input', function () { readSliders(); render(); }); });
+        document.querySelectorAll('input[name="frames-mode"]').forEach(function (el) {
+          el.addEventListener('change', function () {
+            mode = el.value;
+            sliders.style.display = mode === 'state' ? '' : 'none';
+            document.getElementById('frames-pure').style.display = mode === 'state' ? '' : 'none';
+            document.getElementById('frames-mixed').style.display = mode === 'state' ? '' : 'none';
+            render();
+          });
+        });
+        document.getElementById('frames-random').addEventListener('click', function () {
+          var u1 = Math.random(), u2 = Math.random(), u3 = Math.random();
+          var q = [Math.sqrt(1-u1)*Math.sin(2*Math.PI*u2), Math.sqrt(1-u1)*Math.cos(2*Math.PI*u2), Math.sqrt(u1)*Math.sin(2*Math.PI*u3), Math.sqrt(u1)*Math.cos(2*Math.PI*u3)];
+          var w = q[3], x = q[0], y = q[1], z = q[2];
+          Q = [[1-2*(y*y+z*z), 2*(x*y-z*w), 2*(x*z+y*w)], [2*(x*y+z*w), 1-2*(x*x+z*z), 2*(y*z-x*w)], [2*(x*z-y*w), 2*(y*z+x*w), 1-2*(x*x+y*y)]];
+          render();
+        });
+        document.getElementById('frames-pure').addEventListener('click', function () { p1.value = 100; p2.value = 0; p3.value = 0; readSliders(); render(); });
+        document.getElementById('frames-mixed').addEventListener('click', function () { p1.value = 50; p2.value = 50; p3.value = 50; readSliders(); render(); });
+
+        readSliders();
+        render();
       })();
     </script>
   </body>
