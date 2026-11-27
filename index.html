@@ -422,6 +422,15 @@
       .frames-buttons button:hover { background: var(--navy-2); color: #fff; }
       .frames-note { margin: 0; font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
       @media (max-width: 760px) { .frames-side { max-width: 100%; } }
+      #rays-canvas { width: 340px; height: 340px; max-width: 100%; cursor: grab; touch-action: none; }
+      #cm-canvas { width: 340px; height: 380px; max-width: 100%; cursor: crosshair; touch-action: none; }
+      #rays-canvas:focus-visible, #cm-canvas:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+      .rays-readout #rays-triads { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; font-size: 0.76rem; }
+      .rays-tri { color: var(--muted); }
+      .rays-tri.is-one { color: #8a6d2c; font-weight: 700; }
+      .cm-disc { display: flex; align-items: center; gap: 8px; }
+      .cm-disc select { font: inherit; padding: 2px 6px; }
+      .cm-row { font-size: 0.78rem; line-height: 1.5; }
 
       .banner {
         margin-top: 14px;
@@ -1169,6 +1178,47 @@
                   </div>
                 </div>
               </div>
+              <div class="formula frames-widget" id="rays-widget">
+                <div class="frames-head">
+                  <strong>Eighteen Rays and the Integral Gleason Theorem</strong>
+                  <span class="credit">Orthogonal triads in &#8477;&sup3; &middot; Interactive &middot; drag to rotate, click a ray to switch its value in &#120125;<sub>2</sub></span>
+                </div>
+                <div class="frames-body">
+                  <canvas id="rays-canvas" width="340" height="340" tabindex="0" aria-label="Eighteen rays on the unit sphere joined by eleven orthogonal triads; drag to rotate, click a ray to change its value"></canvas>
+                  <div class="frames-side">
+                    <div class="frames-buttons">
+                      <button type="button" id="rays-axis">View along the axis of order 3</button>
+                      <button type="button" id="rays-turn">Apply the symmetry</button>
+                      <button type="button" id="rays-random">Random values</button>
+                      <button type="button" id="rays-clear">All zero</button>
+                    </div>
+                    <div class="frames-readout rays-readout" aria-live="polite">
+                      <div id="rays-triads"></div>
+                      <div class="frames-sum" id="rays-identity"></div>
+                    </div>
+                    <p class="frames-note" id="rays-note"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="formula frames-widget" id="cm-widget">
+                <div class="frames-head">
+                  <strong>Points of Complex Multiplication</strong>
+                  <span class="credit">Fundamental domain of SL<sub>2</sub>(&#8484;) &middot; Interactive &middot; choose a discriminant, drag the point &tau; to reduce it</span>
+                </div>
+                <div class="frames-body">
+                  <canvas id="cm-canvas" width="340" height="380" tabindex="0" aria-label="Upper half plane with the fundamental domain of SL2(Z), the reduced points of complex multiplication of a discriminant, and a draggable point"></canvas>
+                  <div class="frames-side">
+                    <label class="cm-disc">Discriminant <em>D</em> =
+                      <select id="cm-D"></select>
+                    </label>
+                    <div class="frames-readout" aria-live="polite">
+                      <div id="cm-forms"></div>
+                      <div class="frames-sum" id="cm-tau"></div>
+                    </div>
+                    <p class="frames-note" id="cm-note"></p>
+                  </div>
+                </div>
+              </div>
               <div class="formula gallery-item">
                 <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Clebsch_Cubic.png" alt="Clebsch cubic surface" loading="lazy" />
                 <strong>Clebsch Cubic Surface</strong>
@@ -1721,6 +1771,247 @@
 
         readSliders();
         render();
+      })();
+    </script>
+    <script>
+      (function () {
+        /* ---------- Eighteen rays ---------- */
+        var cv = document.getElementById('rays-canvas');
+        if (!cv || !cv.getContext) { return; }
+        var ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2), CSS = 340;
+        cv.width = CSS * dpr; cv.height = CSS * dpr;
+        var W = cv.width, C = W / 2, Rp = W * 0.43;
+        function dot(a, b) { return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]; }
+        function cross(a, b) { return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]; }
+        function unit(a) { var n = Math.sqrt(dot(a, a)); return [a[0]/n, a[1]/n, a[2]/n]; }
+        function ap(M, v) { return [dot(M[0], v), dot(M[1], v), dot(M[2], v)]; }
+        function mul(A, B) { var M = [[0,0,0],[0,0,0],[0,0,0]]; for (var i = 0; i < 3; i++) for (var j = 0; j < 3; j++) M[i][j] = A[i][0]*B[0][j] + A[i][1]*B[1][j] + A[i][2]*B[2][j]; return M; }
+        function rot(ax, t) { var x = ax[0], y = ax[1], z = ax[2], c = Math.cos(t), s = Math.sin(t), k = 1 - c;
+          return [[c+x*x*k, x*y*k-z*s, x*z*k+y*s],[y*x*k+z*s, c+y*y*k, y*z*k-x*s],[z*x*k-y*s, z*y*k+x*s, c+z*z*k]]; }
+        function orthRows(M) { var a = unit(M[0]); var b = M[1]; var d = dot(a, b); b = unit([b[0]-d*a[0], b[1]-d*a[1], b[2]-d*a[2]]); return [a, b, cross(a, b)]; }
+
+        // the real root of t^3 - t - 1 and sigma = its square root
+        var r = 1.3; for (var it = 0; it < 60; it++) { r -= (r*r*r - r - 1) / (3*r*r - 1); }
+        var s = Math.sqrt(r), s2 = s*s, s3 = s2*s, s4 = s2*s2, s5 = s4*s;
+        var V = { a: [1,0,0], b: [0,1,0], c: [0,0,1], d: [1,s,0], f: [0,1,s], e: [-s,1,0], g: [0,-s,1],
+          w1: [s2,-s,1], p1: [s,-1,-s3-s], q1: [s2+1,s3,-s2], w2: [-s2,0,-s2-1], p2: [-s2-1,0,s2],
+          q2: [-s5-s3, 2*s4+2*s2+1, s5], w3: [s2,s3,s2+1], p3: [s2+1,s3+s,-s4-s2], q3: [-s5, 2*s4+2*s2+1, -s5-s3] };
+        V.t = cross(V.p1, V.q3); V.u = cross(V.q2, V.t);
+        var keys = Object.keys(V), U = {};
+        keys.forEach(function (k) { U[k] = unit(V[k]); });
+        var T = [['a','b','c'],['c','d','e'],['a','f','g'],['d','w1','p1'],['f','w1','q1'],['b','w2','p2'],
+                 ['q1','w2','q2'],['e','w3','p3'],['p2','w3','q3'],['p1','q3','t'],['q2','t','u']];
+        var EXC = { g: 1, p3: 1, u: 1 };
+        var LBL = { w1: 'w₁', p1: 'p₁', q1: 'q₁', w2: 'w₂', p2: 'p₂', q2: 'q₂', w3: 'w₃', p3: 'p₃', q3: 'q₃' };
+        // axis of the symmetry of order three, fixed by the rays g, p3, u
+        var axis = unit([U.g[0]+0, U.g[1], U.g[2]]);
+        (function () {
+          var best = null;
+          [1,-1].forEach(function (a) { [1,-1].forEach(function (b) { [1,-1].forEach(function (c) {
+            var ax = unit([a*U.g[0]+b*U.p3[0]+c*U.u[0], a*U.g[1]+b*U.p3[1]+c*U.u[1], a*U.g[2]+b*U.p3[2]+c*U.u[2]]);
+            [2*Math.PI/3, -2*Math.PI/3].forEach(function (th) {
+              var M = rot(ax, th), v = ap(M, U.g);
+              var err = 1 - Math.abs(dot(v, U.p3));
+              if (!best || err < best.err) { best = { err: err, ax: ax, th: th }; }
+            });
+          }); }); });
+          axis = best.ax; axis.th = best.th;
+        })();
+        var R = orthRows([[1,0,0],[0,1,0],[0,0,1]]);
+        R = mul(rot([1,0,0], -0.5), rot([0,1,0], 0.6));
+        var val = {}; keys.forEach(function (k) { val[k] = 0; });
+
+        var trEl = document.getElementById('rays-triads'), idEl = document.getElementById('rays-identity'), noteR = document.getElementById('rays-note');
+        var pos = {};
+        function lab(k) { return LBL[k] || k; }
+        function draw() {
+          ctx.clearRect(0, 0, W, W);
+          ctx.beginPath(); ctx.arc(C, C, Rp, 0, 2*Math.PI); ctx.fillStyle = '#ffffff'; ctx.fill();
+          ctx.lineWidth = 1*dpr; ctx.strokeStyle = '#cbd5e0'; ctx.stroke();
+          keys.forEach(function (k) { var v = ap(R, U[k]); if (v[2] < 0) { v = [-v[0], -v[1], -v[2]]; } pos[k] = [C + v[0]*Rp, C - v[1]*Rp, v[2]]; });
+          T.forEach(function (tr, n) {
+            var sum = (val[tr[0]] + val[tr[1]] + val[tr[2]]) % 2;
+            ctx.beginPath(); ctx.moveTo(pos[tr[0]][0], pos[tr[0]][1]); ctx.lineTo(pos[tr[1]][0], pos[tr[1]][1]); ctx.lineTo(pos[tr[2]][0], pos[tr[2]][1]); ctx.closePath();
+            ctx.setLineDash(n >= 9 ? [5*dpr, 4*dpr] : []);
+            ctx.strokeStyle = sum ? '#a6863f' : '#17385c'; ctx.globalAlpha = sum ? 0.95 : 0.45; ctx.lineWidth = (sum ? 2 : 1.2) * dpr; ctx.stroke();
+          });
+          ctx.setLineDash([]); ctx.globalAlpha = 1;
+          keys.forEach(function (k) {
+            var P = pos[k];
+            ctx.beginPath(); ctx.arc(P[0], P[1], 6*dpr, 0, 2*Math.PI);
+            ctx.fillStyle = val[k] ? '#a6863f' : '#ffffff'; ctx.fill();
+            ctx.lineWidth = (EXC[k] ? 2.4 : 1.4) * dpr; ctx.strokeStyle = EXC[k] ? '#b23a48' : '#0b1f3a'; ctx.stroke();
+            ctx.fillStyle = '#0b1f3a'; ctx.font = 'italic ' + (12*dpr) + 'px Georgia, serif';
+            ctx.fillText(lab(k), P[0] + 8*dpr, P[1] - 7*dpr);
+          });
+          var sums = T.map(function (tr) { return (val[tr[0]] + val[tr[1]] + val[tr[2]]) % 2; });
+          trEl.innerHTML = T.map(function (tr, n) {
+            return '<span class="rays-tri' + (sums[n] ? ' is-one' : '') + '">{' + tr.map(lab).join(', ') + '} = ' + sums[n] + '</span>';
+          }).join('');
+          var total = sums.reduce(function (a, b) { return a + b; }, 0) % 2;
+          var ex = (val.g + val.p3 + val.u) % 2;
+          idEl.innerHTML = '&Sigma; over the eleven triads = ' + total + ' &equiv; <em>g</em>(g) + <em>g</em>(p₃) + <em>g</em>(u) = ' + ex + ' (mod 2)';
+          var all = sums.every(function (x) { return x === sums[0]; });
+          noteR.innerHTML = (all ? '<strong>All eleven triads have the same sum ' + sums[0] + ': this is an &#120125;<sub>2</sub>-valued frame function on the configuration, and the three red rays add up to ' + ex + ' = ' + sums[0] + '.</strong> ' : '') +
+            'The fifteen black-ringed rays lie in two triads and the three red ones (g, p₃, u) in one, so the sum over all triads counts the red rays once and the others twice. This is the gadget of the integral Gleason theorem: the eleven triads force <em>g</em>(g) + <em>g</em>(p₃) + <em>g</em>(u) = <em>c</em>(<em>g</em>), and propagating it over the sphere shows that the only &#120125;<sub>2</sub>-valued measures on the lattice of subspaces of &#8477;&sup3; are 0 and dim mod 2 (Vor&aacute;&ccaron;ek&ndash;Navara). The coordinates lie in &#8474;(&sigma;), &sigma;<sup>2</sup> the real root of t<sup>3</sup> &minus; t &minus; 1.';
+        }
+        var pend = false;
+        function render() { if (pend) { return; } pend = true; requestAnimationFrame(function () { pend = false; draw(); }); }
+        var drag = null, moved = 0;
+        cv.addEventListener('pointerdown', function (e) { drag = [e.clientX, e.clientY]; moved = 0; cv.setPointerCapture(e.pointerId); });
+        cv.addEventListener('pointermove', function (e) {
+          if (!drag) { return; }
+          var dx = e.clientX - drag[0], dy = e.clientY - drag[1]; drag = [e.clientX, e.clientY]; moved += Math.abs(dx) + Math.abs(dy);
+          var a = Math.hypot(dx, dy) / 150; if (!a) { return; }
+          R = orthRows(mul(rot(unit([dy, dx, 0]), a), R)); render();
+        });
+        cv.addEventListener('pointerup', function (e) {
+          if (drag && moved < 5) {
+            var b = cv.getBoundingClientRect(), x = (e.clientX - b.left) * W / b.width, y = (e.clientY - b.top) * W / b.height, hit = null, bd = 14*dpr;
+            keys.forEach(function (k) { var d = Math.hypot(pos[k][0] - x, pos[k][1] - y); if (d < bd) { bd = d; hit = k; } });
+            if (hit) { val[hit] = 1 - val[hit]; render(); }
+          }
+          drag = null;
+        });
+        function animate(target, steps) {
+          var i = 0, start = R;
+          (function step() {
+            i++; var t = i / steps; t = t*t*(3 - 2*t);
+            var M = [0,1,2].map(function (r) { return [0,1,2].map(function (c) { return start[r][c]*(1-t) + target[r][c]*t; }); });
+            R = orthRows(M); draw();
+            if (i < steps) { requestAnimationFrame(step); } else { R = target; draw(); }
+          })();
+        }
+        document.getElementById('rays-axis').addEventListener('click', function () {
+          var e1 = unit(cross(axis, [1,0,0])), e2 = cross(axis, e1);
+          animate([e1, e2, [axis[0], axis[1], axis[2]]], 40);
+        });
+        document.getElementById('rays-turn').addEventListener('click', function () {
+          var i = 0, start = R, steps = 45;
+          (function step() {
+            i++; var t = i / steps; t = t*t*(3 - 2*t);
+            R = mul(start, rot(axis, -axis.th * t)); draw();
+            if (i < steps) { requestAnimationFrame(step); }
+          })();
+        });
+        document.getElementById('rays-random').addEventListener('click', function () { keys.forEach(function (k) { val[k] = Math.random() < 0.5 ? 1 : 0; }); render(); });
+        document.getElementById('rays-clear').addEventListener('click', function () { keys.forEach(function (k) { val[k] = 0; }); render(); });
+        render();
+      })();
+
+      (function () {
+        /* ---------- CM points ---------- */
+        var cv = document.getElementById('cm-canvas');
+        if (!cv || !cv.getContext) { return; }
+        var ctx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 2);
+        cv.width = 340 * dpr; cv.height = 380 * dpr;
+        var W = cv.width, H = cv.height, X0 = -1.25, X1 = 1.25, Y1 = 3.2;
+        function sx(x) { return (x - X0) / (X1 - X0) * W; }
+        function sy(y) { return H - 18*dpr - y / Y1 * (H - 30*dpr); }
+        function ix(px) { return X0 + px / W * (X1 - X0); }
+        function iy(py) { return (H - 18*dpr - py) / (H - 30*dpr) * Y1; }
+        // complex arithmetic
+        function cm(a, b) { return [a[0]*b[0] - a[1]*b[1], a[0]*b[1] + a[1]*b[0]]; }
+        function cdiv(a, b) { var d = b[0]*b[0] + b[1]*b[1]; return [(a[0]*b[0] + a[1]*b[1]) / d, (a[1]*b[0] - a[0]*b[1]) / d]; }
+        function jinv(x, y) {
+          var m = Math.exp(-2*Math.PI*y), q = [m*Math.cos(2*Math.PI*x), m*Math.sin(2*Math.PI*x)];
+          var E4 = [1, 0], P = [1, 0], qn = [1, 0];
+          for (var n = 1; n <= 80; n++) {
+            qn = cm(qn, q);
+            var one = [1 - qn[0], -qn[1]];
+            var t = cdiv(qn, one), c = 240 * n*n*n;
+            E4 = [E4[0] + c*t[0], E4[1] + c*t[1]];
+            var o2 = cm(one, one), o4 = cm(o2, o2), o8 = cm(o4, o4), o16 = cm(o8, o8), o24 = cm(o16, o8);
+            P = cm(P, o24);
+          }
+          var D = cm(q, P), E3 = cm(cm(E4, E4), E4);
+          return cdiv(E3, D);
+        }
+        function fmt(z) {
+          function f(v) { var a = Math.abs(v); return (v < 0 ? '−' : '') + (a >= 1e10 ? a.toExponential(6).replace('e+', '·10^') : a.toFixed(2)); }
+          if (Math.abs(z[1]) < 1e-6 * Math.max(1, Math.abs(z[0]))) { return f(z[0]); }
+          return f(z[0]) + (z[1] < 0 ? ' − ' : ' + ') + f(Math.abs(z[1])).replace('−', '') + 'i';
+        }
+        function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { var t = a % b; a = b; b = t; } return a; }
+        function forms(D) {
+          var out = [], N = -D;
+          for (var a = 1; 3*a*a <= N; a++) {
+            for (var b = -a + 1; b <= a; b++) {
+              if ((b*b - D) % (4*a) !== 0) { continue; }
+              var c = (b*b - D) / (4*a);
+              if (c < a) { continue; }
+              if (b < 0 && a === c) { continue; }
+              if (gcd(gcd(a, b), c) !== 1) { continue; }
+              out.push([a, b, c]);
+            }
+          }
+          return out;
+        }
+        var Ds = [-3,-4,-7,-8,-11,-12,-15,-16,-19,-20,-23,-24,-27,-28,-31,-35,-39,-40,-47,-56,-71,-76];
+        var sel = document.getElementById('cm-D');
+        Ds.forEach(function (D) { var o = document.createElement('option'); o.value = D; o.textContent = D; if (D === -23) { o.selected = true; } sel.appendChild(o); });
+        var tau = [0.62, 0.42], trail = [];
+        function reduce(x, y) {
+          var path = [[x, y]], k = 0;
+          while (k++ < 200) {
+            var n = Math.round(x); if (n !== 0) { x -= n; path.push([x, y]); }
+            var r2 = x*x + y*y;
+            if (r2 < 1 - 1e-12) { x = -x / r2; y = y / r2; path.push([x, y]); } else { break; }
+          }
+          return path;
+        }
+        var formsEl = document.getElementById('cm-forms'), tauEl = document.getElementById('cm-tau'), noteC = document.getElementById('cm-note');
+        function draw() {
+          var D = +sel.value, F = forms(D), rD = Math.sqrt(-D);
+          Y1 = Math.max(2.6, rD / 2 + 0.5);
+          ctx.clearRect(0, 0, W, H);
+          // fundamental domain
+          ctx.beginPath(); ctx.moveTo(sx(-0.5), sy(Y1));
+          for (var i = 0; i <= 60; i++) { var th = 2*Math.PI/3 - i/60*Math.PI/3; ctx.lineTo(sx(Math.cos(th)), sy(Math.sin(th))); }
+          ctx.lineTo(sx(0.5), sy(Y1)); ctx.closePath(); ctx.fillStyle = '#eef2f7'; ctx.fill();
+          ctx.lineWidth = 1.6*dpr; ctx.strokeStyle = '#17385c'; ctx.stroke();
+          ctx.beginPath(); for (var j = 0; j <= 100; j++) { var t2 = Math.PI*j/100; ctx[j ? 'lineTo' : 'moveTo'](sx(Math.cos(t2)), sy(Math.sin(t2))); }
+          ctx.lineWidth = 0.8*dpr; ctx.strokeStyle = '#cbd5e0'; ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(0, sy(0)); ctx.lineTo(W, sy(0)); ctx.stroke();
+          ctx.fillStyle = '#5b6672'; ctx.font = (11*dpr) + 'px sans-serif';
+          [-1, -0.5, 0, 0.5, 1].forEach(function (x) { ctx.fillText(String(x), sx(x) - 6*dpr, sy(0) + 13*dpr); });
+          // reduction path
+          if (trail.length > 1) {
+            ctx.beginPath(); trail.forEach(function (p, n) { ctx[n ? 'lineTo' : 'moveTo'](sx(p[0]), sy(Math.min(p[1], Y1))); });
+            ctx.setLineDash([4*dpr, 3*dpr]); ctx.strokeStyle = '#a6863f'; ctx.lineWidth = 1.4*dpr; ctx.stroke(); ctx.setLineDash([]);
+            trail.forEach(function (p) { ctx.beginPath(); ctx.arc(sx(p[0]), sy(Math.min(p[1], Y1)), 2.5*dpr, 0, 2*Math.PI); ctx.fillStyle = '#a6863f'; ctx.fill(); });
+          }
+          // CM points
+          var rows = [];
+          F.forEach(function (f) {
+            var x = -f[1] / (2*f[0]), y = rD / (2*f[0]), J = jinv(x, y);
+            ctx.beginPath(); ctx.arc(sx(x), sy(y), 6*dpr, 0, 2*Math.PI);
+            ctx.fillStyle = f[0] === 1 ? '#b23a48' : '#0b1f3a'; ctx.fill();
+            rows.push('(' + f.join(', ') + '): &tau; = (' + (-f[1]) + ' + &radic;' + D + ')/' + (2*f[0]) + ', <em>j</em> &asymp; ' + fmt(J));
+          });
+          // draggable point
+          ctx.beginPath(); ctx.arc(sx(tau[0]), sy(tau[1]), 7*dpr, 0, 2*Math.PI); ctx.fillStyle = '#ffffff'; ctx.fill();
+          ctx.lineWidth = 2.4*dpr; ctx.strokeStyle = '#a6863f'; ctx.stroke();
+          formsEl.innerHTML = '<div><strong>h(' + D + ') = ' + F.length + '</strong> reduced forms (a, b, c)</div>' + rows.map(function (r) { return '<div class="cm-row">' + r + '</div>'; }).join('');
+          var red = trail.length ? trail[trail.length - 1] : [tau[0], tau[1]];
+          tauEl.innerHTML = '&tau; reduces in ' + (trail.length ? trail.length - 1 : 0) + ' steps to ' + red[0].toFixed(3) + ' + ' + red[1].toFixed(3) + 'i, <em>j</em>(&tau;) &asymp; ' + fmt(jinv(red[0], red[1]));
+          noteC.innerHTML = 'Each reduced binary quadratic form of discriminant <em>D</em> gives one point of the fundamental domain, and the values of <em>j</em> at these points are the conjugate roots of the class polynomial: the red point, from (1, b, c), has real <em>j</em>, and non-real values come in complex-conjugate pairs. ' +
+            (D === -23 ? 'For <em>D</em> = &minus;23 the class number is 3, and the real value <em>j</em>((&minus;1 + &radic;&minus;23)/2) &asymp; &minus;3493225.70 generates the real cubic field &#8474;(&xi;) in which the coordinates of the eighteen rays live: their field is a singular modulus. ' : '') +
+            (D === -76 ? 'For <em>D</em> = &minus;76 the class number is 3 and <em>j</em>(&radic;&minus;19) generates the field of the configuration of twenty-one rays. ' : '') +
+            'Drag the gold point anywhere in the upper half plane: the dashed path is its reduction by &tau; &#8614; &tau; + n and &tau; &#8614; &minus;1/&tau;.';
+        }
+        function setTau(e) {
+          var b = cv.getBoundingClientRect(), x = ix((e.clientX - b.left) * W / b.width), y = iy((e.clientY - b.top) * H / b.height);
+          tau = [Math.max(X0, Math.min(X1, x)), Math.max(0.04, Math.min(Y1, y))];
+          trail = reduce(tau[0], tau[1]); draw();
+        }
+        var dragging = false;
+        cv.addEventListener('pointerdown', function (e) { dragging = true; cv.setPointerCapture(e.pointerId); setTau(e); });
+        cv.addEventListener('pointermove', function (e) { if (dragging) { setTau(e); } });
+        cv.addEventListener('pointerup', function () { dragging = false; });
+        sel.addEventListener('change', draw);
+        trail = reduce(tau[0], tau[1]);
+        draw();
       })();
     </script>
   </body>
